@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simpa_desktop/components/consts.dart';
-import 'package:simpa_desktop/components/cwidgets.dart';
+import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/cwidgets.dart';
 
 /*void main() {
   runApp(MyApp());

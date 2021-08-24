@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:simpa_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/consts.dart';
 
 void main() {
   runApp(MyApp());

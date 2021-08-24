@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simpa_desktop/applications/app-center/screens/home.dart';
+import 'package:jappeos_desktop/applications/app-center/screens/home.dart';
 
 void main() {
   runApp(AppCenter());
