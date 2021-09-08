@@ -81,14 +81,14 @@ class _SettingsSidebarButtonState extends State<SettingsSidebarButton> {
           height: 45,
           width: 1,
           decoration: BoxDecoration(
-            color: dsktpDesktopPrimaryColor.withOpacity(widget.jstartopacity),
+            color: dsktp_ACCENT_COLOR.withOpacity(widget.jstartopacity),
           ),
         ),
         Container(
           height: 43,
           width: 1,
           decoration: BoxDecoration(
-            color: dsktpDesktopPrimaryColor.withOpacity(widget.jstartopacity),
+            color: dsktp_ACCENT_COLOR.withOpacity(widget.jstartopacity),
           ),
         ),
         Container(

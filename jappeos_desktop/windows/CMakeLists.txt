@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(simpa_desktop LANGUAGES CXX)
+project(jappeos_desktop LANGUAGES CXX)
 
-set(BINARY_NAME "simpa_desktop")
+set(BINARY_NAME "jappeos_desktop")
 
 cmake_policy(SET CMP0063 NEW)
 

@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "jappeos_desktop",
+            "cwd": "jappeos_desktop",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "jappeos_desktop (profile mode)",
+            "cwd": "jappeos_desktop",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        //{
+        //    "name": "jappeos_ui_tools",
+        //    "cwd": "jappeos_ui_tools",
+        //    "request": "launch",
+        //    "type": "dart"
+        //},
+        //{
+        //    "name": "jappeos_ui_tools (profile mode)",
+        //    "cwd": "jappeos_ui_tools",
+        //    "request": "launch",
+        //    "type": "dart",
+        //    "flutterMode": "profile"
+        //}
+    ]
+}
