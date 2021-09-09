@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/components/consts.dart';
 import 'package:jappeos_desktop/components/cwidgets.dart';
+import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
+import 'package:jappeos_desktop/windowManager/wmmanager.dart';
 
 void main() {
   runApp(SimpaDesktop());
@@ -39,6 +41,18 @@ class Desktop extends StatefulWidget {
 
 
 class _MyDesktopPageState extends State<Desktop> {
+  
+  WmController mdiController;
+  @override
+  void initState() {
+    super.initState();
+
+    mdiController = WmController((){
+      setState(() {});
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +115,7 @@ class _MyDesktopPageState extends State<Desktop> {
                             children: <Widget>[
                               
                               // Windows here
+                              WmManager(mdiController: mdiController,),
 
                             ],
                           ),
