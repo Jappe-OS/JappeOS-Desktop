@@ -1,71 +1,63 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import 'wmresizablewindow.dart';
 
-class WmController{
-
+class WmController {
   WmController(this._onUpdate);
 
-
-  List<ResizableWindow> _windows = List.empty(growable: true);
+  // Resizable window
+  List<ResizableWindow> _resizablewindows = List.empty(growable: true);
+  List<ResizableWindow> get resizablewindows => _resizablewindows;
 
   VoidCallback _onUpdate;
 
+  // Jappeos window spawner
+  void gui_spawn_sysapp_window(String title, Widget sysappwidget) {
+    _createNewWindowedApp(title, sysappwidget);
+  }
 
-  List<ResizableWindow> get windows => _windows;
-
-
-  void addWindow(){
+  void addWindow() {
     addWindowContent();
   }
 
-
-  void addWindowContent(){
-
-    _createNewWindowedApp("Title", Container());
-
+  void addWindowContent() {
+    _createNewWindowedApp(
+        "Title",
+        Container(
+          color: Colors.black.withOpacity(0.5),
+        ));
   }
 
-  void _createNewWindowedApp(String title,Widget app){
-
-
-    ResizableWindow resizableWindow = ResizableWindow(title,app);
-
+  void _createNewWindowedApp(String title, Widget app) {
+    ResizableWindow resizableWindow = ResizableWindow(title, app);
 
     //Set initial position
     var rng = new Random();
-    resizableWindow.x =  rng.nextDouble() * 500;
-    resizableWindow.y =  rng.nextDouble() * 500;
+    resizableWindow.x = rng.nextDouble() * 500;
+    resizableWindow.y = rng.nextDouble() * 500;
 
     //Init onWindowDragged
-    resizableWindow.onWindowDragged = (dx,dy){
-
+    resizableWindow.onWindowDragged = (dx, dy) {
       resizableWindow.x += dx;
       resizableWindow.y += dy;
 
       //Put on top of stack
-      _windows.remove(resizableWindow);
-      _windows.add(resizableWindow);
+      _resizablewindows.remove(resizableWindow);
+      _resizablewindows.add(resizableWindow);
 
       _onUpdate();
-
-
     };
 
     //Init onCloseButtonClicked
-    resizableWindow.onCloseButtonClicked = (){
-      _windows.remove(resizableWindow);
+    resizableWindow.onCloseButtonClicked = () {
+      _resizablewindows.remove(resizableWindow);
       _onUpdate();
     };
 
-
     //Add Window to List
-    _windows.add(resizableWindow);
+    _resizablewindows.add(resizableWindow);
 
     // Update Widgets after adding the new App
     _onUpdate();
-
   }
 }

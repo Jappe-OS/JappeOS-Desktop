@@ -54,8 +54,6 @@ flutter:
 
   assets:
     - lib/images/applications/icons/
-    - lib/images/desktop/widgets/baseline_power_settings_new_white_18dp2x.png
-    - lib/images/applications/account/default_avatar.png
     - lib/images/desktop/backgrounds/wallpaper1.jpg
     - lib/images/desktop/backgrounds/wallpaper2.jpg
     - lib/images/desktop/backgrounds/wallpaper3.jpg

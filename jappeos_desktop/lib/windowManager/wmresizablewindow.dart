@@ -24,7 +24,7 @@ class ResizableWindow extends StatefulWidget {
 }
 
 class _ResizableWindowState extends State<ResizableWindow> {
-  var _headerSize = 50.0;
+  var _headerSize = 40.0;
   var _borderRadius = 10.0;
 
   @override
@@ -173,18 +173,40 @@ class _ResizableWindowState extends State<ResizableWindow> {
       child: Container(
         width: widget.currentWidth,
         height: _headerSize,
-        color: Colors.lightBlueAccent,
+        color: Colors.white70,
         child: Stack(
           children: [
             Positioned(
-              left: 10,
+              right: 8,
               top: 0,
               bottom: 0,
-              child: GestureDetector(
-                onTap: (){
+              child: IconButton(
+                icon: Icon(Icons.close, color: Colors.black),
+                onPressed: () {
                   widget.onCloseButtonClicked();
                 },
-                child: Icon(Icons.circle,color: Colors.red,)
+              ),
+            ),
+            Positioned(
+              right: 38,
+              top: 0,
+              bottom: 0,
+              child: IconButton(
+                icon: Icon(Icons.crop_square, color: Colors.black),
+                onPressed: () {
+                  
+                },
+              ),
+            ),
+            Positioned(
+              right: 68,
+              top: 0,
+              bottom: 0,
+              child: IconButton(
+                icon: Icon(Icons.minimize, color: Colors.black),
+                onPressed: () {
+                  
+                },
               ),
             ),
             Positioned.fill(child: Center(child: Text(widget.title))),
@@ -198,7 +220,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
     return Container(
       width: widget.currentWidth,
       height: widget.currentHeight - _headerSize,
-      color: Colors.blueGrey,
+      color: Colors.transparent,
       child: widget.body,
     );
   }
