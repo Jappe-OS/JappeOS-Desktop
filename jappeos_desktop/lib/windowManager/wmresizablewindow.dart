@@ -173,7 +173,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
       child: Container(
         width: widget.currentWidth,
         height: _headerSize,
-        color: Colors.white70,
+        color: Colors.black,
         child: Stack(
           children: [
             Positioned(
@@ -181,7 +181,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
               top: 0,
               bottom: 0,
               child: IconButton(
-                icon: Icon(Icons.close, color: Colors.black),
+                icon: Icon(Icons.close, color: Colors.white),
                 onPressed: () {
                   widget.onCloseButtonClicked();
                 },
@@ -192,7 +192,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
               top: 0,
               bottom: 0,
               child: IconButton(
-                icon: Icon(Icons.crop_square, color: Colors.black),
+                icon: Icon(Icons.crop_square, color: Colors.white),
                 onPressed: () {
                   
                 },
@@ -203,7 +203,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
               top: 0,
               bottom: 0,
               child: IconButton(
-                icon: Icon(Icons.minimize, color: Colors.black),
+                icon: Icon(Icons.minimize, color: Colors.white),
                 onPressed: () {
                   
                 },
