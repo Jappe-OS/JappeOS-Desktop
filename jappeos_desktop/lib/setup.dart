@@ -1,23 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(Setup());
-}
-
-class Setup extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Setup',
-      home: SetupPage(title: 'Setup'),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-    );
-  }
-}
-
 class SetupPage extends StatefulWidget {
   SetupPage({Key key, this.title}) : super(key: key);
 
