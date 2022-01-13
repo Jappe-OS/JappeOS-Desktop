@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/components/functions.dart';
+import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
 import 'components/consts.dart';
 import 'desktop.dart';
 //import 'displayManager/josdm.dart';
