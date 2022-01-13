@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jappeos_desktop/components/consts.dart';
 
 class ResizableWindow extends StatefulWidget {
   double currentHeight, defaultHeight = 400.0;
@@ -173,7 +174,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
       child: Container(
         width: widget.currentWidth,
         height: _headerSize,
-        color: Colors.black,
+        color: Colors.black.withOpacity(0.8),
         child: Stack(
           children: [
             Positioned(
@@ -188,7 +189,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
               ),
             ),
             Positioned(
-              right: 38,
+              right: 40,
               top: 0,
               bottom: 0,
               child: IconButton(
@@ -199,7 +200,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
               ),
             ),
             Positioned(
-              right: 68,
+              right: 72,
               top: 0,
               bottom: 0,
               child: IconButton(
@@ -209,7 +210,12 @@ class _ResizableWindowState extends State<ResizableWindow> {
                 },
               ),
             ),
-            Positioned.fill(child: Center(child: Text(widget.title))),
+            Positioned.fill(child: Center(
+              child: Text(
+                widget.title,
+                style: TextStyle(fontSize: 16, color: dsktp_TEXT_COLOR_LIGHT),
+              ),
+            )),
           ],
         ),
       ),
