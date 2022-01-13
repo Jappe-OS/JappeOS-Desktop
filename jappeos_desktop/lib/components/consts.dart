@@ -16,11 +16,13 @@ const dsktp_THEME = Color(0xFF212121); /// Default available color themes: light
 // blur color
 final Color dsktp_BLUR_COLOR = Colors.black.withOpacity(0.5); /// Default available blur colors: light: 0xFFffffff; dark: 0xFF000000; // The dafault color is dark
 
-// dark text color
-const dsktp_TEXT_COLOR = Color(0xFFFFFFFF); /// Default: 0xFFFFFFFF
+// text color
+const dsktp_TEXT_COLOR_LIGHT = Color(0xFFFFFFFF); /// Default: 0xFFFFFFFF
+const dsktp_TEXT_COLOR_DARK = Color(0xFF000000); /// Default: 0xFF000000
 
 // accent color
 const dsktp_ACCENT_COLOR = Colors.blueAccent;
+const dsktp_SECONDARY_ACCENT_COLOR = Colors.grey;
 
 // desktop wallpaper
 const String dsktpWallpaper = "lib/images/desktop/backgrounds/wallpaper2.jpg"; // This should search the picture from a local folder in the future.
