@@ -19,20 +19,12 @@ Discord link: https://discord.gg/dRtU4HR
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Team members
 
-## Developers
-### - [Jappe02](https://github.com/Jappe02)
-### - MannersTheCyberpunker8000 (discord)
-### - [Architsakri](https://github.com/Architsakri)
-
-## Alpha testers
-### - [Jappe02](https://github.com/Jappe02)
-### - Pringgyy (discord)
-### - MannersTheCyberpunker8000 (discord)
+All team members are listed here: https://github.com/orgs/Jappe-OS/people
 
 # LINKS
 
 - [Discord](https://discord.gg/dRtU4HR)
-- [Website](https://jappeos.blogspot.com/)
+- [Website](https://jappeos.blogspot.com/) (OLD)
 - [Github](https://github.com/Jappe-OS/JappeOS)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
