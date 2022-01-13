@@ -424,3 +424,35 @@ class _JSettingsTileTitleState extends State<JSettingsTileTitle> {
     );
   }
 }
+
+// JAPPEOS FULLSCREEN ERROR DIALOG
+
+class JFullscreenErrorDialog extends StatefulWidget {
+  final BuildContext arg0;
+  final String arg1;
+
+  JFullscreenErrorDialog({Key key, @required this.arg0, @required this.arg1})
+      : super(key: key);
+
+  _JFullscreenErrorDialogState createState() => _JFullscreenErrorDialogState();
+}
+
+class _JFullscreenErrorDialogState extends State<JFullscreenErrorDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(dsktpWallpaper), // desktop background image
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+          alignment: Alignment.center,
+          child: Text('An error has occurred: ' + widget.arg1),
+        ),
+      ),
+    );
+  }
+}
