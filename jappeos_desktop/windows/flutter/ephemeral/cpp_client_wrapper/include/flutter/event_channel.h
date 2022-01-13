@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef FLUTTER_SHELL_PLATFORM_COMMON_CPP_CLIENT_WRAPPER_INCLUDE_FLUTTER_EVENT_CHANNEL_H_
-#define FLUTTER_SHELL_PLATFORM_COMMON_CPP_CLIENT_WRAPPER_INCLUDE_FLUTTER_EVENT_CHANNEL_H_
+#ifndef FLUTTER_SHELL_PLATFORM_COMMON_CLIENT_WRAPPER_INCLUDE_FLUTTER_EVENT_CHANNEL_H_
+#define FLUTTER_SHELL_PLATFORM_COMMON_CLIENT_WRAPPER_INCLUDE_FLUTTER_EVENT_CHANNEL_H_
 
 #include <iostream>
 #include <memory>
@@ -24,7 +24,7 @@ class EncodableValue;
 // binary before being transmitted back to Flutter. The MethodCodec used must be
 // compatible with the one used by the Flutter application. This can be achieved
 // by creating an EventChannel
-// ("https://docs.flutter.io/flutter/services/EventChannel-class.html")
+// ("https://api.flutter.dev/flutter/services/EventChannel-class.html")
 // counterpart of this channel on the Dart side.
 // The C++ type of stream configuration arguments, events, and error details are
 // templated, but only values supported by the specified MethodCodec can be
@@ -165,9 +165,9 @@ class EventChannel {
   BinaryMessenger* messenger_;
   const std::string name_;
   const MethodCodec<T>* codec_;
-  bool is_listening_;
+  bool is_listening_ = false;
 };
 
 }  // namespace flutter
 
-#endif  // FLUTTER_SHELL_PLATFORM_COMMON_CPP_CLIENT_WRAPPER_INCLUDE_FLUTTER_EVENT_CHANNEL_H_
+#endif  // FLUTTER_SHELL_PLATFORM_COMMON_CLIENT_WRAPPER_INCLUDE_FLUTTER_EVENT_CHANNEL_H_

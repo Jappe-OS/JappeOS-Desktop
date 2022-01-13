@@ -17,18 +17,18 @@
             "type": "dart",
             "flutterMode": "profile"
         },
-        //{
-        //    "name": "jappeos_ui_tools",
-        //    "cwd": "jappeos_ui_tools",
-        //    "request": "launch",
-        //    "type": "dart"
-        //},
-        //{
-        //    "name": "jappeos_ui_tools (profile mode)",
-        //    "cwd": "jappeos_ui_tools",
-        //    "request": "launch",
-        //    "type": "dart",
-        //    "flutterMode": "profile"
-        //}
+        {
+            "name": "jappeos_ui_tools",
+            "cwd": "jappeos_ui_tools",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "jappeos_ui_tools (profile mode)",
+            "cwd": "jappeos_ui_tools",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        }
     ]
 }
