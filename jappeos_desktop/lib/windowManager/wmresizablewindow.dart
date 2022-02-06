@@ -1,5 +1,8 @@
+// ignore_for_file: must_be_immutable
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:jappeos_desktop/components/consts.dart';
 
 class ResizableWindow extends StatefulWidget {
@@ -9,13 +12,13 @@ class ResizableWindow extends StatefulWidget {
   double y;
   String title;
   Widget body;
+  Widget leftItem;
 
   Function(double, double) onWindowDragged;
   VoidCallback onCloseButtonClicked;
 
-
-
-  ResizableWindow(this.title,this.body) : super(key: UniqueKey()) {
+  ResizableWindow(this.title, this.body, this.leftItem)
+      : super(key: UniqueKey()) {
     currentHeight = defaultHeight;
     currentWidth = defaultWidth;
   }
@@ -31,18 +34,18 @@ class _ResizableWindowState extends State<ResizableWindow> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x54000000),
-              spreadRadius: 4,
-              blurRadius: 5,
-            ),
-          ],
-        ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(115, 0, 0, 0),
+            spreadRadius: 4,
+            blurRadius: 5,
+          ),
+        ],
+      ),
       child: ClipRRect(
-        borderRadius:  BorderRadius.all(Radius.circular(_borderRadius)),
+        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
         child: Stack(
           children: [
             Column(
@@ -171,52 +174,51 @@ class _ResizableWindowState extends State<ResizableWindow> {
       onPanUpdate: (tapInfo) {
         widget.onWindowDragged(tapInfo.delta.dx, tapInfo.delta.dy);
       },
-      child: Container(
-        width: widget.currentWidth,
-        height: _headerSize,
-        color: Colors.black.withOpacity(0.8),
-        child: Stack(
-          children: [
-            Positioned(
-              right: 8,
-              top: 0,
-              bottom: 0,
-              child: IconButton(
-                icon: Icon(Icons.close, color: Colors.white),
-                onPressed: () {
-                  widget.onCloseButtonClicked();
-                },
+      child: blurContainer(
+        Container(
+          width: widget.currentWidth,
+          height: _headerSize + 1,
+          child: Stack(
+            children: [
+              Positioned(
+                right: 7,
+                top: 0,
+                bottom: 0,
+                child: IconButton(
+                  icon: Icon(Icons.close, color: Colors.white),
+                  onPressed: () {
+                    widget.onCloseButtonClicked();
+                  },
+                ),
               ),
-            ),
-            Positioned(
-              right: 40,
-              top: 0,
-              bottom: 0,
-              child: IconButton(
-                icon: Icon(Icons.crop_square, color: Colors.white),
-                onPressed: () {
-                  
-                },
+              Positioned(
+                right: 39,
+                top: 0,
+                bottom: 0,
+                child: IconButton(
+                  icon: Icon(Icons.crop_square, color: Colors.white),
+                  onPressed: () {},
+                ),
               ),
-            ),
-            Positioned(
-              right: 72,
-              top: 0,
-              bottom: 0,
-              child: IconButton(
-                icon: Icon(Icons.minimize, color: Colors.white),
-                onPressed: () {
-                  
-                },
+              Positioned(
+                right: 71,
+                top: 0,
+                bottom: 0,
+                child: IconButton(
+                  icon: Icon(Icons.minimize, color: Colors.white),
+                  onPressed: () {},
+                ),
               ),
-            ),
-            Positioned.fill(child: Center(
-              child: Text(
-                widget.title,
-                style: TextStyle(fontSize: 16, color: dsktp_TEXT_COLOR_LIGHT),
-              ),
-            )),
-          ],
+              Positioned.fill(
+                  child: Center(
+                child: Text(
+                  widget.title,
+                  style: TextStyle(fontSize: 16, color: dsktp_TEXT_COLOR_LIGHT),
+                ),
+              )),
+              Positioned(top: 4, left: 7, bottom: 3, child: widget.leftItem),
+            ],
+          ),
         ),
       ),
     );
@@ -227,14 +229,13 @@ class _ResizableWindowState extends State<ResizableWindow> {
       width: widget.currentWidth,
       height: widget.currentHeight - _headerSize,
       color: Colors.transparent,
-      child: widget.body,
+      child: blurContainer(
+        widget.body,
+      ),
     );
   }
 
-
   void _onHorizontalDragLeft(DragUpdateDetails details) {
-
-
     setState(() {
       widget.currentWidth -= details.delta.dx;
       if (widget.currentWidth < widget.defaultWidth) {
@@ -255,7 +256,6 @@ class _ResizableWindowState extends State<ResizableWindow> {
   }
 
   void _onHorizontalDragBottom(DragUpdateDetails details) {
-
     setState(() {
       widget.currentHeight += details.delta.dy;
       if (widget.currentHeight < widget.defaultHeight) {
@@ -265,7 +265,6 @@ class _ResizableWindowState extends State<ResizableWindow> {
   }
 
   void _onHorizontalDragTop(DragUpdateDetails details) {
-
     setState(() {
       widget.currentHeight -= details.delta.dy;
       if (widget.currentHeight < widget.defaultHeight) {
@@ -296,4 +295,18 @@ class _ResizableWindowState extends State<ResizableWindow> {
     _onHorizontalDragTop(details);
   }
 
+  // Blur effects
+  Widget blurContainer(Widget child) {
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
+        child: Container(
+          width: widget.currentWidth,
+          height: _headerSize,
+          color: dsktp_BLUR_COLOR,
+          child: child,
+        ),
+      ),
+    );
+  }
 }
