@@ -22,10 +22,10 @@ const dsktp_TEXT_COLOR_DARK = Color(0xFF000000); /// Default: 0xFF000000
 
 // accent color
 const dsktp_ACCENT_COLOR = Colors.blueAccent;
-const dsktp_SECONDARY_ACCENT_COLOR = Colors.grey;
+const dsktp_SECONDARY_ACCENT_COLOR = Color(0xFFCFCFCF);
 
 // desktop wallpaper
-const String dsktpWallpaper = "lib/images/desktop/backgrounds/wallpaper2.jpg"; // This should search the picture from a local folder in the future.
+const String dsktpWallpaper = "lib/images/desktop/backgrounds/wallpaper3.jpg"; // This should search the picture from a local folder in the future.
 
 // blurred color key
 const dsktp_BLUR_KEY = Color(0xFFff00ff); /// Default: 0xFF2196F3
