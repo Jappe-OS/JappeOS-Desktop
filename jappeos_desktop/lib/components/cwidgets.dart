@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,7 +8,7 @@ import 'consts.dart';
 
 // DESKTOP DIALOG
 
-class Dialog extends StatefulWidget {
+/*class Dialog extends StatefulWidget {
   final Widget child;
 
   Dialog({Key key, @required this.child}) : super(key: key);
@@ -56,7 +58,7 @@ class _DialogState extends State<Dialog> {
       )
     ]);
   }
-}
+}*/
 
 // JAPPEOS SETTINGS SIDEBAR BUTTON
 
@@ -252,14 +254,14 @@ class _JappbarState extends State<Jappbar> {
         ],
       ),
       decoration: BoxDecoration(
-        color: Color(0xFF212121),
-        boxShadow: [
+        color: Colors.transparent,
+        /*boxShadow: [
           BoxShadow(
             color: Color(0xFF212121),
             blurRadius: 4,
             offset: Offset(0, 5),
           ),
-        ],
+        ],*/
       ),
     );
   }
@@ -300,12 +302,13 @@ class _JAppMainSearchBoxState extends State<JAppMainSearchBox> {
           LengthLimitingTextInputFormatter(24),
         ],
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(top: 10),
           filled: true,
           counterText: "",
           hintStyle: TextStyle(color: Colors.white70),
           hintText: widget.jbgtext,
-          hoverColor: Colors.black.withOpacity(0.2),
-          fillColor: Colors.black.withOpacity(0.3),
+          hoverColor: Colors.black.withOpacity(0.1),
+          fillColor: Colors.black.withOpacity(0.1),
           prefixIcon: Icon(
             Icons.search_sharp,
             color: Colors.white70,
@@ -356,13 +359,14 @@ class _JSettingsTileState extends State<JSettingsTile> {
       width: double.infinity,
       height: widget.jheight,
       padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(top: 1),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10),),
-        border: Border.all(
-          color: Colors.black45,
-          width: 1,
-        ),
-        color: Color(0xFF212121),
+        //border: Border.all(
+          //color: Colors.black.withOpacity(0.35),
+          //width: 1,
+        //),
+        color: Colors.black.withOpacity(0.3),
       ),
       child: widget.jitems,
     );
@@ -390,11 +394,11 @@ class _JSettingsTileTitleState extends State<JSettingsTileTitle> {
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10),),
-        border: Border.all(
-          color: Colors.black45,
-          width: 1,
-        ),
-        color: Color(0xFF212121),
+        //border: Border.all(
+          //color: Colors.black.withOpacity(0.35),
+          //width: 1,
+        //),
+        color: Colors.black.withOpacity(0.3),
       ),
       child: Stack(
         children: [
@@ -420,38 +424,6 @@ class _JSettingsTileTitleState extends State<JSettingsTileTitle> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// JAPPEOS FULLSCREEN ERROR DIALOG
-
-class JFullscreenErrorDialog extends StatefulWidget {
-  final BuildContext arg0;
-  final String arg1;
-
-  JFullscreenErrorDialog({Key key, @required this.arg0, @required this.arg1})
-      : super(key: key);
-
-  _JFullscreenErrorDialogState createState() => _JFullscreenErrorDialogState();
-}
-
-class _JFullscreenErrorDialogState extends State<JFullscreenErrorDialog> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(dsktpWallpaper), // desktop background image
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-          alignment: Alignment.center,
-          child: Text('An error has occurred: ' + widget.arg1),
-        ),
       ),
     );
   }
