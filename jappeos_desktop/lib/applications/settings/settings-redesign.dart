@@ -2,24 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/components/consts.dart';
 import 'package:jappeos_desktop/components/cwidgets.dart';
 
-/*void main() {
-  runApp(MyApp());
-}
-
-class SettingsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Settings',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: WiFiPage(title: 'JappeOS'), 
-    );
-  }
-}*/
 
 class WifiPage extends StatefulWidget {
   WifiPage({Key key, this.title}) : super(key: key);
@@ -34,13 +16,14 @@ class _WifiPageState extends State<WifiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
           Container(
             width: double.infinity,
             height: double.infinity,
-            margin: EdgeInsets.only(top: 55, left: 330,),
-            color: Color(0xFF303030),
+            margin: EdgeInsets.only(top: 0, left: 332,),
+            color: Colors.transparent,
             child: ListView(
               padding: EdgeInsets.all(15),
               children: [
@@ -62,44 +45,22 @@ class _WifiPageState extends State<WifiPage> {
               ],
             ),
           ),
-          Jappbar(
-            jleft: JAppMainSearchBox(
-              jbgtext: 'Search settings...',
-            ),
-            jright: Stack(
-              children: [
-                Positioned(
-                  right: 0,
-                  child: IconButton(
-                    icon: Icon(Icons.close, color: Colors.white70,),
-                    onPressed: () {},
-                  ),
-                ),
-                Positioned(
-                  right: 50,
-                  child: IconButton(
-                    icon: Icon(Icons.crop_square, color: Colors.white70,),
-                    onPressed: () {},
-                  ),
-                ),
-                Positioned(
-                  right: 100,
-                  child: IconButton(
-                    icon: Icon(Icons.minimize, color: Colors.white70,),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              margin: EdgeInsets.only(left: 330, top: 10, bottom: 10),
+              width: 1,
+              color: Colors.white.withOpacity(0.1),
             ),
           ),
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              margin: EdgeInsets.only(top: 55,),
+              //margin: EdgeInsets.only(top: 55,),
               padding: EdgeInsets.only(top: 10,),
               width: 330, // 300 + 10 + 10 + 10
               height: double.infinity,
-              color: Colors.black87,
+              color: Colors.transparent,
               child: ListView(
                 children: [
                   SettingsSidebarButton(
