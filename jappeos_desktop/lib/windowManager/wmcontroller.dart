@@ -1,5 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/applications/settings/settings-redesign.dart';
+import '../components/apps.dart';
+import '../components/cwidgets.dart';
 import 'wmresizablewindow.dart';
 
 class WmController {
@@ -12,8 +15,16 @@ class WmController {
   VoidCallback _onUpdate;
 
   // Jappeos window spawner
-  void gui_spawn_sysapp_window(String title, Widget sysappwidget) {
-    _createNewWindowedApp(title, sysappwidget);
+  void wm$spawn_gui_window(Apps arg0) {
+    if (arg0 == Apps.SETTINGS) {
+      wm$gui_spawn_sysapp_window("Settings", WifiPage(), JAppMainSearchBox(
+                                      jbgtext: 'Search settings...',
+                                    ),);
+    }
+  }
+
+  void wm$gui_spawn_sysapp_window(String title, Widget sysappwidget, Widget leftItem) {
+    _createNewWindowedApp(title, sysappwidget, leftItem);
   }
 
   void addWindow() {
@@ -22,14 +33,16 @@ class WmController {
 
   void addWindowContent() {
     _createNewWindowedApp(
-        "Title",
-        Container(
-          color: Colors.black.withOpacity(0.5),
-        ));
+      "Title",
+      Container(
+        color: Colors.black.withOpacity(0.5),
+      ),
+      Container(),
+    );
   }
 
-  void _createNewWindowedApp(String title, Widget app) {
-    ResizableWindow resizableWindow = ResizableWindow(title, app);
+  void _createNewWindowedApp(String title, Widget app, Widget leftItem) {
+    ResizableWindow resizableWindow = ResizableWindow(title, app, leftItem);
 
     //Set initial position
     var rng = new Random();
@@ -60,4 +73,8 @@ class WmController {
     // Update Widgets after adding the new App
     _onUpdate();
   }
+}
+
+class AppID {
+
 }
