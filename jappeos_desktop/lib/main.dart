@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/functions.dart';
-import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
+//import 'package:jappeos_desktop/components/functions.dart';
+//import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
 import 'components/consts.dart';
 import 'desktop.dart';
 //import 'displayManager/josdm.dart';
@@ -19,9 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        accentColor: dsktp_ACCENT_COLOR,
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        visualDensity: VisualDensity.adaptivePlatformDensity, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(secondary: dsktp_ACCENT_COLOR),
       ),
       home: Desktop(title: 'JappeOS'),
     );
