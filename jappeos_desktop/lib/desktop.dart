@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/components/apps.dart';
+import 'package:jappeos_desktop/components/widgets/buttons/normal_buttons.dart';
 
-import 'applications/settings/settings-redesign.dart';
-import 'components/buttons/normal_buttons.dart';
 import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/widgets/desktopGeneral/buttons.dart';
+import 'package:jappeos_desktop/components/widgets/desktopPopups/launcher.dart';
 
-import 'components/cwidgets.dart';
 import 'windowManager/wmcontroller.dart';
 import 'windowManager/wmmanager.dart';
 
@@ -21,8 +21,8 @@ class Desktop extends StatefulWidget {
 }
 
 class _DesktopState extends State<Desktop> {
-  
   WmController wmController;
+
   @override
   void initState() {
     super.initState();
@@ -50,14 +50,11 @@ class _DesktopState extends State<Desktop> {
               top: 0,
               bottom: 0,
               child: Container(
-                child: Stack(
-                  children: [
-                    WmManager(
-                      wmController: wmController,
-                    ),
-                  ]
-                )
-              ),
+                  child: Stack(children: [
+                WmManager(
+                  wmController: wmController,
+                ),
+              ])),
             ),
             Positioned(
               left: 0,
@@ -72,82 +69,37 @@ class _DesktopState extends State<Desktop> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              margin: EdgeInsets.all(5),
-                              child: TextButton(
-                                child: Icon(Icons.apps, color: Colors.white.withOpacity(0.85)),
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    )
-                                  )
-                                )
-                              ),
-                            ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              margin: EdgeInsets.all(5),
-                              child: TextButton(
-                                child: Icon(Icons.search, color: Colors.white.withOpacity(0.85)),
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    )
-                                  )
-                                )
-                              ),
-                            ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              margin: EdgeInsets.all(5),
-                              child: TextButton(
-                                child: Icon(Icons.tab, color: Colors.white.withOpacity(0.85)),
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    )
-                                  )
-                                )
-                              ),
-                            ),
-                            JNormalTextButton(
-                              text: "Open settings",
-                              onPress: () {
-                                wmController.wm$spawn_gui_window(
-                                  Apps.SETTINGS
-                                );
-                              },
-                            ),
-                          ]
-                        ),
+                        child: Row(children: [
+                          DE_BUTTON_Taskbar(
+                            icon: Icons.apps,
+                            onPress: () {
+                              Navigator.push(context,
+                                    new MaterialPageRoute(builder: (context) => new DE_POPUP_Launcher()),);
+                            },
+                          ),
+                          DE_BUTTON_Taskbar(
+                            icon: Icons.search,
+                            onPress: () {},
+                          ),
+                          DE_BUTTON_Taskbar(
+                            icon: Icons.tab,
+                            onPress: () {},
+                          ),
+                          JNormalTextButton(
+                            text: "Open settings",
+                            onPress: () {
+                              wmController.wm$spawn_gui_window(Apps.SETTINGS);
+                            },
+                          ),
+                        ]),
                       ),
                       Align(
                         alignment: Alignment.center,
-                        child: Row(
-                          children: [
-
-                          ]
-                        ),
+                        child: Row(children: []),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Row(
-                          children: [
-                            
-                          ]
-                        ),
+                        child: Row(children: []),
                       ),
                     ],
                   ),
