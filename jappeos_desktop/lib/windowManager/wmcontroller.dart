@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/applications/settings/settings-redesign.dart';
 import '../components/apps.dart';
-import '../components/cwidgets.dart';
+import '../components/widgets/generalWidgets.dart';
 import 'wmresizablewindow.dart';
 
 class WmController {
@@ -73,8 +73,4 @@ class WmController {
     // Update Widgets after adding the new App
     _onUpdate();
   }
-}
-
-class AppID {
-
 }
