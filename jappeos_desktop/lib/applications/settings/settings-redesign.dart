@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/components/consts.dart';
-import 'package:jappeos_desktop/components/cwidgets.dart';
+import 'package:jappeos_desktop/components/widgets/generalWidgets.dart';
 
 
 class WifiPage extends StatefulWidget {
