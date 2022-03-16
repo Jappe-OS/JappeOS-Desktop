@@ -12,13 +12,12 @@ class ResizableWindow extends StatefulWidget {
   double y;
   String title;
   Widget body;
-  Widget leftItem;
+  Widget cwd;
 
   Function(double, double) onWindowDragged;
   VoidCallback onCloseButtonClicked;
 
-  ResizableWindow(this.title, this.body, this.leftItem)
-      : super(key: UniqueKey()) {
+  ResizableWindow(this.title, this.body, this.cwd) : super(key: UniqueKey()) {
     currentHeight = defaultHeight;
     currentWidth = defaultWidth;
   }
@@ -181,6 +180,37 @@ class _ResizableWindowState extends State<ResizableWindow> {
           child: Stack(
             children: [
               Positioned(
+                top: 4,
+                right: 7,
+                bottom: 4,
+                //width: 100,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.minimize_rounded, color: Colors.white.withOpacity(0.7)),
+                      iconSize: 20,
+                      onPressed: () {
+                        
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.crop_square_rounded, color: Colors.white.withOpacity(0.7)),
+                      iconSize: 20,
+                      onPressed: () {
+                        
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.close_rounded, color: Colors.white.withOpacity(0.7)),
+                      iconSize: 20,
+                      onPressed: () {
+                        widget.onCloseButtonClicked();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              /*Positioned(
                 right: 7,
                 top: 0,
                 bottom: 0,
@@ -208,15 +238,20 @@ class _ResizableWindowState extends State<ResizableWindow> {
                   icon: Icon(Icons.minimize, color: Colors.white),
                   onPressed: () {},
                 ),
-              ),
+              ),*/
               Positioned.fill(
                   child: Center(
                 child: Text(
                   widget.title,
-                  style: TextStyle(fontSize: 16, color: dsktp_TEXT_COLOR_LIGHT),
+                  style: TextStyle(fontSize: 18, color: dsktp_TEXT_COLOR_LIGHT),
                 ),
               )),
-              Positioned(top: 4, left: 7, bottom: 3, child: widget.leftItem),
+              Positioned(
+                  top: 4,
+                  left: 7,
+                  bottom: 0,
+                  right: 120,
+                  child: widget.cwd),
             ],
           ),
         ),
@@ -303,7 +338,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
         child: Container(
           width: widget.currentWidth,
           height: _headerSize,
-          color: dsktp_BLUR_COLOR,
+          color: dsktp_BLUR_COLOR_DARK_WINDOW,
           child: child,
         ),
       ),

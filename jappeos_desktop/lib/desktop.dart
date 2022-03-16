@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/apps.dart';
+import 'package:jappeos_desktop/components/appSystem/applications.dart';
 import 'package:jappeos_desktop/components/widgets/buttons/normal_buttons.dart';
 
 import 'package:jappeos_desktop/components/consts.dart';
@@ -17,11 +17,11 @@ class Desktop extends StatefulWidget {
   final String title;
 
   @override
-  _DesktopState createState() => _DesktopState();
+  DesktopState createState() => DesktopState();
 }
 
-class _DesktopState extends State<Desktop> {
-  WmController wmController;
+class DesktopState extends State<Desktop> {
+  static WmController wmController;
 
   @override
   void initState() {
@@ -73,8 +73,12 @@ class _DesktopState extends State<Desktop> {
                           DE_BUTTON_Taskbar(
                             icon: Icons.apps,
                             onPress: () {
-                              Navigator.push(context,
-                                    new MaterialPageRoute(builder: (context) => new DE_POPUP_Launcher()),);
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new DE_POPUP_Launcher()),
+                              );
                             },
                           ),
                           DE_BUTTON_Taskbar(
@@ -86,9 +90,9 @@ class _DesktopState extends State<Desktop> {
                             onPress: () {},
                           ),
                           JNormalTextButton(
-                            text: "Open settings",
+                            text: "Open Web",
                             onPress: () {
-                              wmController.wm$spawn_gui_window(Apps.SETTINGS);
+                              Applications.sys$runProcess(Apps.SYSTEM_TestApp);
                             },
                           ),
                         ]),
@@ -120,7 +124,7 @@ class _DesktopState extends State<Desktop> {
         child: Container(
           height: MediaQuery.of(context).size.height / 4,
           width: MediaQuery.of(context).size.width / 1.2,
-          color: dsktp_BLUR_COLOR,
+          color: dsktp_BLUR_COLOR_DARK,
           child: child,
         ),
       ),

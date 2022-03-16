@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/components/consts.dart';
 import 'package:jappeos_desktop/components/widgets/desktopGeneral/buttons.dart';
+import 'package:jappeos_desktop/components/widgets/generalWidgets.dart';
 
 class DE_POPUP_Launcher extends StatefulWidget {
   DE_POPUP_Launcher({Key key}) : super(key: key);
@@ -13,7 +14,8 @@ class DE_POPUP_Launcher extends StatefulWidget {
 class _DE_POPUP_LauncherState extends State<DE_POPUP_Launcher> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      body: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(dsktpWallpaper), // desktop background image
@@ -31,10 +33,19 @@ class _DE_POPUP_LauncherState extends State<DE_POPUP_Launcher> {
             child: blurContainer(
               Container(
                 alignment: Alignment.center,
-                width: 5000,
+                width: 1100,
                 height: double.infinity,
                 margin: EdgeInsets.only(top: 30, bottom: 30),
-                child: Column(),
+                padding: EdgeInsets.only(left: 10, right: 10,),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 1100,
+                      height: 40,
+                      child: JAppMainSearchBox(jbgtext: "Click to search..."),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -67,6 +78,7 @@ class _DE_POPUP_LauncherState extends State<DE_POPUP_Launcher> {
           ),
         ),
       ),*/
+    ),
     );
   }
 
@@ -78,7 +90,7 @@ class _DE_POPUP_LauncherState extends State<DE_POPUP_Launcher> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: dsktp_BLUR_COLOR,
+          color: dsktp_BLUR_COLOR_DARK,
           child: child,
         ),
       ),

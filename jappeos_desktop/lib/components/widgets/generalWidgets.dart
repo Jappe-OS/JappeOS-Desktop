@@ -290,7 +290,7 @@ class _JAppMainSearchBoxState extends State<JAppMainSearchBox> {
   Widget build(BuildContext context) {
     return Container(
       width: 310,
-      height: 30,
+      height: 40,
       child: TextField(
         controller: _controller,
         onChanged: (value) {
