@@ -90,9 +90,9 @@ class DesktopState extends State<Desktop> {
                             onPress: () {},
                           ),
                           JNormalTextButton(
-                            text: "Open Web",
+                            text: "Open Settings",
                             onPress: () {
-                              Applications.sys$runProcess(Apps.SYSTEM_TestApp);
+                              Applications.sys$runProcess(Apps.SYSTEM_Settings);
                             },
                           ),
                         ]),

@@ -1,10 +1,7 @@
-
+import 'package:jappeos_desktop/applications/settings/main.dart';
 import 'package:jappeos_desktop/applications/testApp/main.dart';
 
-enum Apps { 
-  SYSTEM_TestApp,
-  SYSTEM_Settings
-}
+enum Apps { SYSTEM_TestApp, SYSTEM_Settings }
 
 class Applications {
   static void sys$runProcess(Apps app) {
@@ -13,7 +10,7 @@ class Applications {
         TestApp.app$launch();
         break;
       case Apps.SYSTEM_Settings:
-        // TODO: Handle this case.
+        Settings.app$launch();
         break;
     }
   }
