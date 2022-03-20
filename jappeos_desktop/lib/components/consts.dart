@@ -31,6 +31,6 @@ const dsktp_SECONDARY_ACCENT_COLOR = Color(0xFFCFCFCF);
 
 // desktop wallpaper
 const String dsktpWallpaper =
-    "lib/images/desktop/backgrounds/wallpaper4.jpg"; // This should get the picture from a local folder in the future or something.
+    "lib/images/desktop/backgrounds/wallpaper1.jpg"; // This should get the picture from a local folder in the future or something.
 
 // ----------------------------------------------------------------------------------
