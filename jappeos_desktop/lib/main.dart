@@ -9,10 +9,10 @@ import 'desktop.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(JappeOsDesktop());
 }
 
-class MyApp extends StatelessWidget {
+class JappeOsDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
