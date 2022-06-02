@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WebBrowserMain extends StatefulWidget {
-  WebBrowserMain({Key key, this.title}) : super(key: key);
+  WebBrowserMain({Key? key, required this.title}) : super(key: key);
 
   final String title;
   static final String wm$windowData_Title = "";

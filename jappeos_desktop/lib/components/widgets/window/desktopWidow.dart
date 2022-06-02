@@ -1,13 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/desktopCfg.dart';
 
 class JDesktopWindow extends StatefulWidget {
-  final String windowTitle;
-  final Widget windowBody;
+  final String? windowTitle;
+  final Widget? windowBody;
 
-  JDesktopWindow({Key key, this.windowTitle, this.windowBody})
+  JDesktopWindow({Key? key, this.windowTitle, this.windowBody})
       : super(key: key);
 
   _JDesktopWindow createState() => _JDesktopWindow();
@@ -28,7 +28,7 @@ class _JDesktopWindow extends State<JDesktopWindow> {
               height: 35,
               child: Row(
                 children: [
-                  Text(widget.windowTitle),
+                  Text(widget.windowTitle ?? ""),
                 ],
               ),
             ),
@@ -39,7 +39,7 @@ class _JDesktopWindow extends State<JDesktopWindow> {
               right: 0,
               top: 35,
               bottom: 0,
-              child: widget.windowBody,
+              child: widget.windowBody ?? new Container(color: Colors.transparent,),
             ),
           ],
         ),
@@ -57,7 +57,7 @@ class _JDesktopWindow extends State<JDesktopWindow> {
         child: Container(
           /*width: widget.currentWidth,
           height: _headerSize,*/
-          color: dsktp_BLUR_COLOR_DARK_WINDOW,
+          color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK_BG,
           child: child,
         ),
       ),

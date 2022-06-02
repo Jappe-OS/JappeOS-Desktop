@@ -4,7 +4,7 @@ class DE_BUTTON_Taskbar extends StatefulWidget {
   final VoidCallback onPress;
   final IconData icon;
 
-  DE_BUTTON_Taskbar({Key key, @required this.onPress, @required this.icon}) : super(key: key);
+  DE_BUTTON_Taskbar({Key? key, required this.onPress, required this.icon}) : super(key: key);
 
   _DE_BUTTON_TaskbarState createState() => _DE_BUTTON_TaskbarState();
 }

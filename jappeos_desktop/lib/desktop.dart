@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/components/appSystem/applications.dart';
 import 'package:jappeos_desktop/components/widgets/buttons/normal_buttons.dart';
 
-import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/desktopCfg.dart';
 import 'package:jappeos_desktop/components/widgets/desktopGeneral/buttons.dart';
 import 'package:jappeos_desktop/components/widgets/desktopPopups/launcher.dart';
 
@@ -12,16 +12,16 @@ import 'windowManager/wmcontroller.dart';
 import 'windowManager/wmmanager.dart';
 
 class Desktop extends StatefulWidget {
-  Desktop({Key key, this.title}) : super(key: key);
+  Desktop({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   DesktopState createState() => DesktopState();
 }
 
 class DesktopState extends State<Desktop> {
-  static WmController wmController;
+  static WmController? wmController;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class DesktopState extends State<Desktop> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(dsktpWallpaper), // desktop background image
+            image: AssetImage(DesktopCfg.DESKTOPCFG_INSTANCE.dsktpWallpaper), // desktop background image
             fit: BoxFit.cover,
           ),
         ),
@@ -124,7 +124,7 @@ class DesktopState extends State<Desktop> {
         child: Container(
           height: MediaQuery.of(context).size.height / 4,
           width: MediaQuery.of(context).size.width / 1.2,
-          color: dsktp_BLUR_COLOR_DARK,
+          color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK,
           child: child,
         ),
       ),

@@ -3,19 +3,19 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/desktopCfg.dart';
 
 class ResizableWindow extends StatefulWidget {
-  double currentHeight, defaultHeight = 400.0;
-  double currentWidth, defaultWidth = 400.0;
-  double x;
-  double y;
-  String title;
-  Widget body;
-  Widget cwd;
+  late double currentHeight, defaultHeight = 400.0;
+  late double currentWidth, defaultWidth = 400.0;
+  double? x;
+  double? y;
+  String? title;
+  Widget? body;
+  Widget? cwd;
 
-  Function(double, double) onWindowDragged;
-  VoidCallback onCloseButtonClicked;
+  Function(double, double)? onWindowDragged;
+  VoidCallback? onCloseButtonClicked;
 
   ResizableWindow(this.title, this.body, this.cwd) : super(key: UniqueKey()) {
     currentHeight = defaultHeight;
@@ -171,7 +171,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
   _getHeader() {
     return GestureDetector(
       onPanUpdate: (tapInfo) {
-        widget.onWindowDragged(tapInfo.delta.dx, tapInfo.delta.dy);
+        widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
       },
       child: blurContainer(
         Container(
@@ -204,7 +204,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
                       icon: Icon(Icons.close_rounded, color: Colors.white.withOpacity(0.7)),
                       iconSize: 20,
                       onPressed: () {
-                        widget.onCloseButtonClicked();
+                        widget.onCloseButtonClicked!();
                       },
                     ),
                   ],
@@ -242,8 +242,8 @@ class _ResizableWindowState extends State<ResizableWindow> {
               Positioned.fill(
                   child: Center(
                 child: Text(
-                  widget.title,
-                  style: TextStyle(fontSize: 18, color: dsktp_TEXT_COLOR_LIGHT),
+                  widget.title!,
+                  style: TextStyle(fontSize: 18, color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT),
                 ),
               )),
               Positioned(
@@ -251,7 +251,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
                   left: 7,
                   bottom: 0,
                   right: 120,
-                  child: widget.cwd),
+                  child: widget.cwd!),
             ],
           ),
         ),
@@ -265,18 +265,18 @@ class _ResizableWindowState extends State<ResizableWindow> {
       height: widget.currentHeight - _headerSize,
       color: Colors.transparent,
       child: blurContainer(
-        widget.body,
+        widget.body!,
       ),
     );
   }
 
   void _onHorizontalDragLeft(DragUpdateDetails details) {
     setState(() {
-      widget.currentWidth -= details.delta.dx;
+      if (widget.currentWidth != null) widget.currentWidth -= details.delta.dx;
       if (widget.currentWidth < widget.defaultWidth) {
         widget.currentWidth = widget.defaultWidth;
       } else {
-        widget.onWindowDragged(details.delta.dx, 0);
+        widget.onWindowDragged!(details.delta.dx, 0);
       }
     });
   }
@@ -305,7 +305,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
       if (widget.currentHeight < widget.defaultHeight) {
         widget.currentHeight = widget.defaultHeight;
       } else {
-        widget.onWindowDragged(0, details.delta.dy);
+        widget.onWindowDragged!(0, details.delta.dy);
       }
     });
   }
@@ -338,7 +338,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
         child: Container(
           width: widget.currentWidth,
           height: _headerSize,
-          color: dsktp_BLUR_COLOR_DARK_WINDOW,
+          color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK_BG,
           child: child,
         ),
       ),

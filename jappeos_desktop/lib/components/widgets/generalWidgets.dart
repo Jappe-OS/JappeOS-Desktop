@@ -3,62 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../consts.dart';
-//import 'package:simpa_desktop/components/consts.dart';
-
-// DESKTOP DIALOG
-
-/*class Dialog extends StatefulWidget {
-  final Widget child;
-
-  Dialog({Key key, @required this.child}) : super(key: key);
-
-  _DialogState createState() => _DialogState();
-}
-
-class _DialogState extends State<Dialog> {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(children: [
-      Stack(
-        alignment: Alignment.topRight,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 0,
-              top: 30,
-              bottom: 0,
-              right: 0,
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                  color: Colors.black45.withOpacity(0.7),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 1),
-                      color: Colors.white30,
-                      spreadRadius: 1,
-                    )
-                  ]),
-              alignment: Alignment.topRight,
-              height: 500,
-              width: 300,
-
-              // content
-              child: Container(
-                child: widget.child,
-              ),
-            ),
-          )
-        ],
-      )
-    ]);
-  }
-}*/
+import '../desktopCfg.dart';
 
 // JAPPEOS SETTINGS SIDEBAR BUTTON
 
@@ -68,7 +13,7 @@ class SettingsSidebarButton extends StatefulWidget {
   final double jstartopacity;
   final Color jhighlight;
 
-  SettingsSidebarButton({Key key, @required this.jicon, @required this.jtext, @required this.jstartopacity, @required this.jhighlight})
+  SettingsSidebarButton({Key? key, required this.jicon, required this.jtext, required this.jstartopacity, required this.jhighlight})
       : super(key: key);
 
   _SettingsSidebarButtonState createState() => _SettingsSidebarButtonState();
@@ -83,14 +28,14 @@ class _SettingsSidebarButtonState extends State<SettingsSidebarButton> {
           height: 45,
           width: 1,
           decoration: BoxDecoration(
-            color: dsktp_ACCENT_COLOR.withOpacity(widget.jstartopacity),
+            color: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT)?.withOpacity(widget.jstartopacity),
           ),
         ),
         Container(
           height: 43,
           width: 1,
           decoration: BoxDecoration(
-            color: dsktp_ACCENT_COLOR.withOpacity(widget.jstartopacity),
+            color: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT)?.withOpacity(widget.jstartopacity),
           ),
         ),
         Container(
@@ -143,7 +88,7 @@ class LauncherItemButton extends StatefulWidget {
   final String jicon;
   final String jtext;
 
-  LauncherItemButton({Key key, @required this.jicon, @required this.jtext})
+  LauncherItemButton({Key? key, required this.jicon, required this.jtext})
       : super(key: key);
 
   _LauncherItemButtonState createState() => _LauncherItemButtonState();
@@ -207,12 +152,12 @@ class _LauncherItemButtonState extends State<LauncherItemButton> {
 // JAPPEOS APPBAR
 
 class Jappbar extends StatefulWidget {
-  final Widget jleft;
-  final Widget jcenter;
-  final Widget jright;
+  final Widget? jleft;
+  final Widget? jcenter;
+  final Widget? jright;
 
   Jappbar(
-      {Key key,
+      {Key? key,
       @optionalTypeArgs this.jleft,
       @optionalTypeArgs this.jcenter,
       @optionalTypeArgs this.jright})
@@ -235,13 +180,13 @@ class _JappbarState extends State<Jappbar> {
             width: 310,
             top: 5,
             bottom: 5,
-            child: widget.jleft,
+            child: widget.jleft ?? new Container(color: Colors.transparent, width: 1,),
           ),
           Center(
             child: Container(
               width: 300,
               height: 45,
-              child: widget.jcenter,
+              child: widget.jcenter ?? new Container(color: Colors.transparent, width: 1,),
             ),
           ),
           Positioned(
@@ -249,7 +194,7 @@ class _JappbarState extends State<Jappbar> {
             width: 500,
             top: 5,
             bottom: 5,
-            child: widget.jright,
+            child: widget.jright ?? new Container(color: Colors.transparent, width: 1,),
           ),
         ],
       ),
@@ -270,9 +215,9 @@ class _JappbarState extends State<Jappbar> {
 // JAPPEOS APP-MAIN-SEARCH-BAR
 
 class JAppMainSearchBox extends StatefulWidget {
-  final String jbgtext;
+  final String? jbgtext;
 
-  JAppMainSearchBox({Key key, @optionalTypeArgs this.jbgtext})
+  JAppMainSearchBox({Key? key, @optionalTypeArgs this.jbgtext})
       : super(key: key);
 
   _JAppMainSearchBoxState createState() => _JAppMainSearchBoxState();
@@ -344,9 +289,9 @@ class _JAppMainSearchBoxState extends State<JAppMainSearchBox> {
 
 class JSettingsTile extends StatefulWidget {
   final Widget jitems;
-  final double jheight;
+  final double? jheight;
 
-  JSettingsTile({Key key, @required this.jitems, @optionalTypeArgs this.jheight})
+  JSettingsTile({Key? key, required this.jitems, @optionalTypeArgs this.jheight})
       : super(key: key);
 
   _JSettingsTileState createState() => _JSettingsTileState();
@@ -379,7 +324,7 @@ class JSettingsTileTitle extends StatefulWidget {
   final String jtitle;
   final Widget jenditem;
 
-  JSettingsTileTitle({Key key, @required this.jtitle, @required this.jenditem})
+  JSettingsTileTitle({Key? key, required this.jtitle, required this.jenditem})
       : super(key: key);
 
   _JSettingsTileTitleState createState() => _JSettingsTileTitleState();

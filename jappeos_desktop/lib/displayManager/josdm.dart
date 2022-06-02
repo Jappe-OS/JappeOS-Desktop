@@ -28,9 +28,9 @@ class Login extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
+  LoginPage({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _MyLoginPageState createState() => _MyLoginPageState();
@@ -196,8 +196,8 @@ class _MyLoginPageState extends State<LoginPage> {
                               labelText: 'Password',
                             ),
                             // ignore: missing_return
-                            validator: (String value) {
-                              if (value.trim().isEmpty) {
+                            validator: (String? value) {
+                              if (value!.trim().isEmpty) {
                                 return 'Password is required';
                               }
                             },

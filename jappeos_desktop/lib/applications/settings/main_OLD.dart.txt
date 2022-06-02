@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/desktopCfg.dart';
 import 'package:jappeos_desktop/components/widgets/generalWidgets.dart';
 
 class WifiPage extends StatefulWidget {
-  WifiPage({Key key, this.title}) : super(key: key);
+  WifiPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
   static final String wm$windowData_Title = "Settings";

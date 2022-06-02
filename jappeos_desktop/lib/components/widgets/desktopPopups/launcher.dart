@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/desktopCfg.dart';
 import 'package:jappeos_desktop/components/widgets/desktopGeneral/buttons.dart';
 import 'package:jappeos_desktop/components/widgets/generalWidgets.dart';
 
 class DE_POPUP_Launcher extends StatefulWidget {
-  DE_POPUP_Launcher({Key key}) : super(key: key);
+  DE_POPUP_Launcher({Key? key}) : super(key: key);
 
   _DE_POPUP_LauncherState createState() => _DE_POPUP_LauncherState();
 }
@@ -18,7 +18,7 @@ class _DE_POPUP_LauncherState extends State<DE_POPUP_Launcher> {
       body: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(dsktpWallpaper), // desktop background image
+          image: AssetImage(DesktopCfg.DESKTOPCFG_INSTANCE.dsktpWallpaper), // desktop background image
           fit: BoxFit.cover,
         ),
         color: Colors.transparent,
@@ -90,7 +90,7 @@ class _DE_POPUP_LauncherState extends State<DE_POPUP_Launcher> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: dsktp_BLUR_COLOR_DARK,
+          color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK,
           child: child,
         ),
       ),

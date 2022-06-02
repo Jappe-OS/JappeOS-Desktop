@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/consts.dart';
+import 'package:jappeos_desktop/components/desktopCfg.dart';
 
 // JAPPEOS NORMAL BUTTON - TEXT
 
@@ -7,7 +7,7 @@ class JNormalTextButton extends StatefulWidget {
   final VoidCallback onPress;
   final String text;
 
-  JNormalTextButton({Key key, @required this.onPress, @required this.text})
+  JNormalTextButton({Key? key, required this.onPress, required this.text})
       : super(key: key);
 
   _JNormalTextButton createState() => _JNormalTextButton();
@@ -19,10 +19,10 @@ class _JNormalTextButton extends State<JNormalTextButton> {
     return ElevatedButton(
       child: Text(
         widget.text,
-        style: TextStyle(color: dsktp_TEXT_COLOR_LIGHT),
+        style: TextStyle(color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT),
       ),
       style: ElevatedButton.styleFrom(
-        primary: dsktp_ACCENT_COLOR,
+        primary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT),
       ),
       onPressed: widget.onPress,
     );
@@ -35,7 +35,7 @@ class JSecondaryTextButton extends StatefulWidget {
   final VoidCallback onPress;
   final String text;
 
-  JSecondaryTextButton({Key key, @required this.onPress, @required this.text})
+  JSecondaryTextButton({Key? key, required this.onPress, required this.text})
       : super(key: key);
 
   _JSecondaryTextButton createState() => _JSecondaryTextButton();
@@ -47,10 +47,10 @@ class _JSecondaryTextButton extends State<JSecondaryTextButton> {
     return ElevatedButton(
       child: Text(
         widget.text,
-        style: TextStyle(color: dsktp_TEXT_COLOR_DARK),
+        style: TextStyle(color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK),
       ),
       style: ElevatedButton.styleFrom(
-        primary: dsktp_SECONDARY_ACCENT_COLOR,
+        primary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT),
       ),
       onPressed: widget.onPress,
     );

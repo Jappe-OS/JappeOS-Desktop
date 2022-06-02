@@ -19,7 +19,7 @@ class TestApp extends Application {
     ;
 
     //DesktopState dm;
-    DesktopState.wmController.wm$spawn_gui_window(
+    DesktopState.wmController?.wm$spawn_gui_window(
                                   "TestApp", body(), cwd());
   }
 }

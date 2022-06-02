@@ -34,8 +34,18 @@ class WmController {
 
     // Init onWindowDragged
     resizableWindow.onWindowDragged = (dx, dy) {
-      resizableWindow.x += dx;
-      resizableWindow.y += dy;
+      var x1 = resizableWindow.x;
+      var y1 = resizableWindow.y;
+
+      if (x1 != null)
+        x1 += dx;
+
+      if (y1 != null)
+        y1 += dy;
+
+
+      resizableWindow.x = x1;
+      resizableWindow.y = y1;
 
       // Put on top of stack
       _resizablewindows.remove(resizableWindow);
