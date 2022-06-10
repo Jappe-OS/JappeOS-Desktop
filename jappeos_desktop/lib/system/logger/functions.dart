@@ -1,4 +1,4 @@
-import 'package:jappeos_desktop/components/logger/logType.dart';
+import 'package:jappeos_desktop/system/logger/logType.dart';
 
 class SYSTEM_LoggerFunctions {
   void system$sendLog(SYSTEM_LoggerMsgType type, String message) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/desktopCfg.dart';
-//import 'package:jappeos_desktop/components/functions.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/settings.dart';
+//import 'package:jappeos_desktop/system/functions.dart';
 //import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
 import 'desktop.dart';
 //import 'displayManager/josdm.dart';
@@ -13,15 +14,29 @@ void main() {
 }
 
 class JappeOsDesktop extends StatelessWidget {
+  bool _isLight = Settings.JAPPEOS_SETTINGS_INSTANCE.getColorMode() == ColorMode.LIGHT ? true : false;
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        visualDensity: VisualDensity.adaptivePlatformDensity, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(secondary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT)),
-      ),
-      home: Desktop(title: 'JappeOS'),
+      theme: _isLight ? _lightTheme : _darkTheme,
+      home: Desktop(),
     );
   }
+
+  final ThemeData _lightTheme = ThemeData(
+    visualDensity: VisualDensity.standard,
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+        .copyWith(secondary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT), brightness: Brightness.light),
+    
+  );
+
+  final ThemeData _darkTheme = ThemeData(
+    visualDensity: VisualDensity.standard,
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+        .copyWith(secondary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT), brightness: Brightness.dark),
+    
+  );
 }

@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/desktopCfg.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/settings.dart';
 
 class JDesktopWindow extends StatefulWidget {
   final String? windowTitle;
@@ -39,7 +40,10 @@ class _JDesktopWindow extends State<JDesktopWindow> {
               right: 0,
               top: 35,
               bottom: 0,
-              child: widget.windowBody ?? new Container(color: Colors.transparent,),
+              child: widget.windowBody ??
+                  new Container(
+                    color: Colors.transparent,
+                  ),
             ),
           ],
         ),
@@ -49,7 +53,7 @@ class _JDesktopWindow extends State<JDesktopWindow> {
       ),
     );
   }
-  
+
   Widget blurContainer(Widget child) {
     return ClipRRect(
       child: BackdropFilter(
@@ -57,7 +61,7 @@ class _JDesktopWindow extends State<JDesktopWindow> {
         child: Container(
           /*width: widget.currentWidth,
           height: _headerSize,*/
-          color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK_BG,
+          color: Colors.white,
           child: child,
         ),
       ),

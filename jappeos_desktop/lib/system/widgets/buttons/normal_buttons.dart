@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/desktopCfg.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
 
 // JAPPEOS NORMAL BUTTON - TEXT
 
@@ -19,10 +19,12 @@ class _JNormalTextButton extends State<JNormalTextButton> {
     return ElevatedButton(
       child: Text(
         widget.text,
-        style: TextStyle(color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT),
+        style: TextStyle(
+            color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT),
       ),
       style: ElevatedButton.styleFrom(
-        primary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT),
+        primary: DesktopCfg.DESKTOPCFG_INSTANCE
+            .getJappeosThemeColor(JappeOsColor.DEFAULT),
       ),
       onPressed: widget.onPress,
     );
@@ -47,10 +49,12 @@ class _JSecondaryTextButton extends State<JSecondaryTextButton> {
     return ElevatedButton(
       child: Text(
         widget.text,
-        style: TextStyle(color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK),
+        style: TextStyle(
+            color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK),
       ),
       style: ElevatedButton.styleFrom(
-        primary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT),
+        primary: DesktopCfg.DESKTOPCFG_INSTANCE
+            .getJappeosThemeColor(JappeOsColor.DEFAULT),
       ),
       onPressed: widget.onPress,
     );

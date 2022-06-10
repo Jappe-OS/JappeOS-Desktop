@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/desktopCfg.dart';
-import 'package:jappeos_desktop/components/widgets/generalWidgets.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/widgets/generalWidgets.dart';
 
 class WifiPage extends StatefulWidget {
   WifiPage({Key? key, required this.title}) : super(key: key);

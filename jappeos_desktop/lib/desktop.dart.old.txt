@@ -1,14 +1,14 @@
 // import 'dart:html';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/consts.dart';
-import 'package:jappeos_desktop/components/cwidgets.dart';
-import 'package:jappeos_desktop/components/functions.dart';
+import 'package:jappeos_desktop/system/consts.dart';
+import 'package:jappeos_desktop/system/cwidgets.dart';
+import 'package:jappeos_desktop/system/functions.dart';
 import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
 import 'package:jappeos_desktop/windowManager/wmmanager.dart';
 
 import 'applications/settings/settings-redesign.dart';
-import 'components/buttons/normal_buttons.dart';
+import 'system/buttons/normal_buttons.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {

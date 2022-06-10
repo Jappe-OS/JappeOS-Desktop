@@ -3,7 +3,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/desktopCfg.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/settings.dart';
 
 class ResizableWindow extends StatefulWidget {
   late double currentHeight, defaultHeight = 400.0;
@@ -23,12 +24,18 @@ class ResizableWindow extends StatefulWidget {
   }
 
   @override
-  _ResizableWindowState createState() => _ResizableWindowState();
+  ResizableWindowState createState() => ResizableWindowState();
 }
 
-class _ResizableWindowState extends State<ResizableWindow> {
+class ResizableWindowState extends State<ResizableWindow> {
+  static ResizableWindowState I = new ResizableWindowState();
+
   var _headerSize = 40.0;
   var _borderRadius = 10.0;
+
+  Color _themeColorBg = Settings.JAPPEOS_SETTINGS_INSTANCE.getColorMode() == ColorMode.LIGHT
+      ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT_BG
+      : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK_BG;
 
   @override
   Widget build(BuildContext context) {
@@ -189,16 +196,12 @@ class _ResizableWindowState extends State<ResizableWindow> {
                     IconButton(
                       icon: Icon(Icons.minimize_rounded, color: Colors.white.withOpacity(0.7)),
                       iconSize: 20,
-                      onPressed: () {
-                        
-                      },
+                      onPressed: () {},
                     ),
                     IconButton(
                       icon: Icon(Icons.crop_square_rounded, color: Colors.white.withOpacity(0.7)),
                       iconSize: 20,
-                      onPressed: () {
-                        
-                      },
+                      onPressed: () {},
                     ),
                     IconButton(
                       icon: Icon(Icons.close_rounded, color: Colors.white.withOpacity(0.7)),
@@ -246,12 +249,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
                   style: TextStyle(fontSize: 18, color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT),
                 ),
               )),
-              Positioned(
-                  top: 4,
-                  left: 7,
-                  bottom: 0,
-                  right: 120,
-                  child: widget.cwd!),
+              Positioned(top: 4, left: 7, bottom: 0, right: 120, child: widget.cwd!),
             ],
           ),
         ),
@@ -338,7 +336,7 @@ class _ResizableWindowState extends State<ResizableWindow> {
         child: Container(
           width: widget.currentWidth,
           height: _headerSize,
-          color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK_BG,
+          color: _themeColorBg,
           child: child,
         ),
       ),

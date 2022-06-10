@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/components/appSystem/application.dart';
-import 'package:jappeos_desktop/components/desktopCfg.dart';
-import 'package:jappeos_desktop/components/widgets/generalWidgets.dart';
+import 'package:jappeos_desktop/system/appSystem/application.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/widgets/generalWidgets.dart';
 import 'package:jappeos_desktop/desktop.dart';
 
 class Settings extends Application {
@@ -72,67 +72,79 @@ class Settings extends Application {
                     jicon: Icons.wifi,
                     jtext: 'Wifi',
                     jstartopacity: 1,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT) ?? Colors.white,
+                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE
+                            .getJappeosThemeColor(JappeOsColor.DEFAULT) ??
+                        Colors.white,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.bluetooth,
                     jtext: 'Bluetooth',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.edit,
                     jtext: 'Appearance',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.notifications,
                     jtext: 'Notifications',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.system_update,
                     jtext: 'Updates',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.language,
                     jtext: 'Regions & Language',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.account_circle,
                     jtext: 'Accounts',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.security,
                     jtext: 'Security',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.surround_sound,
                     jtext: 'Sound',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.power_settings_new,
                     jtext: 'Power',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                   SettingsSidebarButton(
                     jicon: Icons.info,
                     jtext: 'About',
                     jstartopacity: 0,
-                    jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                    jhighlight:
+                        DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                   ),
                 ]),
               ),
