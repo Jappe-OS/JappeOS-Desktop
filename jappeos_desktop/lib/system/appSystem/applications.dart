@@ -5,16 +5,8 @@ import 'package:jappeos_desktop/system/appSystem/application.dart';
 enum SystemApps { SYSTEM_TestApp, SYSTEM_Settings }
 
 class Applications {
-  /*static void sys$runProcess(SystemApps app) {
-    switch (app) {
-      case SystemApps.SYSTEM_TestApp:
-        TestApp.app$launch();
-        break;
-      case SystemApps.SYSTEM_Settings:
-        Settings.app$launch();
-        break;
-    }
-  }*/
+
+  // TODO: Future stuff: Make each application it's own flutter app (linux process on linux). This app/process system will probably not be changed anymore.
 
   static final List<Application>? _JappeOSprocessList = [];
 
