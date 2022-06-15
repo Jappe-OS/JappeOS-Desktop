@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/settings.dart';
 
 class JDesktopWindow extends StatefulWidget {
   final String? windowTitle;

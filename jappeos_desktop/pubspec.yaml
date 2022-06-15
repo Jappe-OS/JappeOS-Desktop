@@ -60,6 +60,7 @@ flutter:
     - lib/images/desktop/backgrounds/wallpaper3_ct.jpg
     - lib/images/desktop/backgrounds/wallpaper4.jpg
     - lib/images/desktop/backgrounds/wallpaper4_ct.jpg
+    - lib/images/null.png
     
   # assets:
   #   - images/a_dot_burr.jpeg

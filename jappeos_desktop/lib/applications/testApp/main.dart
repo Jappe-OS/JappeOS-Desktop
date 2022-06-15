@@ -5,7 +5,7 @@ import 'package:jappeos_desktop/desktop.dart';
 class TestApp extends Application {
   TestApp() : super("TestApp", "testapp", null);
 
-  static void app$launch() {
+  void app$launch() {
     Widget body() {
       return Container();
     }

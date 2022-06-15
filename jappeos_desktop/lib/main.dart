@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
 import 'package:jappeos_desktop/system/settings.dart';
-//import 'package:jappeos_desktop/system/functions.dart';
-//import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
 import 'desktop.dart';
-//import 'displayManager/josdm.dart';
-//import 'applications/settings.dart';
-//import 'applications/settings/settings-redesign.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +9,7 @@ void main() {
 }
 
 class JappeOsDesktop extends StatelessWidget {
-  bool _isLight = Settings.JAPPEOS_SETTINGS_INSTANCE.getColorMode() == ColorMode.LIGHT ? true : false;
+  final bool _isLight = Settings.JAPPEOS_SETTINGS_INSTANCE.getColorMode() == ColorMode.LIGHT ? true : false;
   
   @override
   Widget build(BuildContext context) {

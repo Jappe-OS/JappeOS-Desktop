@@ -8,5 +8,6 @@ abstract class Application {
   Application(
       this.s_displayName, this.s_id, this.i_icon);
 
-  //void app$launch() {}
+  void app$launch() {}
+  void app$kill() {}
 }
