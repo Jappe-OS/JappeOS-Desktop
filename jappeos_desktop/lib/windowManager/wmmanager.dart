@@ -12,8 +12,6 @@ class WmManager extends StatefulWidget {
 }
 
 class _WmManagerState extends State<WmManager> {
-
-
   @override
   Widget build(BuildContext context) {
     return Stack(

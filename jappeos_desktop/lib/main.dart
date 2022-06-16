@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/settings.dart';
 import 'desktop.dart';
 
 void main() {
@@ -8,8 +7,13 @@ void main() {
   runApp(JappeOsDesktop());
 }
 
+/// This is the main class of the JappeOS Desktop, you may not access it.
+/// 
+/// Made by Jappe. (2020 - 2022)
 class JappeOsDesktop extends StatelessWidget {
-  final bool _isLight = Settings.JAPPEOS_SETTINGS_INSTANCE.getColorMode() == ColorMode.LIGHT ? true : false;
+
+  // Whether the theme is light or dark.
+  final bool _isLight = DesktopCfg.DESKTOPCFG_INSTANCE.getColorMode() == ColorMode.LIGHT ? true : false;
   
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class JappeOsDesktop extends StatelessWidget {
     );
   }
 
+  // ThemeData for light theme.
   final ThemeData _lightTheme = ThemeData(
     visualDensity: VisualDensity.standard,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
@@ -28,6 +33,7 @@ class JappeOsDesktop extends StatelessWidget {
     
   );
 
+  // ThemeData for dark theme.
   final ThemeData _darkTheme = ThemeData(
     visualDensity: VisualDensity.standard,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)

@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/settings.dart';
 
 class ResizableWindow extends StatefulWidget {
   late double currentHeight, defaultHeight = 400.0;
@@ -33,7 +32,7 @@ class ResizableWindowState extends State<ResizableWindow> {
   var _headerSize = 40.0;
   var _borderRadius = 10.0;
 
-  Color _themeColorBg = Settings.JAPPEOS_SETTINGS_INSTANCE.getColorMode() == ColorMode.LIGHT
+  Color _themeColorBg = DesktopCfg.DESKTOPCFG_INSTANCE.getColorMode() == ColorMode.LIGHT
       ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT_BG
       : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK_BG;
 
@@ -175,6 +174,7 @@ class ResizableWindowState extends State<ResizableWindow> {
     );
   }
 
+  // The header/dragging area of the window.
   _getHeader() {
     return GestureDetector(
       onPanUpdate: (tapInfo) {
@@ -257,6 +257,7 @@ class ResizableWindowState extends State<ResizableWindow> {
     );
   }
 
+  // The body of the window.
   _getBody() {
     return Container(
       width: widget.currentWidth,
@@ -329,6 +330,14 @@ class ResizableWindowState extends State<ResizableWindow> {
   }
 
   // Blur effects
+  /// A blurry container widget that can be used to render background blur on the window.
+  /// 
+  /// Parameters:
+  /// ```dart
+  /// - Widget child // The widget inside this widget.
+  /// ```
+  /// 
+  /// Made by Jappe. (2022)
   Widget blurContainer(Widget child) {
     return ClipRRect(
       child: BackdropFilter(

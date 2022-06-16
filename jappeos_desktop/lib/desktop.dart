@@ -8,6 +8,9 @@ import 'package:jappeos_desktop/system/desktopCfg.dart';
 import 'windowManager/wmcontroller.dart';
 import 'windowManager/wmmanager.dart';
 
+/// The stateful widget for the base desktop UI.
+/// 
+/// Made by Jappe. (2022)
 class Desktop extends StatefulWidget {
   Desktop({Key? key}) : super(key: key);
 
@@ -15,11 +18,20 @@ class Desktop extends StatefulWidget {
   DesktopState createState() => DesktopState();
 }
 
+/// This is the public class for the JappeOS Desktop, the `wmController` object can be accessed for using the windowing system. 
+/// 
+/// See [WmController] for more information on the windowing system.
+/// 
+/// Made by Jappe. (2022)
 class DesktopState extends State<Desktop> {
+  // Create a new instance of [WmController].
   static WmController? wmController;
 
+  // The padding on the left and right side of the TopBar element.
   final double _TOP_BAR_sidePadding = 5;
+  // The icon size for Icons on the TopBar buttons.
   final double _TOP_BAR_buttonIconSize = 17;
+  // The icon/text color for TopBar buttons.
   final Color _TOP_BAR_buttonOverlayColor = Colors.white;
 
   @override
@@ -39,14 +51,15 @@ class DesktopState extends State<Desktop> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(DesktopCfg.DESKTOPCFG_INSTANCE.dsktpWallpaper), // desktop background image
+            // The desktop background image.
+            image: AssetImage(DesktopCfg.DESKTOPCFG_INSTANCE.dsktpWallpaper),
             fit: BoxFit.cover,
           ),
         ),
         child: Stack(
           children: [
+            // The background layer of the desktop UI.
             Positioned(
-              // Background
               left: 0,
               right: 0,
               top: 0,
@@ -59,29 +72,8 @@ class DesktopState extends State<Desktop> {
               ])),
             ),
 
-            /*Align(
-              alignment: Alignment.bottomCenter,
-              child: _blurContainerDock(
-                Container(
-                  //height: 50,
-                  //width: 50,
-                  margin: EdgeInsets.only(bottom: 10),
-                  color: Colors.green,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 50,
-                        color: Colors.blue,
-                      )
-                    ],
-                  ),
-                ),
-                50
-              ),
-            ),*/
-
+            // The dock shown in the bottom of the dekstop UI.
             Align(
-              // Bottom Dock
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: 80,
@@ -89,11 +81,12 @@ class DesktopState extends State<Desktop> {
                 decoration: BoxDecoration(
                   boxShadow: <BoxShadow>[_basicShadow()],
                 ),
-                //alignment: Alignment.bottomCenter,
                 child: IntrinsicWidth(
                   child: _blurContainer(
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                      // The items shown in the dock.
                       children: [
                         _dockItem(null, null, false, () {
                           Applications.sys$runProcess(new Settings());
@@ -107,8 +100,9 @@ class DesktopState extends State<Desktop> {
                 ),
               ),
             ),
+
+            // This is the TopBar, it's whown on the top of the desktop UI.
             Positioned(
-              // Top Bar
               top: 0,
               left: 0,
               right: 0,
@@ -125,6 +119,8 @@ class DesktopState extends State<Desktop> {
                         padding: EdgeInsets.only(left: _TOP_BAR_sidePadding),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
+
+                          // The items on the TopBar on the left side.
                           children: [
                             _topBarItem(
                                 null,
@@ -158,6 +154,8 @@ class DesktopState extends State<Desktop> {
                         padding: EdgeInsets.only(right: _TOP_BAR_sidePadding),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
+
+                          // The items on the TopBar on the right side.
                           children: [
                             _topBarItem(
                                 null,
@@ -337,7 +335,7 @@ class DesktopState extends State<Desktop> {
     );
   }
 
-  // Shadow
+  // Shadow element for TopBar and the Dock.
   BoxShadow _basicShadow() {
     return BoxShadow(
       color: Colors.black,
