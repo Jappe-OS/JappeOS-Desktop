@@ -25,7 +25,7 @@ class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);
 
   void app$launch() {
-    DesktopState.wmController?.wm$spawn_gui_window("Settings", body(), cwd());
+    DesktopState.getWmController()?.wm$spawn_gui_window("Settings", body(), cwd());
   }
 
   Widget body() {

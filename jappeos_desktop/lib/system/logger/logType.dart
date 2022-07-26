@@ -15,6 +15,9 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+/// An `enum` to specify the type of a log message.
+/// 
+/// Made by Jappe. (2022)
 enum JappeOsLoggerMsgType {
   INFO,
   WARN,

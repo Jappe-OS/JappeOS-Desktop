@@ -18,18 +18,18 @@
 import 'package:flutter/material.dart';
 
 /// This class is used for configuring the desktop environment, the settings app may use this information and change it at any time.
-/// Use the `DESKTOPCFG_INSTANCE` object to use it.
+/// Use the [DESKTOPCFG_INSTANCE] object to use it.
 /// 
 /// Made by Jappe. (2022)
 class DesktopCfg {
-
-  // The color mode of the UI.
-  ColorMode _colorMode = ColorMode.DARK;
 
   /// This is the instance for the DesktopCfg class, use this to access all the variables it contains.
   /// 
   /// Made by Jappe. (2022)
   static DesktopCfg DESKTOPCFG_INSTANCE = new DesktopCfg();
+
+  // The color mode of the UI.
+  ColorMode _colorMode = ColorMode.DARK;
 
   // --- [de-info]
 

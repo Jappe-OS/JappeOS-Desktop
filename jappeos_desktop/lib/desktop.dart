@@ -1,19 +1,18 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
 //  Copyright (C) 2022  Jappe02
-//  
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
 //  published by the Free Software Foundation, either version 3 of the
 //  License, or (at your option) any later version.
-//  
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Affero General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 
 import 'dart:ui';
 
@@ -42,7 +41,10 @@ class Desktop extends StatefulWidget {
 /// Made by Jappe. (2022)
 class DesktopState extends State<Desktop> {
   // Create a new instance of [WmController].
-  static WmController? wmController;
+  static WmController? _wmController;
+  static WmController? getWmController() {
+    return _wmController;
+  }
 
   // The padding on the left and right side of the TopBar element.
   final double _TOP_BAR_sidePadding = 5;
@@ -51,14 +53,14 @@ class DesktopState extends State<Desktop> {
   // The icon/text color for TopBar buttons.
   final Color _TOP_BAR_buttonOverlayColor = Colors.white;
 
-  // The default blur radius for _blurContainer elements
+  // The default border radius for _blurContainer elements
   final double _G_borderRadius = 10;
 
   @override
   void initState() {
     super.initState();
 
-    wmController = WmController(() {
+    _wmController = WmController(() {
       setState(() {});
     });
   }
@@ -87,7 +89,7 @@ class DesktopState extends State<Desktop> {
               child: Container(
                   child: Stack(children: [
                 WmManager(
-                  wmController: wmController,
+                  wmController: _wmController,
                 ),
               ])),
             ),
@@ -126,7 +128,7 @@ class DesktopState extends State<Desktop> {
               ),
             ),
 
-            // This is the TopBar, it's whown on the top of the desktop UI.
+            // This is the TopBar, it's shown on the top of the desktop UI.
             Positioned(
               top: 0,
               left: 0,
