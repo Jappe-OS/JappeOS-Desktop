@@ -15,31 +15,40 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/windowManager/wmcontroller.dart';
+import 'package:jappeos_desktop/system/logger/logType.dart';
 
-class WmManager extends StatefulWidget {
+class Logger {
+  late bool _debugMode = false;
 
-  final WmController? wmController;
+  // Sending
+  void jappeOsLogger$sendLog(JappeOsLoggerMsgType type, bool debugOnly, String message) {
+    DateTime now = DateTime.now();
+    String logMsg = " [" +
+        now.hour.toString() +
+        ":" +
+        now.minute.toString() +
+        ":" +
+        now.second.toString() +
+        "] " +
+        "[main] " +
+        "[" +
+        type.toString().toUpperCase() +
+        "]: " +
+        message;
 
-  const WmManager({Key? key, this.wmController}) : super(key: key);
+    if (debugOnly) {
+      if (_debugMode) print(logMsg);
+    } else {
+      print(logMsg);
+    }
+  }
 
-  @override
-  _WmManagerState createState() => _WmManagerState();
-}
+  // Debug Mode
+  void jappeOsLogger$setDebugMode(bool debugMode) {
+    _debugMode = debugMode;
+  }
 
-class _WmManagerState extends State<WmManager> {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: widget.wmController!.resizablewindows.map((e){
-        return Positioned(
-          left: e.x,
-          top: e.y,
-          child: e,
-          key: e.key,
-        );
-      }).toList()
-    );
+  bool jappeOsLogger$getDebugMode() {
+    return _debugMode;
   }
 }

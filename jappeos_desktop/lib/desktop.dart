@@ -1,3 +1,20 @@
+//  JappeOS-Desktop, The desktop environment for JappeOS.
+//  Copyright (C) 2022  Jappe02
+//  
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Affero General Public License as
+//  published by the Free Software Foundation, either version 3 of the
+//  License, or (at your option) any later version.
+//  
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Affero General Public License for more details.
+//  
+//  You should have received a copy of the GNU Affero General Public License
+//  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -9,7 +26,7 @@ import 'windowManager/wmcontroller.dart';
 import 'windowManager/wmmanager.dart';
 
 /// The stateful widget for the base desktop UI.
-/// 
+///
 /// Made by Jappe. (2022)
 class Desktop extends StatefulWidget {
   Desktop({Key? key}) : super(key: key);
@@ -18,10 +35,10 @@ class Desktop extends StatefulWidget {
   DesktopState createState() => DesktopState();
 }
 
-/// This is the public class for the JappeOS Desktop, the `wmController` object can be accessed for using the windowing system. 
-/// 
+/// This is the public class for the JappeOS Desktop, the `wmController` object can be accessed for using the windowing system.
+///
 /// See [WmController] for more information on the windowing system.
-/// 
+///
 /// Made by Jappe. (2022)
 class DesktopState extends State<Desktop> {
   // Create a new instance of [WmController].
@@ -33,6 +50,9 @@ class DesktopState extends State<Desktop> {
   final double _TOP_BAR_buttonIconSize = 17;
   // The icon/text color for TopBar buttons.
   final Color _TOP_BAR_buttonOverlayColor = Colors.white;
+
+  // The default blur radius for _blurContainer elements
+  final double _G_borderRadius = 10;
 
   @override
   void initState() {
@@ -80,23 +100,28 @@ class DesktopState extends State<Desktop> {
                 margin: EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
                   boxShadow: <BoxShadow>[_basicShadow()],
+                  borderRadius: BorderRadius.all(Radius.circular(_G_borderRadius)),
+                  border: Border.all(
+                    color: Colors.grey.withOpacity(0.3),
+                    width: 1,
+                  ),
                 ),
                 child: IntrinsicWidth(
                   child: _blurContainer(
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
 
-                      // The items shown in the dock.
-                      children: [
-                        _dockItem(null, null, false, () {
-                          Applications.sys$runProcess(new Settings());
-                        }),
-                        _dockItem(null, null, false, () {}),
-                        _dockItem(null, null, false, () {}),
-                        _dockItem(null, null, false, () {}),
-                      ],
-                    ),
-                  true),
+                        // The items shown in the dock.
+                        children: [
+                          _dockItem(null, null, false, () {
+                            Applications.sys$runProcess(new Settings());
+                          }),
+                          _dockItem(null, null, false, () {}),
+                          _dockItem(null, null, false, () {}),
+                          _dockItem(null, null, false, () {}),
+                        ],
+                      ),
+                      true),
                 ),
               ),
             ),
@@ -112,124 +137,127 @@ class DesktopState extends State<Desktop> {
                   boxShadow: <BoxShadow>[_basicShadow()],
                 ),
                 child: _blurContainer(
-                  Stack(
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: _TOP_BAR_sidePadding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                    Stack(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(left: _TOP_BAR_sidePadding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
 
-                          // The items on the TopBar on the left side.
-                          children: [
-                            _topBarItem(
-                                null,
-                                () {},
-                                true,
-                                new Container(
-                                  child: Icon(
-                                    Icons.apps,
-                                    size: _TOP_BAR_buttonIconSize,
-                                    color: _TOP_BAR_buttonOverlayColor,
-                                  ),
-                                )),
-                            SizedBox(width: 5),
-                            _topBarItem(
-                                null,
-                                () {},
-                                true,
-                                new Container(
-                                  child: Icon(
-                                    Icons.menu_open,
-                                    size: _TOP_BAR_buttonIconSize,
-                                    color: _TOP_BAR_buttonOverlayColor,
-                                  ),
-                                )),
-                            SizedBox(width: 5),
-                          ],
+                            // The items on the TopBar on the left side.
+                            children: [
+                              _topBarItem(
+                                  null,
+                                  () {},
+                                  true,
+                                  new Container(
+                                    child: Icon(
+                                      Icons.apps,
+                                      size: _TOP_BAR_buttonIconSize,
+                                      color: _TOP_BAR_buttonOverlayColor,
+                                    ),
+                                  )),
+                              SizedBox(width: 5),
+                              _topBarItem(
+                                  null,
+                                  () {},
+                                  true,
+                                  new Container(
+                                    child: Icon(
+                                      Icons.menu_open,
+                                      size: _TOP_BAR_buttonIconSize,
+                                      color: _TOP_BAR_buttonOverlayColor,
+                                    ),
+                                  )),
+                              SizedBox(width: 5),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerRight,
-                        padding: EdgeInsets.only(right: _TOP_BAR_sidePadding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(right: _TOP_BAR_sidePadding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
 
-                          // The items on the TopBar on the right side.
-                          children: [
-                            _topBarItem(
-                                null,
-                                () {},
-                                true,
-                                new Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.mic,
-                                        size: _TOP_BAR_buttonIconSize,
-                                        color: _TOP_BAR_buttonOverlayColor,
-                                      ),
-                                      SizedBox(width: 3),
-                                      Icon(
-                                        Icons.camera,
-                                        size: _TOP_BAR_buttonIconSize,
-                                        color: _TOP_BAR_buttonOverlayColor,
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                            SizedBox(width: 5),
-                            _topBarItem(
-                                null,
-                                () {},
-                                true,
-                                new Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.wifi,
-                                        size: _TOP_BAR_buttonIconSize,
-                                        color: _TOP_BAR_buttonOverlayColor,
-                                      ),
-                                      SizedBox(width: 3),
-                                      Icon(
-                                        Icons.volume_mute,
-                                        size: _TOP_BAR_buttonIconSize,
-                                        color: _TOP_BAR_buttonOverlayColor,
-                                      ),
-                                      SizedBox(width: 3),
-                                      Icon(
-                                        Icons.battery_full,
-                                        size: _TOP_BAR_buttonIconSize,
-                                        color: _TOP_BAR_buttonOverlayColor,
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                            SizedBox(width: 5),
-                            _topBarItem(
-                                null,
-                                () {},
-                                true,
-                                new Container(
-                                  child: Row(
-                                    children: [
-                                      Text('19:00', style: TextStyle(color: _TOP_BAR_buttonOverlayColor,)),
-                                      SizedBox(width: 3),
-                                      Icon(
-                                        Icons.notifications,
-                                        size: _TOP_BAR_buttonIconSize,
-                                        color: _TOP_BAR_buttonOverlayColor,
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ],
+                            // The items on the TopBar on the right side.
+                            children: [
+                              _topBarItem(
+                                  null,
+                                  () {},
+                                  true,
+                                  new Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.mic,
+                                          size: _TOP_BAR_buttonIconSize,
+                                          color: _TOP_BAR_buttonOverlayColor,
+                                        ),
+                                        SizedBox(width: 3),
+                                        Icon(
+                                          Icons.camera,
+                                          size: _TOP_BAR_buttonIconSize,
+                                          color: _TOP_BAR_buttonOverlayColor,
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                              SizedBox(width: 5),
+                              _topBarItem(
+                                  null,
+                                  () {},
+                                  true,
+                                  new Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.wifi,
+                                          size: _TOP_BAR_buttonIconSize,
+                                          color: _TOP_BAR_buttonOverlayColor,
+                                        ),
+                                        SizedBox(width: 3),
+                                        Icon(
+                                          Icons.volume_mute,
+                                          size: _TOP_BAR_buttonIconSize,
+                                          color: _TOP_BAR_buttonOverlayColor,
+                                        ),
+                                        SizedBox(width: 3),
+                                        Icon(
+                                          Icons.battery_full,
+                                          size: _TOP_BAR_buttonIconSize,
+                                          color: _TOP_BAR_buttonOverlayColor,
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                              SizedBox(width: 5),
+                              _topBarItem(
+                                  null,
+                                  () {},
+                                  true,
+                                  new Container(
+                                    child: Row(
+                                      children: [
+                                        Text('19:00',
+                                            style: TextStyle(
+                                              color: _TOP_BAR_buttonOverlayColor,
+                                            )),
+                                        SizedBox(width: 3),
+                                        Icon(
+                                          Icons.notifications,
+                                          size: _TOP_BAR_buttonIconSize,
+                                          color: _TOP_BAR_buttonOverlayColor,
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ), false
-                ),
+                      ],
+                    ),
+                    false),
               ),
             ),
           ],
@@ -254,7 +282,7 @@ class DesktopState extends State<Desktop> {
     if (radius) {
       return ClipRRect(
         child: _bf,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(_G_borderRadius)),
       );
     } else {
       return ClipRRect(
@@ -268,14 +296,17 @@ class DesktopState extends State<Desktop> {
     if (!custom) {
       return Container(
         child: TextButton(
-            child: Text(text ?? "", style: TextStyle(color: _TOP_BAR_buttonOverlayColor,)),
+            child: Text(text ?? "",
+                style: TextStyle(
+                  color: _TOP_BAR_buttonOverlayColor,
+                )),
             style: TextButton.styleFrom(
               minimumSize: Size(30, 30),
               padding: EdgeInsets.all(6),
               enabledMouseCursor: SystemMouseCursors.alias,
               disabledMouseCursor: SystemMouseCursors.alias,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(_G_borderRadius),
               ),
             ),
             onPressed: onPressed),
@@ -290,7 +321,7 @@ class DesktopState extends State<Desktop> {
               enabledMouseCursor: SystemMouseCursors.alias,
               disabledMouseCursor: SystemMouseCursors.alias,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(_G_borderRadius),
               ),
             ),
             onPressed: onPressed),
@@ -329,7 +360,7 @@ class DesktopState extends State<Desktop> {
             disabledMouseCursor: SystemMouseCursors.alias,
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(_G_borderRadius),
             ),
           )),
     );
