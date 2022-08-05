@@ -48,22 +48,35 @@ class DesktopCfg {
   /// The blur color for the dark theme of the desktop. [blur colors]
   /// 
   /// Made by Jappe. (2022)
-  final Color dsktp_BLUR_COLOR_DARK = Colors.black.withOpacity(0.5);
+  final Color dsktp_BLUR_COLOR_DARK = Color.fromARGB(255, 10, 10, 10).withOpacity(0.4);
 
-  /// The blur color for the light theme of the desktop.
+  /// The blur color for the light theme of the desktop. [blur colors]
   /// 
   /// Made by Jappe. (2022)
-  final Color dsktp_BLUR_COLOR_LIGHT = Colors.white.withOpacity(0.5);
+  final Color dsktp_BLUR_COLOR_LIGHT = Color.fromARGB(255, 245, 245, 245).withOpacity(0.4);
+
 
   /// The background blur color for the dark theme of the desktop. [blur color background]
   /// 
   /// Made by Jappe. (2022)
-  final Color dsktp_BLUR_COLOR_DARK_BG = Color.fromARGB(167, 27, 27, 27);
+  final Color dsktp_BLUR_COLOR_DARK_BG = Color.fromARGB(255, 27, 27, 27).withOpacity(0.4);
 
   /// The background blur color for the light theme of the desktop. [blur color background]
   /// 
   /// Made by Jappe. (2022)
-  final Color dsktp_BLUR_COLOR_LIGHT_BG = Color.fromARGB(167, 206, 206, 206);
+  final Color dsktp_BLUR_COLOR_LIGHT_BG = Color.fromARGB(255, 228, 228, 228).withOpacity(0.4);
+
+
+  /// The background blur color for the dark theme of the desktop. [border color]
+  /// 
+  /// Made by Jappe. (2022)
+  final Color dsktp_BORDER_COLOR_DARK = Color.fromARGB(255, 27, 27, 27).withOpacity(0.4);
+
+  /// The background blur color for the light theme of the desktop. [border color]
+  /// 
+  /// Made by Jappe. (2022)
+  final Color dsktp_BORDER_COLOR_LIGHT = Color.fromARGB(255, 228, 228, 228).withOpacity(0.4);
+
 
   /// The normal text color for the light theme of the desktop. [text color]
   /// 
@@ -74,6 +87,7 @@ class DesktopCfg {
   /// 
   /// Made by Jappe. (2022)
   final dsktp_TEXT_COLOR_DARK = Color(0xFF000000);
+  
 
   /// Get the default JappeOS UI theme color as a Color [accent color]
   /// 

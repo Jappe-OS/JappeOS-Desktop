@@ -1,16 +1,16 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
 //  Copyright (C) 2022  Jappe02
-//  
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
 //  published by the Free Software Foundation, either version 3 of the
 //  License, or (at your option) any later version.
-//  
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Affero General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -46,7 +46,7 @@ class ResizableWindow extends StatefulWidget {
 class ResizableWindowState extends State<ResizableWindow> {
   static ResizableWindowState I = new ResizableWindowState();
 
-  var _headerSize = 40.0;
+  late var _headerSize = widget.cwd == null ? 40.0 : 40.0+10;
   var _borderRadius = 10.0;
 
   Color _themeColorBg = DesktopCfg.DESKTOPCFG_INSTANCE.getColorMode() == ColorMode.LIGHT
@@ -58,11 +58,12 @@ class ResizableWindowState extends State<ResizableWindow> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        border: Border.all(color: Color.fromARGB(255, 22, 22, 22), width: 1, style: BorderStyle.solid),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(115, 0, 0, 0),
-            spreadRadius: 4,
-            blurRadius: 5,
+            color: Color.fromARGB(70, 0, 0, 0),
+            spreadRadius: 5,
+            blurRadius: 10,
           ),
         ],
       ),
@@ -200,11 +201,11 @@ class ResizableWindowState extends State<ResizableWindow> {
       child: blurContainer(
         Container(
           width: widget.currentWidth,
-          height: _headerSize + 1,
+          height: _headerSize,
           child: Stack(
             children: [
               Positioned(
-                top: 4,
+                top: 3,
                 right: 7,
                 bottom: 4,
                 //width: 100,
@@ -266,7 +267,8 @@ class ResizableWindowState extends State<ResizableWindow> {
                   style: TextStyle(fontSize: 18, color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT),
                 ),
               )),
-              Positioned(top: 4, left: 7, bottom: 0, right: 120, child: widget.cwd!),
+              //Positioned(top: 3, left: 7, bottom: 0, right: 120, child: widget.cwd!),
+              Positioned(left: 7, right: 120, top: 7.5, height: _headerSize - 15, child: widget.cwd!),
             ],
           ),
         ),
@@ -348,12 +350,12 @@ class ResizableWindowState extends State<ResizableWindow> {
 
   // Blur effects
   /// A blurry container widget that can be used to render background blur on the window.
-  /// 
+  ///
   /// Parameters:
   /// ```dart
   /// - Widget child // The widget inside this widget.
   /// ```
-  /// 
+  ///
   /// Made by Jappe. (2022)
   Widget blurContainer(Widget child) {
     return ClipRRect(

@@ -33,7 +33,7 @@ class Logger {
   /// Get the Logger() instance and use the methods inside it.
   /// 
   /// Made by Jappe. (2022)
-  Logger GET = new Logger();
+  static Logger GET = new Logger();
 
   // Private boolean to know the debug mode.
   late bool _debugMode = false;
