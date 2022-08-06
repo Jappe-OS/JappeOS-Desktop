@@ -1,23 +1,23 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
 //  Copyright (C) 2022  Jappe02
-//  
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
 //  published by the Free Software Foundation, either version 3 of the
 //  License, or (at your option) any later version.
-//  
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Affero General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
 import 'package:jappeos_desktop/system/widgets/generalWidgets.dart';
 import 'package:jappeos_desktop/desktop.dart';
 
@@ -25,39 +25,14 @@ class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);
 
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawn_gui_window("Settings", body(), cwd());
+    DesktopState.getWmController()?.wm$spawn_gui_window("Settings", body(), cwd(), true);
   }
 
   Widget body() {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: 332,
-            child: ListView(
-              children: [
-
-              ],
-            ),
-          ),
-          Positioned(
-            left: 332,
-            width: 1,
-            top: 0,
-            bottom: 0,
-            child: Container(width: 1, color: Colors.grey,)
-          ),
-          Positioned(
-            left: 333,
-            child: Container(),
-          ),
-        ],
-      ),
-    );
+    return _Content();
   }
+
+  static double sidebarWidth = 332;
 
   // OLD
   /*Widget body() {
@@ -211,6 +186,51 @@ class Settings extends Application implements IApplication {
       alignment: Alignment.centerLeft,
       child: JAppMainSearchBox(
         jbgtext: "Search...",
+        width: sidebarWidth - 14,
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            bottom: 0,
+            width: Settings.sidebarWidth,
+            child: ListView(
+              children: [],
+            ),
+          ),
+          Positioned(
+              left: Settings.sidebarWidth,
+              width: 1,
+              top: 0,
+              bottom: 0,
+              child: Container(
+                width: 1,
+                color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+                  ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK
+                  : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT,
+              )),
+          Positioned(
+            top: 0,
+            left: Settings.sidebarWidth + 1,
+            bottom: 0,
+            right: 0,
+            child: Container(
+              color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+                  ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK
+                  : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT,
+            ),
+          ),
+        ],
       ),
     );
   }

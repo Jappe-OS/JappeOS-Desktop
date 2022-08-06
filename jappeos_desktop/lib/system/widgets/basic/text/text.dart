@@ -17,37 +17,22 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:jappeos_desktop/desktop.dart';
-import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
+/// A normal-sized text widget.
+///
+/// Made by Jappe. (2022)
+class UI_Text_NormalText extends StatefulWidget {
+  final String text;
 
-class TestApp extends Application implements IApplication {
-  TestApp() : super("TestApp", "testapp", null);
+  UI_Text_NormalText({Key? key, required this.text}) : super(key: key);
 
-  void app$launch() {
-    Widget body() {
-      return Container();
-    }
+  _NormalText createState() => _NormalText();
+}
 
-    ;
-
-    Widget cwd() {
-      return Container();
-    }
-
-    ;
-
-    //DesktopState dm;
-    DesktopState.getWmController()?.wm$spawn_gui_window("TestApp", body(), cwd(), true);
-  }
-
-  Widget? body() {
-    // TODO: implement body
-    throw UnimplementedError();
-  }
-
-  Widget? cwd() {
-    // TODO: implement cwd
-    throw UnimplementedError();
+class _NormalText extends State<UI_Text_NormalText> {
+  @override
+  Widget build(BuildContext context) {
+    return new Text(
+      widget.text
+    );
   }
 }

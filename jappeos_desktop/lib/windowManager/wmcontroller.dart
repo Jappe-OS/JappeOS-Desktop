@@ -48,8 +48,8 @@ class WmController {
   /// ```
   /// 
   /// Made by Jappe. (2022)
-  void wm$spawn_gui_window(String title, Widget body, Widget cwd) {
-    _createNewWindowedApp(title, body, cwd);
+  void wm$spawn_gui_window(String title, Widget body, Widget? cwd, bool isBlurry) {
+    _createNewWindowedApp(title, body, cwd, isBlurry);
   }
 
   void _addWindow() {
@@ -57,11 +57,11 @@ class WmController {
   }
 
   void _addWindowContent() {
-    _createNewWindowedApp("Main Window", Container(), Container());
+    _createNewWindowedApp("Main Window", Container(), Container(), true);
   }
 
-  void _createNewWindowedApp(String title, Widget body, Widget cwd) {
-    ResizableWindow resizableWindow = ResizableWindow(title, body, cwd);
+  void _createNewWindowedApp(String title, Widget body, Widget? cwd, bool isBlurry) {
+    ResizableWindow resizableWindow = ResizableWindow(title, body, cwd, isBlurry);
 
     // Set initial position
     var rng = new Random();

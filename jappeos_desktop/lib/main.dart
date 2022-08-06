@@ -33,28 +33,27 @@ Future main() async {
 class JappeOsDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => _ThemeProvider(),
-        builder: (context, _) {
-          final themeProvider = Provider.of<_ThemeProvider>(context);
-
-          return MaterialApp(
-            title: 'jappeos_desktop',
-            debugShowCheckedModeBanner: false,
-            themeMode: themeProvider.themeMode,
-            theme: _Themes.lightTheme,
-            darkTheme: _Themes.darkTheme,
-            home: Desktop(),
-          );
-        },
+    create: (context) => ThemeProvider(),
+    builder: (context, _) {
+      final themeProvider = Provider.of<ThemeProvider>(context);
+      return MaterialApp(
+        title: 'jappeos_desktop',
+        debugShowCheckedModeBanner: false,
+        themeMode: themeProvider.themeMode,
+        theme: _Themes.lightTheme,
+        darkTheme: _Themes.darkTheme,
+        home: Desktop(),
       );
+    },
+  );
 }
 
 // This class is the ThemeProvider.
-class _ThemeProvider extends ChangeNotifier {
+class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.light;
 
   bool get isDarkMode {
-    if (themeMode != ThemeMode.system) {
+    if (themeMode == ThemeMode.system) {
       final brightness = SchedulerBinding.instance!.window.platformBrightness;
       Logger.GET.jappeOsLogger$sendLog(
           JappeOsLoggerMsgType.ERROR, false, "'themeMode', typeof ThemeMode returned ThemeMode.system, this is not supported!");
@@ -68,6 +67,24 @@ class _ThemeProvider extends ChangeNotifier {
     themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
+
+  // --
+
+  JappeOsColor jappeOsColor = JappeOsColor.DEFAULT;
+
+  JappeOsColor get getJappeOsColor {
+    return jappeOsColor;
+  }
+
+  void setJappeOsColor(JappeOsColor color) {
+    jappeOsColor = color;
+    notifyListeners();
+  }
+}
+
+// This class is to provide accent colors for the theme.
+class ThemeAccentProvider extends ChangeNotifier {
+  
 }
 
 // This class contains the [ThemeData] for all themes.
@@ -76,13 +93,13 @@ class _Themes {
   static final ThemeData lightTheme = ThemeData(
     visualDensity: VisualDensity.standard,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-        .copyWith(secondary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT), brightness: Brightness.light),
+        .copyWith(brightness: Brightness.light),
   );
 
   // ThemeData for dark theme.
   static final ThemeData darkTheme = ThemeData(
     visualDensity: VisualDensity.standard,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-        .copyWith(secondary: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT), brightness: Brightness.dark),
+        .copyWith(brightness: Brightness.dark),
   );
 }

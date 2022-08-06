@@ -17,7 +17,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 import 'package:jappeos_desktop/applications/settings/main.dart';
+import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/system/appSystem/applications.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
 
@@ -51,9 +53,9 @@ class DesktopState extends State<Desktop> {
   // The icon size for Icons on the TopBar buttons.
   final double _TOP_BAR_buttonIconSize = 17;
   // The icon/text color for TopBar buttons.
-  final Color _TOP_BAR_buttonOverlayColor = Colors.white;
+  //final Color _TOP_BAR_buttonOverlayColor = Colors.white;
 
-  // The default border radius for _blurContainer elements
+  // The default border radius for _blurContainer elements.
   final double _G_borderRadius = 10;
 
   @override
@@ -67,6 +69,11 @@ class DesktopState extends State<Desktop> {
 
   @override
   Widget build(BuildContext context) {
+    // TopBar item content color.
+    Color _topBarItemContentColor = DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+        ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
+        : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT;
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -118,7 +125,9 @@ class DesktopState extends State<Desktop> {
                           _dockItem(null, null, false, () {
                             Applications.sys$runProcess(new Settings());
                           }),
-                          _dockItem(null, null, false, () {}),
+                          _dockItem(null, null, false, () {
+                            Applications.sys$runProcess(new WidgetTesting());
+                          }),
                           _dockItem(null, null, false, () {}),
                           _dockItem(null, null, false, () {}),
                         ],
@@ -157,7 +166,7 @@ class DesktopState extends State<Desktop> {
                                     child: Icon(
                                       Icons.apps,
                                       size: _TOP_BAR_buttonIconSize,
-                                      color: _TOP_BAR_buttonOverlayColor,
+                                      color: _topBarItemContentColor,
                                     ),
                                   )),
                               SizedBox(width: 5),
@@ -169,7 +178,7 @@ class DesktopState extends State<Desktop> {
                                     child: Icon(
                                       Icons.menu_open,
                                       size: _TOP_BAR_buttonIconSize,
-                                      color: _TOP_BAR_buttonOverlayColor,
+                                      color: _topBarItemContentColor,
                                     ),
                                   )),
                               SizedBox(width: 5),
@@ -194,13 +203,13 @@ class DesktopState extends State<Desktop> {
                                         Icon(
                                           Icons.mic,
                                           size: _TOP_BAR_buttonIconSize,
-                                          color: _TOP_BAR_buttonOverlayColor,
+                                          color: _topBarItemContentColor,
                                         ),
                                         SizedBox(width: 3),
                                         Icon(
                                           Icons.camera,
                                           size: _TOP_BAR_buttonIconSize,
-                                          color: _TOP_BAR_buttonOverlayColor,
+                                          color: _topBarItemContentColor,
                                         ),
                                       ],
                                     ),
@@ -216,19 +225,19 @@ class DesktopState extends State<Desktop> {
                                         Icon(
                                           Icons.wifi,
                                           size: _TOP_BAR_buttonIconSize,
-                                          color: _TOP_BAR_buttonOverlayColor,
+                                          color: _topBarItemContentColor,
                                         ),
                                         SizedBox(width: 3),
                                         Icon(
                                           Icons.volume_mute,
                                           size: _TOP_BAR_buttonIconSize,
-                                          color: _TOP_BAR_buttonOverlayColor,
+                                          color: _topBarItemContentColor,
                                         ),
                                         SizedBox(width: 3),
                                         Icon(
                                           Icons.battery_full,
                                           size: _TOP_BAR_buttonIconSize,
-                                          color: _TOP_BAR_buttonOverlayColor,
+                                          color: _topBarItemContentColor,
                                         ),
                                       ],
                                     ),
@@ -243,13 +252,13 @@ class DesktopState extends State<Desktop> {
                                       children: [
                                         Text('19:00',
                                             style: TextStyle(
-                                              color: _TOP_BAR_buttonOverlayColor,
+                                              color: _topBarItemContentColor,
                                             )),
                                         SizedBox(width: 3),
                                         Icon(
                                           Icons.notifications,
                                           size: _TOP_BAR_buttonIconSize,
-                                          color: _TOP_BAR_buttonOverlayColor,
+                                          color: _topBarItemContentColor,
                                         ),
                                       ],
                                     ),
@@ -276,7 +285,9 @@ class DesktopState extends State<Desktop> {
         height: MediaQuery.of(context).size.height / 4,
         child: child,
         decoration: BoxDecoration(
-          color: DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK,
+          color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+              ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK
+              : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT,
         ),
       ),
     );
@@ -300,7 +311,9 @@ class DesktopState extends State<Desktop> {
         child: TextButton(
             child: Text(text ?? "",
                 style: TextStyle(
-                  color: _TOP_BAR_buttonOverlayColor,
+                  color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+                      ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
+                      : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
                 )),
             style: TextButton.styleFrom(
               minimumSize: Size(30, 30),
@@ -377,3 +390,8 @@ class DesktopState extends State<Desktop> {
     );
   }
 }
+
+/// Contains the overlay menus for the desktop UI, for example, the launcher.
+///
+/// Made by Jappe. (2022)
+class _DesktopOverlayMenus {}

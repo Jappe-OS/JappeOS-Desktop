@@ -1,19 +1,18 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
 //  Copyright (C) 2022  Jappe02
-//  
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
 //  published by the Free Software Foundation, either version 3 of the
 //  License, or (at your option) any later version.
-//  
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Affero General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 
 // ignore_for_file: invalid_annotation_target
 
@@ -45,14 +44,14 @@ class _SettingsSidebarButtonState extends State<SettingsSidebarButton> {
           height: 45,
           width: 1,
           decoration: BoxDecoration(
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT)?.withOpacity(widget.jstartopacity),
+            color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context)?.withOpacity(widget.jstartopacity),
           ),
         ),
         Container(
           height: 43,
           width: 1,
           decoration: BoxDecoration(
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.getJappeosThemeColor(JappeOsColor.DEFAULT)?.withOpacity(widget.jstartopacity),
+            color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context)?.withOpacity(widget.jstartopacity),
           ),
         ),
         Container(
@@ -105,8 +104,7 @@ class LauncherItemButton extends StatefulWidget {
   final String jicon;
   final String jtext;
 
-  LauncherItemButton({Key? key, required this.jicon, required this.jtext})
-      : super(key: key);
+  LauncherItemButton({Key? key, required this.jicon, required this.jtext}) : super(key: key);
 
   _LauncherItemButtonState createState() => _LauncherItemButtonState();
 }
@@ -173,12 +171,7 @@ class Jappbar extends StatefulWidget {
   final Widget? jcenter;
   final Widget? jright;
 
-  Jappbar(
-      {Key? key,
-      @optionalTypeArgs this.jleft,
-      @optionalTypeArgs this.jcenter,
-      @optionalTypeArgs this.jright})
-      : super(key: key);
+  Jappbar({Key? key, @optionalTypeArgs this.jleft, @optionalTypeArgs this.jcenter, @optionalTypeArgs this.jright}) : super(key: key);
 
   _JappbarState createState() => _JappbarState();
 }
@@ -197,13 +190,21 @@ class _JappbarState extends State<Jappbar> {
             width: 310,
             top: 5,
             bottom: 5,
-            child: widget.jleft ?? new Container(color: Colors.transparent, width: 1,),
+            child: widget.jleft ??
+                new Container(
+                  color: Colors.transparent,
+                  width: 1,
+                ),
           ),
           Center(
             child: Container(
               width: 300,
               height: 45,
-              child: widget.jcenter ?? new Container(color: Colors.transparent, width: 1,),
+              child: widget.jcenter ??
+                  new Container(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
             ),
           ),
           Positioned(
@@ -211,7 +212,11 @@ class _JappbarState extends State<Jappbar> {
             width: 500,
             top: 5,
             bottom: 5,
-            child: widget.jright ?? new Container(color: Colors.transparent, width: 1,),
+            child: widget.jright ??
+                new Container(
+                  color: Colors.transparent,
+                  width: 1,
+                ),
           ),
         ],
       ),
@@ -233,9 +238,9 @@ class _JappbarState extends State<Jappbar> {
 
 class JAppMainSearchBox extends StatefulWidget {
   final String? jbgtext;
+  final double width;
 
-  JAppMainSearchBox({Key? key, @optionalTypeArgs this.jbgtext})
-      : super(key: key);
+  JAppMainSearchBox({Key? key, @optionalTypeArgs this.jbgtext, required this.width}) : super(key: key);
 
   _JAppMainSearchBoxState createState() => _JAppMainSearchBoxState();
 }
@@ -251,7 +256,7 @@ class _JAppMainSearchBoxState extends State<JAppMainSearchBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 310,
+      width: widget.width,
       height: 40,
       child: TextField(
         controller: _controller,
@@ -289,9 +294,7 @@ class _JAppMainSearchBoxState extends State<JAppMainSearchBox> {
                 color: Colors.white24,
               ),
               borderRadius: BorderRadius.circular(30)),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white54, width: 1),
-              borderRadius: BorderRadius.circular(30)),
+          border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white54, width: 1), borderRadius: BorderRadius.circular(30)),
         ),
       ),
       /*decoration: BoxDecoration(
@@ -308,8 +311,7 @@ class JSettingsTile extends StatefulWidget {
   final Widget jitems;
   final double? jheight;
 
-  JSettingsTile({Key? key, required this.jitems, @optionalTypeArgs this.jheight})
-      : super(key: key);
+  JSettingsTile({Key? key, required this.jitems, @optionalTypeArgs this.jheight}) : super(key: key);
 
   _JSettingsTileState createState() => _JSettingsTileState();
 }
@@ -323,10 +325,13 @@ class _JSettingsTileState extends State<JSettingsTile> {
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(top: 1),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10),),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
         //border: Border.all(
-          //color: Colors.black.withOpacity(0.35),
-          //width: 1,
+        //color: Colors.black.withOpacity(0.35),
+        //width: 1,
         //),
         color: Colors.black.withOpacity(0.3),
       ),
@@ -341,8 +346,7 @@ class JSettingsTileTitle extends StatefulWidget {
   final String jtitle;
   final Widget jenditem;
 
-  JSettingsTileTitle({Key? key, required this.jtitle, required this.jenditem})
-      : super(key: key);
+  JSettingsTileTitle({Key? key, required this.jtitle, required this.jenditem}) : super(key: key);
 
   _JSettingsTileTitleState createState() => _JSettingsTileTitleState();
 }
@@ -355,10 +359,13 @@ class _JSettingsTileTitleState extends State<JSettingsTileTitle> {
       height: 50, // height: widget.jheight,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10),),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
         //border: Border.all(
-          //color: Colors.black.withOpacity(0.35),
-          //width: 1,
+        //color: Colors.black.withOpacity(0.35),
+        //width: 1,
         //),
         color: Colors.black.withOpacity(0.3),
       ),
