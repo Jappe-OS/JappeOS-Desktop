@@ -24,11 +24,14 @@ import 'package:jappeos_desktop/system/desktopCfg.dart';
 class ResizableWindow extends StatefulWidget {
   late double currentHeight, defaultHeight = 400.0;
   late double currentWidth, defaultWidth = 400.0;
+  late double? oldHeight;
+  late double? oldWidth;
   double? x;
   double? y;
   String? title;
   Widget? body;
   Widget? cwd;
+  bool? isMaximized;
   bool isBlurry;
 
   Function(double, double)? onWindowDragged;
@@ -37,6 +40,9 @@ class ResizableWindow extends StatefulWidget {
   ResizableWindow(this.title, this.body, this.cwd, this.isBlurry) : super(key: UniqueKey()) {
     currentHeight = defaultHeight;
     currentWidth = defaultWidth;
+    oldHeight = defaultHeight;
+    oldWidth = defaultWidth;
+    isMaximized = false;
   }
 
   @override
@@ -206,7 +212,12 @@ class ResizableWindowState extends State<ResizableWindow> {
   _getHeader() {
     return GestureDetector(
       onPanUpdate: (tapInfo) {
-        widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
+        bool maximized = widget.isMaximized ?? false;
+        if (maximized) {
+          _onRestore();
+        } else {
+          widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
+        }
       },
       child: blurContainer(
         Container(
@@ -224,7 +235,15 @@ class ResizableWindowState extends State<ResizableWindow> {
                     Container(
                       width: 5,
                     ),
-                    headerButton(Icons.crop_square_rounded, () {}),
+                    headerButton(Icons.crop_square_rounded, () {
+                      bool maximized = widget.isMaximized ?? false;
+
+                      if (maximized) {
+                        _onRestore();
+                      } else {
+                        _onMaximize();
+                      }
+                    }),
                     Container(
                       width: 5,
                     ),
@@ -265,8 +284,34 @@ class ResizableWindowState extends State<ResizableWindow> {
     );
   }
 
-  void _onHorizontalDragLeft(DragUpdateDetails details) {
+  void _onMaximize() {
     setState(() {
+      widget.oldWidth = widget.currentWidth;
+      widget.oldHeight = widget.currentHeight;
+      widget.currentWidth = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.width;
+      widget.currentHeight = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.height - 30;
+      widget.x = 0;
+      widget.y = 0;
+      widget.onWindowDragged!(0, 30);
+      widget.isMaximized = true;
+    });
+  }
+
+  void _onRestore() {
+    setState(() {
+      widget.currentWidth = widget.oldWidth ?? widget.defaultWidth;
+      widget.currentHeight = widget.oldHeight ?? widget.defaultHeight;
+      widget.x = 100;
+      widget.y = 100;
+      widget.onWindowDragged!(0, 0);
+      widget.isMaximized = false;
+    });
+  }
+
+  void _onHorizontalDragLeft(DragUpdateDetails details) {
+    bool maximized = widget.isMaximized ?? false;
+    setState(() {
+      if (maximized) _onRestore();
       if (widget.currentWidth != null) widget.currentWidth -= details.delta.dx;
       if (widget.currentWidth < widget.defaultWidth) {
         widget.currentWidth = widget.defaultWidth;
@@ -277,7 +322,9 @@ class ResizableWindowState extends State<ResizableWindow> {
   }
 
   void _onHorizontalDragRight(DragUpdateDetails details) {
+    bool maximized = widget.isMaximized ?? false;
     setState(() {
+      if (maximized) _onRestore();
       widget.currentWidth += details.delta.dx;
       if (widget.currentWidth < widget.defaultWidth) {
         widget.currentWidth = widget.defaultWidth;
@@ -286,7 +333,9 @@ class ResizableWindowState extends State<ResizableWindow> {
   }
 
   void _onHorizontalDragBottom(DragUpdateDetails details) {
+    bool maximized = widget.isMaximized ?? false;
     setState(() {
+      if (maximized) _onRestore();
       widget.currentHeight += details.delta.dy;
       if (widget.currentHeight < widget.defaultHeight) {
         widget.currentHeight = widget.defaultHeight;
@@ -295,7 +344,9 @@ class ResizableWindowState extends State<ResizableWindow> {
   }
 
   void _onHorizontalDragTop(DragUpdateDetails details) {
+    bool maximized = widget.isMaximized ?? false;
     setState(() {
+      if (maximized) _onRestore();
       widget.currentHeight -= details.delta.dy;
       if (widget.currentHeight < widget.defaultHeight) {
         widget.currentHeight = widget.defaultHeight;
