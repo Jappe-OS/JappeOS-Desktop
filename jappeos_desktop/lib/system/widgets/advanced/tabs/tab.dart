@@ -1,53 +1,41 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
 //  Copyright (C) 2022  Jappe02
-//  
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
 //  published by the Free Software Foundation, either version 3 of the
 //  License, or (at your option) any later version.
-//  
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Affero General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
 
-import 'package:jappeos_desktop/desktop/desktop.dart';
-import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
+/// A tab widget that can be used in the tabSystem.
+///
+/// Made by Jappe. (2022)
+class UI_Tabs_Tab extends StatefulWidget {
+  final String text;
 
-class TestApp extends Application implements IApplication {
-  TestApp() : super("TestApp", "testapp", null);
+  UI_Tabs_Tab({Key? key, required this.text}) : super(key: key);
 
-  void app$launch() {
-    Widget body() {
-      return Container();
-    }
+  _Tab createState() => _Tab();
+}
 
-    ;
-
-    Widget cwd() {
-      return Container();
-    }
-
-    ;
-
-    //DesktopState dm;
-    DesktopState.getWmController()?.wm$spawn_gui_window("TestApp", body(), cwd(), true);
-  }
-
-  Widget? body() {
-    // TODO: implement body
-    throw UnimplementedError();
-  }
-
-  Widget? cwd() {
-    // TODO: implement cwd
-    throw UnimplementedError();
+class _Tab extends State<UI_Tabs_Tab> {
+  @override
+  Widget build(BuildContext context) {
+    return new Tab(
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(widget.text.toUpperCase()),
+      ),
+    );
   }
 }

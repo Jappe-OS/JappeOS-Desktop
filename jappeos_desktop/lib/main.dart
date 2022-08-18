@@ -19,7 +19,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
 import 'package:jappeos_desktop/system/logger/logType.dart';
 import 'package:jappeos_desktop/system/logger/logger.dart';
-import 'desktop.dart';
+import 'desktop/desktop.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {

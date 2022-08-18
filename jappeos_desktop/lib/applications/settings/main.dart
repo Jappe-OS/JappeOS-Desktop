@@ -19,7 +19,7 @@ import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
 import 'package:jappeos_desktop/system/widgets/generalWidgets.dart';
-import 'package:jappeos_desktop/desktop.dart';
+import 'package:jappeos_desktop/desktop/desktop.dart';
 
 class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);

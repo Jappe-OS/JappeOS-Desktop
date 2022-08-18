@@ -19,12 +19,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:jappeos_desktop/applications/settings/main.dart';
+import 'package:jappeos_desktop/applications/terminal/main.dart';
 import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
+import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuController.dart';
+import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuManager.dart';
 import 'package:jappeos_desktop/system/appSystem/applications.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
 
-import 'windowManager/wmcontroller.dart';
-import 'windowManager/wmmanager.dart';
+import '../windowManager/wmcontroller.dart';
+import '../windowManager/wmmanager.dart';
 
 /// The stateful widget for the base desktop UI.
 ///
@@ -48,10 +51,15 @@ class DesktopState extends State<Desktop> {
     return _wmController;
   }
 
+  // Create a new instance of [DesktopMenu$Controller].
+  static DesktopMenu$Controller? _desktopMenuController;
+
   // The padding on the left and right side of the TopBar element.
   final double _TOP_BAR_sidePadding = 5;
+
   // The icon size for Icons on the TopBar buttons.
   final double _TOP_BAR_buttonIconSize = 17;
+
   // The icon/text color for TopBar buttons.
   //final Color _TOP_BAR_buttonOverlayColor = Colors.white;
 
@@ -63,6 +71,10 @@ class DesktopState extends State<Desktop> {
     super.initState();
 
     _wmController = WmController(() {
+      setState(() {});
+    });
+
+    _desktopMenuController = DesktopMenu$Controller(() {
       setState(() {});
     });
   }
@@ -87,18 +99,38 @@ class DesktopState extends State<Desktop> {
         ),
         child: Stack(
           children: [
-            // The background layer of the desktop UI.
+            // The window layer of the desktop UI.
             Positioned(
               left: 0,
               right: 0,
               top: 0,
               bottom: 0,
               child: Container(
-                  child: Stack(children: [
-                WmManager(
-                  wmController: _wmController,
+                child: Stack(
+                  children: [
+                    WmManager(
+                      wmController: _wmController,
+                    ),
+                  ],
                 ),
-              ])),
+              ),
+            ),
+
+            // The desktop-menu layer of the desktop.
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Container(
+                child: Stack(
+                  children: [
+                    DesktopMenu$Manager(
+                      dmController: _desktopMenuController,
+                    ),
+                  ],
+                ),
+              ),
             ),
 
             // The dock shown in the bottom of the dekstop UI.
@@ -128,7 +160,9 @@ class DesktopState extends State<Desktop> {
                           _dockItem(null, null, false, () {
                             Applications.sys$runProcess(new WidgetTesting());
                           }),
-                          _dockItem(null, null, false, () {}),
+                          _dockItem(null, null, false, () {
+                            Applications.sys$runProcess(new Terminal());
+                          }),
                           _dockItem(null, null, false, () {}),
                         ],
                       ),
@@ -159,16 +193,19 @@ class DesktopState extends State<Desktop> {
                             // The items on the TopBar on the left side.
                             children: [
                               _topBarItem(
-                                  null,
-                                  () {},
-                                  true,
-                                  new Container(
-                                    child: Icon(
-                                      Icons.apps,
-                                      size: _TOP_BAR_buttonIconSize,
-                                      color: _topBarItemContentColor,
-                                    ),
-                                  )),
+                                null,
+                                () {
+                                  _desktopMenuController?.openDesktopOverlayMenu(DesktopMenu$Menus.Launcher);
+                                },
+                                true,
+                                new Container(
+                                  child: Icon(
+                                    Icons.apps,
+                                    size: _TOP_BAR_buttonIconSize,
+                                    color: _topBarItemContentColor,
+                                  ),
+                                ),
+                              ),
                               SizedBox(width: 5),
                               _topBarItem(
                                   null,
@@ -393,5 +430,43 @@ class DesktopState extends State<Desktop> {
 
 /// Contains the overlay menus for the desktop UI, for example, the launcher.
 ///
+/// Menus:
+/// - 0 = Launcher
+/// - 1 = TaskView
+/// - 2 = QuickSettings
+///
 /// Made by Jappe. (2022)
-class _DesktopOverlayMenus {}
+class DesktopOverlayMenus extends StatelessWidget {
+  DesktopMenu$Menus menu = DesktopMenu$Menus.Launcher;
+
+  DesktopOverlayMenus(DesktopMenu$Menus menu) {
+    this.menu = menu;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    switch (this.menu) {
+      case DesktopMenu$Menus.Launcher:
+        return _launcher();
+      case DesktopMenu$Menus.TaskView:
+        return _taskView();
+      case DesktopMenu$Menus.QuickSettings:
+        return _quickSettings();
+    }
+  }
+
+  // The UI for the launcher.
+  Widget _launcher() {
+    return new Container();
+  }
+
+  // The UI for the taskView.
+  Widget _taskView() {
+    return new Container();
+  }
+
+  // The UI for the quickSettings.
+  Widget _quickSettings() {
+    return new Container();
+  }
+}

@@ -40,6 +40,8 @@ class _PrimaryTextButton extends State<UI_NormalButtons_PrimaryTextButton> {
       ),
       style: OutlinedButton.styleFrom(
         primary: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context),
+        backgroundColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context) ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY,
+        side: BorderSide(width: 0.7, color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context) ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT),
         enabledMouseCursor: SystemMouseCursors.alias,
         disabledMouseCursor: SystemMouseCursors.alias,
       ),
@@ -75,6 +77,7 @@ class _SecondaryTextButton extends State<UI_NormalButtons_SecondaryTextButton> {
       ),
       style: OutlinedButton.styleFrom(
         primary: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context),
+        side: BorderSide(width: 0.7, color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context) ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT),
         enabledMouseCursor: SystemMouseCursors.alias,
         disabledMouseCursor: SystemMouseCursors.alias,
       ),

@@ -25,7 +25,7 @@ import 'wmresizablewindow.dart';
 class WmController {
   WmController(this._onUpdate);
 
-  // Resizable window
+  // Resizable window.
   List<ResizableWindow> _resizablewindows = List.empty(growable: true);
   List<ResizableWindow> get resizablewindows => _resizablewindows;
 
@@ -33,19 +33,6 @@ class WmController {
 
   // Jappeos window spawner
   /// Spawns a new JappeOS window and displays it on the screen.
-  /// 
-  /// Parameters:
-  /// ```dart
-  /// - String title // This is the title of the window, it's displayed on the header.
-  /// ```
-  /// 
-  /// ```dart
-  /// - Widget body // This is the content of the window.
-  /// ```
-  /// 
-  /// ```dart
-  /// - Widget cwd // Custom window decorations, displayed on the header.
-  /// ```
   /// 
   /// Made by Jappe. (2022)
   void wm$spawn_gui_window(String title, Widget body, Widget? cwd, bool isBlurry) {
@@ -63,12 +50,12 @@ class WmController {
   void _createNewWindowedApp(String title, Widget body, Widget? cwd, bool isBlurry) {
     ResizableWindow resizableWindow = ResizableWindow(title, body, cwd, isBlurry);
 
-    // Set initial position
+    // Set initial position.
     var rng = new Random();
     resizableWindow.x = rng.nextDouble() * 500;
     resizableWindow.y = rng.nextDouble() * 500;
 
-    // Init onWindowDragged
+    // Init onWindowDragged.
     resizableWindow.onWindowDragged = (dx, dy) {
       var x1 = resizableWindow.x;
       var y1 = resizableWindow.y;
@@ -83,23 +70,23 @@ class WmController {
       resizableWindow.x = x1;
       resizableWindow.y = y1;
 
-      // Put on top of stack
+      // Put on top of stack.
       _resizablewindows.remove(resizableWindow);
       _resizablewindows.add(resizableWindow);
 
       _onUpdate();
     };
 
-    // Init onCloseButtonClicked
+    // Init onCloseButtonClicked.
     resizableWindow.onCloseButtonClicked = () {
       _resizablewindows.remove(resizableWindow);
       _onUpdate();
     };
 
-    // Add Window to List
+    // Add Window to List.
     _resizablewindows.add(resizableWindow);
 
-    // Update Widgets after adding the new App
+    // Update Widgets after adding the new window.
     _onUpdate();
   }
 }

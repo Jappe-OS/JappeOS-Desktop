@@ -101,32 +101,32 @@ class DesktopCfg {
   /// The background color for the dark theme of the desktop. (no blur) [background color]
   ///
   /// Made by Jappe. (2022)
-  final Color dsktp_BG_COLOR_DARK = Color.fromARGB(255, 27, 27, 27);
+  final Color dsktp_BG_COLOR_DARK = Color.fromARGB(255, 30, 30, 30);
 
   /// The background color for the light theme of the desktop. (no blur) [background color]
   ///
   /// Made by Jappe. (2022)
-  final Color dsktp_BG_COLOR_LIGHT = Color.fromARGB(255, 228, 228, 228);
+  final Color dsktp_BG_COLOR_LIGHT = Color.fromARGB(255, 255, 255, 255);
 
   /// The secondary background color for the dark theme of the desktop. (no blur) [secondary background color]
   ///
   /// Made by Jappe. (2022)
-  final Color dsktp_BG_COLOR_DARK_SECONDARY = Color.fromARGB(255, 34, 34, 34);
+  final Color dsktp_BG_COLOR_DARK_SECONDARY = Color.fromARGB(255, 37, 37, 38);
 
   /// The secondary background color for the light theme of the desktop. (no blur) [secondary background color]
   ///
   /// Made by Jappe. (2022)
-  final Color dsktp_BG_COLOR_LIGHT_SECONDARY = Color.fromARGB(255, 221, 221, 221);
+  final Color dsktp_BG_COLOR_LIGHT_SECONDARY = Color.fromARGB(255, 243, 243, 243);
 
   /// The background blur color for the dark theme of the desktop. [border color]
   ///
   /// Made by Jappe. (2022)
-  final Color dsktp_BORDER_COLOR_DARK = Color.fromARGB(255, 27, 27, 27).withOpacity(0.4);
+  final Color dsktp_BORDER_COLOR_DARK = Color.fromARGB(80, 243, 243, 243);
 
   /// The background blur color for the light theme of the desktop. [border color]
   ///
   /// Made by Jappe. (2022)
-  final Color dsktp_BORDER_COLOR_LIGHT = Color.fromARGB(255, 228, 228, 228).withOpacity(0.4);
+  final Color dsktp_BORDER_COLOR_LIGHT = Color.fromARGB(80, 37, 37, 38);
 
   /// The normal text color for the light theme of the desktop. [text color]
   ///
@@ -138,12 +138,22 @@ class DesktopCfg {
   /// Made by Jappe. (2022)
   final dsktp_TEXT_COLOR_DARK = Color(0xFFFFFFFF);
 
-  /// The normal icon color for the light theme of the desktop. [text color]
+  /// The secondary text color for the light theme of the desktop. [text color]
+  ///
+  /// Made by Jappe. (2022)
+  final dsktp_TEXT_COLOR_LIGHT_SECONDARY = Color(0xFF000000).withOpacity(0.5);
+
+  /// The secondary text color for the dark theme of the desktop. [text color]
+  ///
+  /// Made by Jappe. (2022)
+  final dsktp_TEXT_COLOR_DARK_SECONDARY = Color(0xFFFFFFFF).withOpacity(0.5);
+
+  /// The normal icon color for the light theme of the desktop. [icon color]
   ///
   /// Made by Jappe. (2022)
   final dsktp_ICON_COLOR_LIGHT = Colors.black.withOpacity(0.7);
 
-  /// The normal text color for the dark theme of the desktop. [text color]
+  /// The normal icon color for the dark theme of the desktop. [icon color]
   ///
   /// Made by Jappe. (2022)
   final dsktp_ICON_COLOR_DARK = Colors.white.withOpacity(0.7);
@@ -166,10 +176,10 @@ class DesktopCfg {
     return accentColorProvider.getJappeOsColor;
   }
 
-  /// Get the CURRENT accent color as a `Color?` [accent color]
+  /// Get the CURRENT accent color as a `Color` [accent color]
   ///
   /// Made by Jappe. (2022)
-  Color? getCurrentJappeOsAccentColorAsColor(BuildContext context) {
+  Color getCurrentJappeOsAccentColorAsColor(BuildContext context) {
     late final accentColorProvider = Provider.of<ThemeProvider>(context);
 
     switch (accentColorProvider.getJappeOsColor) {

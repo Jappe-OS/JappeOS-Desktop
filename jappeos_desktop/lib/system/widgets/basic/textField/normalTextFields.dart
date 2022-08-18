@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/system/desktopCfg.dart';
 
 /// A normal text-field.
 ///
@@ -40,6 +41,8 @@ class _TextField extends State<UI_NormalTextFields_TextField> {
         border: OutlineInputBorder(),
         contentPadding: EdgeInsets.all(7.5),
         isDense: true,
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 0.7, color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context) ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT)),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.7, color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context))),
       ),
     );
   }

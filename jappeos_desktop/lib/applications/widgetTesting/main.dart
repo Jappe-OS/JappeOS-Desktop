@@ -16,7 +16,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:jappeos_desktop/desktop.dart';
+import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';

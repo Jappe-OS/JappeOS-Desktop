@@ -16,38 +16,30 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuController.dart';
 
-import 'package:jappeos_desktop/desktop/desktop.dart';
-import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
+class DesktopMenu$Manager extends StatefulWidget {
 
-class TestApp extends Application implements IApplication {
-  TestApp() : super("TestApp", "testapp", null);
+  final DesktopMenu$Controller? dmController;
 
-  void app$launch() {
-    Widget body() {
-      return Container();
-    }
+  const DesktopMenu$Manager({Key? key, this.dmController}) : super(key: key);
 
-    ;
+  @override
+  _MenuManagerState createState() => _MenuManagerState();
+}
 
-    Widget cwd() {
-      return Container();
-    }
-
-    ;
-
-    //DesktopState dm;
-    DesktopState.getWmController()?.wm$spawn_gui_window("TestApp", body(), cwd(), true);
-  }
-
-  Widget? body() {
-    // TODO: implement body
-    throw UnimplementedError();
-  }
-
-  Widget? cwd() {
-    // TODO: implement cwd
-    throw UnimplementedError();
+class _MenuManagerState extends State<DesktopMenu$Manager> {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: widget.dmController!.menuWindows.map((e){
+        return Positioned(
+          left: e.x,
+          top: e.y,
+          child: e,
+          key: e.key,
+        );
+      }).toList()
+    );
   }
 }

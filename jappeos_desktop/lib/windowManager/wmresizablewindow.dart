@@ -64,27 +64,32 @@ class ResizableWindowState extends State<ResizableWindow> {
   // The size of the font
   double _fontSize = 16;
 
+  // BoxShadow list
+  List<BoxShadow> _bsList = [
+    BoxShadow(
+      color: Color.fromARGB(70, 0, 0, 0),
+      spreadRadius: 5,
+      blurRadius: 10,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    bool maximized = widget.isMaximized ?? false;
+
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        borderRadius: BorderRadius.all(Radius.circular(maximized ? 0.0 : _borderRadius)),
         border: Border.all(
             color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
                 ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK
                 : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT,
             width: 1,
             style: BorderStyle.solid),
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromARGB(70, 0, 0, 0),
-            spreadRadius: 5,
-            blurRadius: 10,
-          ),
-        ],
+        boxShadow: _bsList,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        borderRadius: BorderRadius.all(Radius.circular(maximized ? 0.0 : _borderRadius)),
         child: Stack(
           children: [
             Column(
@@ -210,16 +215,20 @@ class ResizableWindowState extends State<ResizableWindow> {
 
   // The header/dragging area of the window.
   _getHeader() {
+    bool maximized = widget.isMaximized ?? false;
+
     return GestureDetector(
       onPanUpdate: (tapInfo) {
-        bool maximized = widget.isMaximized ?? false;
         if (maximized) {
           _onRestore();
         } else {
           widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
         }
       },
-      child: blurContainer(
+      onTap: () {
+        widget.onWindowDragged!(0, 0);
+      },
+      child: headerBlurContainer(
         Container(
           width: widget.currentWidth,
           height: _headerSize,
@@ -235,9 +244,7 @@ class ResizableWindowState extends State<ResizableWindow> {
                     Container(
                       width: 5,
                     ),
-                    headerButton(Icons.crop_square_rounded, () {
-                      bool maximized = widget.isMaximized ?? false;
-
+                    headerButton(maximized ? Icons.close_fullscreen_rounded : Icons.crop_square_rounded, () {
                       if (maximized) {
                         _onRestore();
                       } else {
@@ -274,12 +281,17 @@ class ResizableWindowState extends State<ResizableWindow> {
 
   // The body of the window.
   _getBody() {
-    return Container(
-      width: widget.currentWidth,
-      height: widget.currentHeight - _headerSize,
-      color: Colors.transparent,
-      child: blurContainer(
-        widget.body!,
+    return GestureDetector(
+      onTap: () {
+        widget.onWindowDragged!(0, 0);
+      },
+      child: Container(
+        width: widget.currentWidth,
+        height: widget.currentHeight - _headerSize,
+        color: Colors.transparent,
+        child: blurContainer(
+          widget.body!,
+        ),
       ),
     );
   }
@@ -290,9 +302,10 @@ class ResizableWindowState extends State<ResizableWindow> {
       widget.oldHeight = widget.currentHeight;
       widget.currentWidth = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.width;
       widget.currentHeight = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.height - 30;
-      widget.x = 0;
-      widget.y = 0;
+      widget.x = -1;
+      widget.y = -1;
       widget.onWindowDragged!(0, 30);
+      _bsList.clear();
       widget.isMaximized = true;
     });
   }
@@ -304,6 +317,11 @@ class ResizableWindowState extends State<ResizableWindow> {
       widget.x = 100;
       widget.y = 100;
       widget.onWindowDragged!(0, 0);
+      _bsList.add(new BoxShadow(
+          color: Color.fromARGB(70, 0, 0, 0),
+          spreadRadius: 5,
+          blurRadius: 10,
+      ),);
       widget.isMaximized = false;
     });
   }
@@ -408,6 +426,43 @@ class ResizableWindowState extends State<ResizableWindow> {
           color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
               ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK
               : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT,
+          child: child,
+        ),
+      );
+    }
+  }
+
+  /// A blurry container widget that can be used to render background blur on the window.
+  ///
+  /// Parameters:
+  /// ```dart
+  /// - Widget child // The widget inside this widget.
+  /// ```
+  ///
+  /// Made by Jappe. (2022)
+  Widget headerBlurContainer(Widget child) {
+    if (widget.isBlurry) {
+      return ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
+          child: Container(
+            width: widget.currentWidth,
+            height: _headerSize,
+            color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+                ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK
+                : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT,
+            child: child,
+          ),
+        ),
+      );
+    } else {
+      return ClipRRect(
+        child: Container(
+          width: widget.currentWidth,
+          height: _headerSize,
+          color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+              ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY
+              : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY,
           child: child,
         ),
       );
