@@ -25,6 +25,7 @@ import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuController.dart'
 import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuManager.dart';
 import 'package:jappeos_desktop/system/appSystem/applications.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/widgets/basic/textField/normalTextFields.dart';
 
 import '../windowManager/wmcontroller.dart';
 import '../windowManager/wmmanager.dart';
@@ -192,6 +193,7 @@ class DesktopState extends State<Desktop> {
 
                             // The items on the TopBar on the left side.
                             children: [
+                              // Launcher button.
                               _topBarItem(
                                 null,
                                 () {
@@ -207,6 +209,7 @@ class DesktopState extends State<Desktop> {
                                 ),
                               ),
                               SizedBox(width: 5),
+                              // TaskView button.
                               _topBarItem(
                                   null,
                                   () {},
@@ -230,6 +233,7 @@ class DesktopState extends State<Desktop> {
 
                             // The items on the TopBar on the right side.
                             children: [
+                              // System tray buttons.
                               _topBarItem(
                                   null,
                                   () {},
@@ -252,6 +256,7 @@ class DesktopState extends State<Desktop> {
                                     ),
                                   )),
                               SizedBox(width: 5),
+                              // QuickSettings button.
                               _topBarItem(
                                   null,
                                   () {},
@@ -280,26 +285,28 @@ class DesktopState extends State<Desktop> {
                                     ),
                                   )),
                               SizedBox(width: 5),
+                              // Notifications and Time&Date button.
                               _topBarItem(
-                                  null,
-                                  () {},
-                                  true,
-                                  new Container(
-                                    child: Row(
-                                      children: [
-                                        Text('19:00',
-                                            style: TextStyle(
-                                              color: _topBarItemContentColor,
-                                            )),
-                                        SizedBox(width: 3),
-                                        Icon(
-                                          Icons.notifications,
-                                          size: _TOP_BAR_buttonIconSize,
-                                          color: _topBarItemContentColor,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                                null,
+                                () {},
+                                true,
+                                new Container(
+                                  child: Row(
+                                    children: [
+                                      Text('19:00',
+                                          style: TextStyle(
+                                            color: _topBarItemContentColor,
+                                          )),
+                                      SizedBox(width: 3),
+                                      Icon(
+                                        Icons.notifications,
+                                        size: _TOP_BAR_buttonIconSize,
+                                        color: _topBarItemContentColor,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -443,8 +450,12 @@ class DesktopOverlayMenus extends StatelessWidget {
     this.menu = menu;
   }
 
+  late BuildContext uContext;
+
   @override
   Widget build(BuildContext context) {
+    uContext = context;
+
     switch (this.menu) {
       case DesktopMenu$Menus.Launcher:
         return _launcher();
@@ -457,7 +468,63 @@ class DesktopOverlayMenus extends StatelessWidget {
 
   // The UI for the launcher.
   Widget _launcher() {
-    return new Container();
+    double width = 1200;
+
+    return new Column(
+      children: [
+        // Search bar.
+        Container(
+          width: width,
+          height: 50,
+          margin: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.only(left: 100, right: 100, top: 6),
+          color: Colors.red,
+          child: UI_NormalTextFields_TextField(
+            hintText: "Search apps...",
+            autoFocus: true,
+          ),
+        ),
+
+        // App view.
+        Container(
+          width: width,
+          height: MediaQuery.of(uContext).size.height - 350,
+          margin: EdgeInsets.only(top: 25, bottom: 25),
+          color: Colors.green,
+        ),
+
+        // Buttons.
+        Container(
+          width: width,
+          height: 50,
+          color: Colors.blue,
+          child: Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Row(children: [
+                OutlinedButton(
+                  child: Icon(
+                    Icons.power,
+                    color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    primary: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
+                    backgroundColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(uContext) ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY.withOpacity(0.5) : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY.withOpacity(0.5),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 0.0, style: BorderStyle.none),
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    enabledMouseCursor: SystemMouseCursors.alias,
+                    disabledMouseCursor: SystemMouseCursors.alias,
+                  ),
+                  onPressed: () {},
+                ),
+              ],),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   // The UI for the taskView.

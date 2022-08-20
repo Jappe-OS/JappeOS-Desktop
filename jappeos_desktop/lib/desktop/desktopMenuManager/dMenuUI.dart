@@ -19,7 +19,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuController.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
 
 class DesktopMenu$UI extends StatefulWidget {
@@ -27,10 +26,11 @@ class DesktopMenu$UI extends StatefulWidget {
   double h;
   double x;
   double y;
-  DesktopMenu$Menus menu;
+  bool fill;
+  AlignmentGeometry align;
   Widget? body;
 
-  DesktopMenu$UI(this.menu, this.body, this.x, this.y, this.w, this.h) : super(key: UniqueKey()) {}
+  DesktopMenu$UI(this.body, this.x, this.y, this.w, this.h, this.fill, this.align) : super(key: UniqueKey()) {}
 
   @override
   MenuState createState() => MenuState();
@@ -42,30 +42,15 @@ class MenuState extends State<DesktopMenu$UI> {
   // The border radius of the window
   var _borderRadius = 10.0;
 
-  // BoxShadow list
-  List<BoxShadow> _bsList = [
-    BoxShadow(
-      color: Color.fromARGB(70, 0, 0, 0),
-      spreadRadius: 5,
-      blurRadius: 10,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: widget.align,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-        border: Border.all(
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK
-                : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT,
-            width: 1,
-            style: BorderStyle.solid),
-        boxShadow: _bsList,
+        borderRadius: widget.fill ? BorderRadius.zero : BorderRadius.all(Radius.circular(_borderRadius)),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        borderRadius: widget.fill ? BorderRadius.zero : BorderRadius.all(Radius.circular(_borderRadius)),
         child: Stack(
           children: [
             Column(
@@ -80,8 +65,8 @@ class MenuState extends State<DesktopMenu$UI> {
   // The body of the window.
   _getBody() {
     return Container(
-      width: widget.w,
-      height: widget.h,
+      width: widget.fill ? MediaQuery.of(context).size.width : widget.w,
+      height: widget.fill ? MediaQuery.of(context).size.height - 30 : widget.h,
       color: Colors.transparent,
       child: blurContainer(
         widget.body!,

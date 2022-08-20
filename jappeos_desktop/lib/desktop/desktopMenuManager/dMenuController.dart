@@ -36,13 +36,13 @@ class DesktopMenu$Controller {
   void openDesktopOverlayMenu(DesktopMenu$Menus menu) {
     switch (menu) {
       case DesktopMenu$Menus.Launcher:
-        _spawnMenu(DesktopMenu$Menus.Launcher, DesktopOverlayMenus(DesktopMenu$Menus.Launcher), 10, 40, 500, 500);
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.Launcher), 0, 30, 500, 500, true, Alignment.topLeft);
         break;
       case DesktopMenu$Menus.TaskView:
-        _spawnMenu(DesktopMenu$Menus.TaskView, DesktopOverlayMenus(DesktopMenu$Menus.TaskView), 10, 40, 500, 500);
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.TaskView), 10, 40, 500, 500, false, Alignment.topLeft);
         break;
       case DesktopMenu$Menus.QuickSettings:
-        _spawnMenu(DesktopMenu$Menus.QuickSettings, DesktopOverlayMenus(DesktopMenu$Menus.QuickSettings), 10, 40, 500, 500);
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.QuickSettings), 10, 40, 500, 500, false, Alignment.topLeft);
         break;
     }
   }
@@ -50,12 +50,12 @@ class DesktopMenu$Controller {
   /// Spawns a menu window on the desktop.
   ///
   /// Made by Jappe. (2022)
-  void _spawnMenu(DesktopMenu$Menus menu, Widget body, double x, double y, double w, double h) {
-    _createNewWindowedApp(menu, body, x, y, w, h);
+  void _spawnMenu(Widget body, double x, double y, double w, double h, bool fill, AlignmentGeometry align) {
+    _createNewWindowedApp(body, x, y, w, h, fill, align);
   }
 
-  void _createNewWindowedApp(DesktopMenu$Menus menu, Widget body, double x, double y, double w, double h) {
-    DesktopMenu$UI desktopMenu = DesktopMenu$UI(menu, body, x, y, w, h);
+  void _createNewWindowedApp(Widget body, double x, double y, double w, double h, bool fill, AlignmentGeometry align) {
+    DesktopMenu$UI desktopMenu = DesktopMenu$UI(body, x, y, w, h, fill, align);
 
     // Set the position of the menu window.
     desktopMenu.x = x;
