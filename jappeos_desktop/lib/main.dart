@@ -54,7 +54,7 @@ class ThemeProvider extends ChangeNotifier {
 
   bool get isDarkMode {
     if (themeMode == ThemeMode.system) {
-      final brightness = SchedulerBinding.instance!.window.platformBrightness;
+      final brightness = SchedulerBinding.instance.window.platformBrightness;
       Logger.GET.jappeOsLogger$sendLog(
           JappeOsLoggerMsgType.ERROR, false, "'themeMode', typeof ThemeMode returned ThemeMode.system, this is not supported!");
       return brightness == Brightness.dark;

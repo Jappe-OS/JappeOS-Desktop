@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Container(
         child: Stack(
-          children: [
+          children: [/*
             Container( // Custom appBar
               height: 50,
               color: Colors.green,
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
       ),

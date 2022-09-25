@@ -300,8 +300,8 @@ class ResizableWindowState extends State<ResizableWindow> {
     setState(() {
       widget.oldWidth = widget.currentWidth;
       widget.oldHeight = widget.currentHeight;
-      widget.currentWidth = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.width;
-      widget.currentHeight = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.height - 30;
+      widget.currentWidth = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
+      widget.currentHeight = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height - 30;
       widget.x = -1;
       widget.y = -1;
       widget.onWindowDragged!(0, 30);

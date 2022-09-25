@@ -63,7 +63,7 @@ class _SettingsSidebarButtonState extends State<SettingsSidebarButton> {
             bottom: 2.5,
             top: 2.5,
           ),
-          child: FlatButton(
+          /*child: FlatButton(
             hoverColor: Colors.black.withOpacity(0.2),
             child: Row(
               children: [
@@ -87,7 +87,7 @@ class _SettingsSidebarButtonState extends State<SettingsSidebarButton> {
               borderRadius: BorderRadius.circular(10),
             ),
             onPressed: () {},
-          ),
+          ),*/
         ),
       ],
     );
@@ -115,7 +115,7 @@ class _LauncherItemButtonState extends State<LauncherItemButton> {
     return Container(
       width: 100,
       height: 110,
-      child: FlatButton(
+      /*child: FlatButton(
         child: Column(
           children: [
             Container(
@@ -159,7 +159,7 @@ class _LauncherItemButtonState extends State<LauncherItemButton> {
         ),
         hoverColor: Colors.black.withOpacity(0.2),
         onPressed: () {},
-      ),
+      ),*/
     );
   }
 }
