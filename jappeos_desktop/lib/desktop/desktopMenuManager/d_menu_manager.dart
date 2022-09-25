@@ -16,7 +16,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuController.dart';
+import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_controller.dart';
 
 class DesktopMenu$Manager extends StatefulWidget {
 
@@ -36,8 +36,8 @@ class _MenuManagerState extends State<DesktopMenu$Manager> {
         return Positioned(
           left: e.x,
           top: e.y,
-          child: e,
           key: e.key,
+          child: e,
         );
       }).toList()
     );

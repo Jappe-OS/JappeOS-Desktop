@@ -20,15 +20,13 @@ class FlutterView {
   FlutterView(FlutterView const&) = delete;
   FlutterView& operator=(FlutterView const&) = delete;
 
-#ifdef WINUWP
-  // Returns the backing CoreApplicationView for the view.
-  ABI::Windows::ApplicationModel::Core::CoreApplicationView* GetNativeWindow() {
-    return FlutterDesktopViewGetCoreApplicationView(view_);
-  }
-#else
   // Returns the backing HWND for the view.
   HWND GetNativeWindow() { return FlutterDesktopViewGetHWND(view_); }
-#endif
+
+  // Returns the DXGI adapter used for rendering or nullptr in case of error.
+  IDXGIAdapter* GetGraphicsAdapter() {
+    return FlutterDesktopViewGetGraphicsAdapter(view_);
+  }
 
  private:
   // Handle for interacting with the C API's view.

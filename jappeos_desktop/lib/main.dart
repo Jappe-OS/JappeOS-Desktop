@@ -24,13 +24,15 @@ import 'package:provider/provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(JappeOsDesktop());
+  runApp(const JappeOsDesktop());
 }
 
 /// This is the main class of the JappeOS Desktop, you may not access it.
 ///
 /// Made by Jappe. (2020 - 2022)
 class JappeOsDesktop extends StatelessWidget {
+  const JappeOsDesktop({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
     create: (context) => ThemeProvider(),

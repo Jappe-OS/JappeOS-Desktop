@@ -157,25 +157,37 @@ TextureRegistrarImpl::TextureRegistrarImpl(
 TextureRegistrarImpl::~TextureRegistrarImpl() = default;
 
 int64_t TextureRegistrarImpl::RegisterTexture(TextureVariant* texture) {
+  FlutterDesktopTextureInfo info = {};
   if (auto pixel_buffer_texture = std::get_if<PixelBufferTexture>(texture)) {
-    FlutterDesktopTextureInfo info = {};
     info.type = kFlutterDesktopPixelBufferTexture;
     info.pixel_buffer_config.user_data = pixel_buffer_texture;
     info.pixel_buffer_config.callback =
         [](size_t width, size_t height,
            void* user_data) -> const FlutterDesktopPixelBuffer* {
       auto texture = static_cast<PixelBufferTexture*>(user_data);
-      auto buffer = texture->CopyPixelBuffer(width, height);
-      return buffer;
+      return texture->CopyPixelBuffer(width, height);
     };
-
-    int64_t texture_id = FlutterDesktopTextureRegistrarRegisterExternalTexture(
-        texture_registrar_ref_, &info);
-    return texture_id;
+  } else if (auto gpu_surface_texture =
+                 std::get_if<GpuSurfaceTexture>(texture)) {
+    info.type = kFlutterDesktopGpuSurfaceTexture;
+    info.gpu_surface_config.struct_size =
+        sizeof(FlutterDesktopGpuSurfaceTextureConfig);
+    info.gpu_surface_config.type = gpu_surface_texture->surface_type();
+    info.gpu_surface_config.user_data = gpu_surface_texture;
+    info.gpu_surface_config.callback =
+        [](size_t width, size_t height,
+           void* user_data) -> const FlutterDesktopGpuSurfaceDescriptor* {
+      auto texture = static_cast<GpuSurfaceTexture*>(user_data);
+      return texture->ObtainDescriptor(width, height);
+    };
+  } else {
+    std::cerr << "Attempting to register unknown texture variant." << std::endl;
+    return -1;
   }
 
-  std::cerr << "Attempting to register unknown texture variant." << std::endl;
-  return -1;
+  int64_t texture_id = FlutterDesktopTextureRegistrarRegisterExternalTexture(
+      texture_registrar_ref_, &info);
+  return texture_id;
 }  // namespace flutter
 
 bool TextureRegistrarImpl::MarkTextureFrameAvailable(int64_t texture_id) {
@@ -183,9 +195,32 @@ bool TextureRegistrarImpl::MarkTextureFrameAvailable(int64_t texture_id) {
       texture_registrar_ref_, texture_id);
 }
 
+void TextureRegistrarImpl::UnregisterTexture(int64_t texture_id,
+                                             std::function<void()> callback) {
+  if (callback == nullptr) {
+    FlutterDesktopTextureRegistrarUnregisterExternalTexture(
+        texture_registrar_ref_, texture_id, nullptr, nullptr);
+    return;
+  }
+
+  struct Captures {
+    std::function<void()> callback;
+  };
+  auto captures = new Captures();
+  captures->callback = std::move(callback);
+  FlutterDesktopTextureRegistrarUnregisterExternalTexture(
+      texture_registrar_ref_, texture_id,
+      [](void* opaque) {
+        auto captures = reinterpret_cast<Captures*>(opaque);
+        captures->callback();
+        delete captures;
+      },
+      captures);
+}
+
 bool TextureRegistrarImpl::UnregisterTexture(int64_t texture_id) {
-  return FlutterDesktopTextureRegistrarUnregisterExternalTexture(
-      texture_registrar_ref_, texture_id);
+  UnregisterTexture(texture_id, nullptr);
+  return true;
 }
 
 }  // namespace flutter

@@ -37,10 +37,10 @@ class DesktopMenu$UI extends StatefulWidget {
 }
 
 class MenuState extends State<DesktopMenu$UI> {
-  static MenuState I = new MenuState();
+  static MenuState I = MenuState();
 
   // The border radius of the window
-  var _borderRadius = 10.0;
+  final double _borderRadius = 10.0;
 
   @override
   Widget build(BuildContext context) {

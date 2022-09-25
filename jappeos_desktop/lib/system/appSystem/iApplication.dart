@@ -18,6 +18,10 @@
 import 'package:flutter/material.dart';
 
 class IApplication {
-  Widget? body() {}
-  Widget? cwd() {}
+  Widget? body() {
+    return null;
+  }
+  Widget? cwd() {
+    return null;
+  }
 }

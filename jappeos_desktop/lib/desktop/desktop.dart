@@ -21,8 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/applications/settings/main.dart';
 import 'package:jappeos_desktop/applications/terminal/main.dart';
 import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
-import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuController.dart';
-import 'package:jappeos_desktop/desktop/desktopMenuManager/dMenuManager.dart';
+import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_controller.dart';
+import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_manager.dart';
 import 'package:jappeos_desktop/system/appSystem/applications.dart';
 import 'package:jappeos_desktop/system/desktopCfg.dart';
 import 'package:jappeos_desktop/system/widgets/basic/textField/normalTextFields.dart';
@@ -30,11 +30,15 @@ import 'package:jappeos_desktop/system/widgets/basic/textField/normalTextFields.
 import '../windowManager/wmcontroller.dart';
 import '../windowManager/wmmanager.dart';
 
+/// Fields that can be used in the desktop UI.
+class _DesktopThemeProperties {
+  /// A border radius mainly used for background UI elements.
+  static const double borderRadius = 10;
+}
+
 /// The stateful widget for the base desktop UI.
-///
-/// Made by Jappe. (2022)
 class Desktop extends StatefulWidget {
-  Desktop({Key? key}) : super(key: key);
+  const Desktop({Key? key}) : super(key: key);
 
   @override
   DesktopState createState() => DesktopState();
@@ -43,8 +47,6 @@ class Desktop extends StatefulWidget {
 /// This is the public class for the JappeOS Desktop, the `wmController` object can be accessed for using the windowing system.
 ///
 /// See [WmController] for more information on the windowing system.
-///
-/// Made by Jappe. (2022)
 class DesktopState extends State<Desktop> {
   // Create a new instance of [WmController].
   static WmController? _wmController;
@@ -56,15 +58,18 @@ class DesktopState extends State<Desktop> {
   static DesktopMenu$Controller? _desktopMenuController;
 
   // The padding on the left and right side of the TopBar element.
+  // ignore: non_constant_identifier_names
   final double _TOP_BAR_sidePadding = 5;
 
   // The icon size for Icons on the TopBar buttons.
+  // ignore: non_constant_identifier_names
   final double _TOP_BAR_buttonIconSize = 17;
 
   // The icon/text color for TopBar buttons.
   //final Color _TOP_BAR_buttonOverlayColor = Colors.white;
 
   // The default border radius for _blurContainer elements.
+  // ignore: non_constant_identifier_names
   final double _G_borderRadius = 10;
 
   @override
@@ -82,11 +87,6 @@ class DesktopState extends State<Desktop> {
 
   @override
   Widget build(BuildContext context) {
-    // TopBar item content color.
-    Color _topBarItemContentColor = DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-        ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
-        : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT;
-
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -106,14 +106,12 @@ class DesktopState extends State<Desktop> {
               right: 0,
               top: 0,
               bottom: 0,
-              child: Container(
-                child: Stack(
-                  children: [
-                    WmManager(
-                      wmController: _wmController,
-                    ),
-                  ],
-                ),
+              child: Stack(
+                children: [
+                  WmManager(
+                    wmController: _wmController,
+                  ),
+                ],
               ),
             ),
 
@@ -123,311 +121,333 @@ class DesktopState extends State<Desktop> {
               right: 0,
               top: 0,
               bottom: 0,
-              child: Container(
-                child: Stack(
-                  children: [
-                    DesktopMenu$Manager(
-                      dmController: _desktopMenuController,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // The dock shown in the bottom of the dekstop UI.
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 80,
-                margin: EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[_basicShadow()],
-                  borderRadius: BorderRadius.all(Radius.circular(_G_borderRadius)),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.3),
-                    width: 1,
+              child: Stack(
+                children: [
+                  DesktopMenu$Manager(
+                    dmController: _desktopMenuController,
                   ),
-                ),
-                child: IntrinsicWidth(
-                  child: _blurContainer(
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-
-                        // The items shown in the dock.
-                        children: [
-                          _dockItem(null, null, false, () {
-                            Applications.sys$runProcess(new Settings());
-                          }),
-                          _dockItem(null, null, false, () {
-                            Applications.sys$runProcess(new WidgetTesting());
-                          }),
-                          _dockItem(null, null, false, () {
-                            Applications.sys$runProcess(new Terminal());
-                          }),
-                          _dockItem(null, null, false, () {}),
-                        ],
-                      ),
-                      true),
-                ),
+                ],
               ),
             ),
+
+            // The dock shown in the bottom of the desktop UI.
+            _DesktopElements.dock(context),
 
             // This is the TopBar, it's shown on the top of the desktop UI.
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 30,
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[_basicShadow()],
-                ),
-                child: _blurContainer(
-                    Stack(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: _TOP_BAR_sidePadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-
-                            // The items on the TopBar on the left side.
-                            children: [
-                              // Launcher button.
-                              _topBarItem(
-                                null,
-                                () {
-                                  _desktopMenuController?.openDesktopOverlayMenu(DesktopMenu$Menus.Launcher);
-                                },
-                                true,
-                                new Container(
-                                  child: Icon(
-                                    Icons.apps,
-                                    size: _TOP_BAR_buttonIconSize,
-                                    color: _topBarItemContentColor,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              // TaskView button.
-                              _topBarItem(
-                                  null,
-                                  () {},
-                                  true,
-                                  new Container(
-                                    child: Icon(
-                                      Icons.menu_open,
-                                      size: _TOP_BAR_buttonIconSize,
-                                      color: _topBarItemContentColor,
-                                    ),
-                                  )),
-                              SizedBox(width: 5),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: _TOP_BAR_sidePadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-
-                            // The items on the TopBar on the right side.
-                            children: [
-                              // System tray buttons.
-                              _topBarItem(
-                                  null,
-                                  () {},
-                                  true,
-                                  new Container(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.mic,
-                                          size: _TOP_BAR_buttonIconSize,
-                                          color: _topBarItemContentColor,
-                                        ),
-                                        SizedBox(width: 3),
-                                        Icon(
-                                          Icons.camera,
-                                          size: _TOP_BAR_buttonIconSize,
-                                          color: _topBarItemContentColor,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              SizedBox(width: 5),
-                              // QuickSettings button.
-                              _topBarItem(
-                                  null,
-                                  () {},
-                                  true,
-                                  new Container(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.wifi,
-                                          size: _TOP_BAR_buttonIconSize,
-                                          color: _topBarItemContentColor,
-                                        ),
-                                        SizedBox(width: 3),
-                                        Icon(
-                                          Icons.volume_mute,
-                                          size: _TOP_BAR_buttonIconSize,
-                                          color: _topBarItemContentColor,
-                                        ),
-                                        SizedBox(width: 3),
-                                        Icon(
-                                          Icons.battery_full,
-                                          size: _TOP_BAR_buttonIconSize,
-                                          color: _topBarItemContentColor,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              SizedBox(width: 5),
-                              // Notifications and Time&Date button.
-                              _topBarItem(
-                                null,
-                                () {},
-                                true,
-                                new Container(
-                                  child: Row(
-                                    children: [
-                                      Text('19:00',
-                                          style: TextStyle(
-                                            color: _topBarItemContentColor,
-                                          )),
-                                      SizedBox(width: 3),
-                                      Icon(
-                                        Icons.notifications,
-                                        size: _TOP_BAR_buttonIconSize,
-                                        color: _topBarItemContentColor,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    false),
-              ),
-            ),
+            _DesktopElements.topBar(context),
           ],
         ),
       ),
     );
   }
+}
 
-  // Blur effects
-  Widget _blurContainer(Widget child, bool radius) {
-    final BackdropFilter _bf = new BackdropFilter(
+/// A class that contains all the desktop elements like the TopBar, Dock, etc.
+class _DesktopElements {
+  // [-- PUBLIC WIDGETS --]
+
+  /// This is the dock, it is shown in the bottom of the screen.
+  static Widget dock(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: 80,
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
+          borderRadius: const BorderRadius.all(Radius.circular(_DesktopThemeProperties.borderRadius)),
+          border: Border.all(
+            color: Colors.grey.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: IntrinsicWidth(
+          child: _DesktopWidgets._blurContainer(
+              context,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                // The items shown in the dock.
+                children: [
+                  _dockItem(null, null, false, () {
+                    Applications.sys$runProcess(Settings());
+                  }),
+                  _dockItem(null, null, false, () {
+                    Applications.sys$runProcess(WidgetTesting());
+                  }),
+                  _dockItem(null, null, false, () {
+                    Applications.sys$runProcess(Terminal());
+                  }),
+                  _dockItem(null, null, false, () {}),
+                ],
+              ),
+              true),
+        ),
+      ),
+    );
+  }
+
+  /// This is the topBar, it is shown in the top of the screen. It can be used to launch apps, or using the quickSettings menu.
+  static Widget topBar(BuildContext context) {
+    double sidePadding = 5;
+
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 30,
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
+        ),
+        child: _DesktopWidgets._blurContainer(
+            context,
+            Stack(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: sidePadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+
+                    // The items on the TopBar on the left side.
+                    children: [
+                      // Launcher button.
+                      _topBarItem(
+                        context,
+                        null,
+                        () {
+                          //_desktopMenuController?.openDesktopOverlayMenu(DesktopMenu$Menus.launcher);
+                        },
+                        true,
+                        _topBarItemIcon(
+                          context,
+                          Icons.apps,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      // TaskView button.
+                      _topBarItem(
+                        context,
+                        null,
+                        () {},
+                        true,
+                        _topBarItemIcon(
+                          context,
+                          Icons.menu_open,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                    ],
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: sidePadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+
+                    // The items on the TopBar on the right side.
+                    children: [
+                      // System tray buttons.
+                      _topBarItem(
+                          context,
+                          null,
+                          () {},
+                          true,
+                          Row(
+                            children: [
+                              _topBarItemIcon(
+                                context,
+                                Icons.mic,
+                              ),
+                              const SizedBox(width: 3),
+                              _topBarItemIcon(
+                                context,
+                                Icons.camera,
+                              ),
+                            ],
+                          )),
+                      const SizedBox(width: 5),
+                      // QuickSettings button.
+                      _topBarItem(
+                          context,
+                          null,
+                          () {},
+                          true,
+                          Row(
+                            children: [
+                              _topBarItemIcon(
+                                context,
+                                Icons.wifi,
+                              ),
+                              const SizedBox(width: 3),
+                              _topBarItemIcon(
+                                context,
+                                Icons.volume_mute,
+                              ),
+                              const SizedBox(width: 3),
+                              _topBarItemIcon(
+                                context,
+                                Icons.battery_full,
+                              ),
+                            ],
+                          )),
+                      const SizedBox(width: 5),
+                      // Notifications and Time&Date button.
+                      _topBarItem(
+                        context,
+                        null,
+                        () {},
+                        true,
+                        Row(
+                          children: [
+                            const Text('19:00',
+                              //style: TextStyle(
+                              //  color: topBarItemContentColor,
+                              //),
+                            ),
+                            const SizedBox(width: 3),
+                            _topBarItemIcon(
+                              context,
+                              Icons.notifications,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            false),
+      ),
+    );
+  }
+
+  // [-- PRIVATE WIDGETS --]
+
+  /// The item element(s) that will be shown in the dock. Uses [_dockItemBase] as the base.
+  static Widget _dockItem(ImageProvider? img, IconData? icon, bool isIcon, Function() onPressed) {
+    if (!isIcon) {
+      return _dockItemBase(
+          Image(
+            image: img ?? const AssetImage("lib/images/null.png"),
+          ),
+          onPressed);
+    } else {
+      return _dockItemBase(
+        Icon(
+          icon,
+          size: 40,
+        ),
+        onPressed,
+      );
+    }
+  }
+
+  /// This is the base for the [_dockItem].
+  static Widget _dockItemBase(Widget child, Function() onPressed) {
+    return Container(
+      width: 70,
+      height: 70,
+      margin: const EdgeInsets.all(5),
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          enabledMouseCursor: SystemMouseCursors.alias,
+          disabledMouseCursor: SystemMouseCursors.alias,
+          padding: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
+          ),
+        ),
+        child: child,
+      ),
+    );
+  }
+
+  /// The item element used in the [topBar] widget.
+  static Widget _topBarItem(BuildContext context, String? text, Function()? onPressed, bool custom, Widget? customWidget) {
+    if (!custom) {
+      return TextButton(
+          style: TextButton.styleFrom(
+            minimumSize: const Size(30, 30),
+            padding: const EdgeInsets.all(6),
+            enabledMouseCursor: SystemMouseCursors.alias,
+            disabledMouseCursor: SystemMouseCursors.alias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
+            ),
+          ),
+          onPressed: onPressed,
+          child: Text(text ?? "",
+              style: TextStyle(
+                color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+                    ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
+                    : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+              )));
+    } else {
+      return TextButton(
+        style: TextButton.styleFrom(
+          minimumSize: const Size(30, 30),
+          padding: const EdgeInsets.all(6),
+          enabledMouseCursor: SystemMouseCursors.alias,
+          disabledMouseCursor: SystemMouseCursors.alias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
+          ),
+        ),
+        onPressed: onPressed,
+        child: customWidget ?? Container(),
+      );
+    }
+  }
+
+  /// The icons used in the [_topBarItem] element.
+  static Widget _topBarItemIcon(BuildContext context, IconData iconData) {
+    return Icon(
+      iconData,
+      size: 17,
+      color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
+        ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
+        : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+    );
+  }
+}
+
+/// Multiple widgets that can be used within the desktop.
+class _DesktopWidgets {
+  /// A blur effect used for backgrounds.
+  static Widget _blurContainer(BuildContext context, Widget child, bool radius) {
+    final BackdropFilter bf = BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
       child: Container(
         height: MediaQuery.of(context).size.height / 4,
-        child: child,
         decoration: BoxDecoration(
           color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
               ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK
               : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT,
         ),
+        child: child,
       ),
     );
 
     if (radius) {
       return ClipRRect(
-        child: _bf,
-        borderRadius: BorderRadius.all(Radius.circular(_G_borderRadius)),
+        borderRadius: const BorderRadius.all(Radius.circular(_DesktopThemeProperties.borderRadius)),
+        child: bf,
       );
     } else {
       return ClipRRect(
-        child: _bf,
+        child: bf,
       );
     }
   }
 
-  // Top Bar Item
-  Widget _topBarItem(String? text, Function()? onPressed, bool custom, Widget? customWidget) {
-    if (!custom) {
-      return Container(
-        child: TextButton(
-            child: Text(text ?? "",
-                style: TextStyle(
-                  color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                      ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
-                      : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
-                )),
-            style: TextButton.styleFrom(
-              minimumSize: Size(30, 30),
-              padding: EdgeInsets.all(6),
-              enabledMouseCursor: SystemMouseCursors.alias,
-              disabledMouseCursor: SystemMouseCursors.alias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(_G_borderRadius),
-              ),
-            ),
-            onPressed: onPressed),
-      );
-    } else {
-      return Container(
-        child: TextButton(
-            child: customWidget ?? new Container(),
-            style: TextButton.styleFrom(
-              minimumSize: Size(30, 30),
-              padding: EdgeInsets.all(6),
-              enabledMouseCursor: SystemMouseCursors.alias,
-              disabledMouseCursor: SystemMouseCursors.alias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(_G_borderRadius),
-              ),
-            ),
-            onPressed: onPressed),
-      );
-    }
-  }
-
-  // Dock Item
-  Widget _dockItem(ImageProvider? img, IconData? icon, bool isIcon, Function() onPressed) {
-    if (!isIcon) {
-      return _dockItemBase(
-          Image(
-            image: img ?? AssetImage("lib/images/null.png"),
-          ),
-          onPressed);
-    } else {
-      return _dockItemBase(
-          Icon(
-            icon,
-            size: 40,
-          ),
-          onPressed);
-    }
-  }
-
-  Widget _dockItemBase(Widget child, Function() onPressed) {
-    return Container(
-      width: 70,
-      height: 70,
-      margin: EdgeInsets.all(5),
-      child: TextButton(
-          child: child,
-          onPressed: onPressed,
-          style: TextButton.styleFrom(
-            enabledMouseCursor: SystemMouseCursors.alias,
-            disabledMouseCursor: SystemMouseCursors.alias,
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(_G_borderRadius),
-            ),
-          )),
-    );
-  }
-
-  // Shadow element for TopBar and the Dock.
-  BoxShadow _basicShadow() {
-    return BoxShadow(
+  /// Shadow element for TopBar and the Dock.
+  static BoxShadow _basicShadow() {
+    return const BoxShadow(
       color: Colors.black,
       offset: Offset(0, 0),
       blurRadius: 10.0,
@@ -441,27 +461,23 @@ class DesktopState extends State<Desktop> {
 /// - 0 = Launcher
 /// - 1 = TaskView
 /// - 2 = QuickSettings
-///
-/// Made by Jappe. (2022)
 class DesktopOverlayMenus extends StatelessWidget {
-  DesktopMenu$Menus menu = DesktopMenu$Menus.Launcher;
+  DesktopMenu$Menus menu = DesktopMenu$Menus.launcher;
 
-  DesktopOverlayMenus(DesktopMenu$Menus menu) {
-    this.menu = menu;
-  }
+  DesktopOverlayMenus(this.menu, {Key? key}) : super(key: key);
 
-  late BuildContext uContext;
+  late final BuildContext uContext;
 
   @override
   Widget build(BuildContext context) {
     uContext = context;
 
-    switch (this.menu) {
-      case DesktopMenu$Menus.Launcher:
+    switch (menu) {
+      case DesktopMenu$Menus.launcher:
         return _launcher();
-      case DesktopMenu$Menus.TaskView:
+      case DesktopMenu$Menus.taskView:
         return _taskView();
-      case DesktopMenu$Menus.QuickSettings:
+      case DesktopMenu$Menus.quickSettings:
         return _quickSettings();
     }
   }
@@ -470,14 +486,14 @@ class DesktopOverlayMenus extends StatelessWidget {
   Widget _launcher() {
     double width = 1200;
 
-    return new Column(
+    return Column(
       children: [
         // Search bar.
         Container(
           width: width,
           height: 50,
-          margin: EdgeInsets.only(top: 50),
-          padding: EdgeInsets.only(left: 100, right: 100, top: 6),
+          margin: const EdgeInsets.only(top: 50),
+          padding: const EdgeInsets.only(left: 100, right: 100, top: 6),
           color: Colors.red,
           child: UI_NormalTextFields_TextField(
             hintText: "Search apps...",
@@ -489,7 +505,7 @@ class DesktopOverlayMenus extends StatelessWidget {
         Container(
           width: width,
           height: MediaQuery.of(uContext).size.height - 350,
-          margin: EdgeInsets.only(top: 25, bottom: 25),
+          margin: const EdgeInsets.only(top: 25, bottom: 25),
           color: Colors.green,
         ),
 
@@ -501,25 +517,29 @@ class DesktopOverlayMenus extends StatelessWidget {
           child: Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
-              child: Row(children: [
-                OutlinedButton(
-                  child: Icon(
-                    Icons.power,
-                    color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    primary: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
-                    backgroundColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(uContext) ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY.withOpacity(0.5) : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY.withOpacity(0.5),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.0, style: BorderStyle.none),
-                      borderRadius: BorderRadius.zero,
+              child: Row(
+                children: [
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
+                      backgroundColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(uContext)
+                          ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY.withOpacity(0.5)
+                          : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY.withOpacity(0.5),
+                      shape: const RoundedRectangleBorder(
+                        side: BorderSide(width: 0.0, style: BorderStyle.none),
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      enabledMouseCursor: SystemMouseCursors.alias,
+                      disabledMouseCursor: SystemMouseCursors.alias,
                     ),
-                    enabledMouseCursor: SystemMouseCursors.alias,
-                    disabledMouseCursor: SystemMouseCursors.alias,
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.power,
+                      color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
+                    ),
                   ),
-                  onPressed: () {},
-                ),
-              ],),
+                ],
+              ),
             ),
           ),
         ),
@@ -529,11 +549,11 @@ class DesktopOverlayMenus extends StatelessWidget {
 
   // The UI for the taskView.
   Widget _taskView() {
-    return new Container();
+    return Container();
   }
 
   // The UI for the quickSettings.
   Widget _quickSettings() {
-    return new Container();
+    return Container();
   }
 }

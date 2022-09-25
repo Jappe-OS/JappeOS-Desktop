@@ -25,24 +25,24 @@ class DesktopMenu$Controller {
   DesktopMenu$Controller(this._onUpdate);
 
   // Resizable window.
-  List<DesktopMenu$UI> _menuWindows = List.empty(growable: true);
+  final List<DesktopMenu$UI> _menuWindows = List.empty(growable: true);
   List<DesktopMenu$UI> get menuWindows => _menuWindows;
 
-  VoidCallback _onUpdate;
+  final VoidCallback _onUpdate;
 
   /// Open a desktop overlay menu.
   ///
   /// Made by Jappe. (2022)
   void openDesktopOverlayMenu(DesktopMenu$Menus menu) {
     switch (menu) {
-      case DesktopMenu$Menus.Launcher:
-        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.Launcher), 0, 30, 500, 500, true, Alignment.topLeft);
+      case DesktopMenu$Menus.launcher:
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.launcher), 0, 30, 500, 500, true, Alignment.topLeft);
         break;
-      case DesktopMenu$Menus.TaskView:
-        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.TaskView), 10, 40, 500, 500, false, Alignment.topLeft);
+      case DesktopMenu$Menus.taskView:
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.taskView), 10, 40, 500, 500, false, Alignment.topLeft);
         break;
-      case DesktopMenu$Menus.QuickSettings:
-        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.QuickSettings), 10, 40, 500, 500, false, Alignment.topLeft);
+      case DesktopMenu$Menus.quickSettings:
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.quickSettings), 10, 40, 500, 500, false, Alignment.topLeft);
         break;
     }
   }
@@ -66,7 +66,7 @@ class DesktopMenu$Controller {
     desktopMenu.h = h;
 
     // Add Window to List.
-    if (_menuWindows.length > 0) {
+    if (_menuWindows.isNotEmpty) {
       _menuWindows.clear();
     } else {
       _menuWindows.add(desktopMenu);
@@ -80,4 +80,4 @@ class DesktopMenu$Controller {
 /// An `enum` that contains all the different desktop menus.
 ///
 /// Made by Jappe. (2022)
-enum DesktopMenu$Menus { Launcher, TaskView, QuickSettings }
+enum DesktopMenu$Menus { launcher, taskView, quickSettings }

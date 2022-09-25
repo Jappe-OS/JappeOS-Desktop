@@ -15,36 +15,35 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-import 'dart:io';
-
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/logger/logType.dart';
 import 'package:jappeos_desktop/system/logger/logger.dart';
 
+// ignore: constant_identifier_names
 enum SystemApps { SYSTEM_TestApp, SYSTEM_Settings }
 
 class Applications {
   // TODO: Future stuff: Make each application it's own flutter app (linux process on linux). This app/process system will probably not be changed anymore.
 
-  static final List<Application>? _JappeOSprocessList = [];
+  static final List<Application> _jappeOSprocessList = [];
 
-  static final _LOGGER = new Logger();
+  static final _logger = Logger();
 
   static void sys$runProcess(Application application) {
-    if (!_JappeOSprocessList!.contains(application)) {
+    if (!_jappeOSprocessList.contains(application)) {
       application.app$launch();
-      _JappeOSprocessList?.add(application);
-      _LOGGER.jappeOsLogger$sendLog(JappeOsLoggerMsgType.INFO, true, "Starting process application:" + application.s_id + ".");
+      _jappeOSprocessList.add(application);
+      _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.INFO, true, "Starting process application:${application.s_id}.");
     } else {
-      _LOGGER.jappeOsLogger$sendLog(
-          JappeOsLoggerMsgType.WARN, true, "Tried to launch process application:" + application.s_id + ". But it was already running.");
+      _logger.jappeOsLogger$sendLog(
+          JappeOsLoggerMsgType.WARN, true, "Tried to launch process application:${application.s_id}. But it was already running.");
     }
   }
 
   static void sys$killProcess(Application application) {
     application.app$kill();
-    _JappeOSprocessList?.remove(application);
-    _LOGGER.jappeOsLogger$sendLog(JappeOsLoggerMsgType.INFO, true, "Killing process application:" + application.s_id + ".");
+    _jappeOSprocessList.remove(application);
+    _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.INFO, true, "Killing process application:${application.s_id}.");
   }
 
   static Application sys$getProcess(Application application) {
