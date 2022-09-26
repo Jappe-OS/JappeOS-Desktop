@@ -1,23 +1,21 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
 //  Copyright (C) 2022  Jappe02
-//  
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
 //  published by the Free Software Foundation, either version 3 of the
 //  License, or (at your option) any later version.
-//  
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Affero General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 // NOTE: the display manager ui (in this file) will be improved later! Because this doesn't look good YET.
 // This file was made in 2020.
-
 
 import 'dart:ui';
 
@@ -28,17 +26,14 @@ void main() {
 }
 
 class Login extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login',
       home: LoginPage(title: ''),
       theme: ThemeData(
-
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-
       ),
     );
   }
@@ -54,7 +49,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _MyLoginPageState extends State<LoginPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,9 +61,8 @@ class _MyLoginPageState extends State<LoginPage> {
               left: 0,
               bottom: 0,
               right: 0,
-
               child: Image.asset(
-                "lib/images/desktop/backgrounds/wallpaper1.jpg",
+                "resources/images/desktop/backgrounds/wallpaper1.jpg",
                 fit: BoxFit.cover,
               ),
             ),
@@ -79,9 +72,7 @@ class _MyLoginPageState extends State<LoginPage> {
               top: 0,
               left: 0,
               right: 0,
-
               height: 30,
-
               child: Container(
                 child: topBarContainer(
                   Container(
@@ -93,9 +84,7 @@ class _MyLoginPageState extends State<LoginPage> {
                             iconSize: 5.0,
                             icon: Icon(Icons.power_settings_new),
                             tooltip: 'Shutdown',
-                            onPressed: () {
-
-                            },
+                            onPressed: () {},
                           ),
                         ],
                       ),
@@ -106,34 +95,25 @@ class _MyLoginPageState extends State<LoginPage> {
             ),
             // Top bar ends here
 
-
-            // User list begins here        
+            // User list begins here
             Positioned(
               top: 50,
               left: 50,
               bottom: 50,
               width: 500,
-
               child: Container(
                 child: ListView(
                   children: <Widget>[
                     Container(
-                    
-                      child: ListTile (
-                      hoverColor: Colors.black,
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        backgroundImage: AssetImage('lib/images/applications/account/default_avatar.png'),
-                      ),
-                      title: Text(
-                        'JUser01'
-                      ),
-                      subtitle: Text(
-                        'defaultuser'
-                      ),
-                      onTap: () {}
-                      ),
-                    
+                      child: ListTile(
+                          hoverColor: Colors.black,
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.green,
+                            backgroundImage: AssetImage('resources/images/applications/account/default_avatar.png'),
+                          ),
+                          title: Text('JUser01'),
+                          subtitle: Text('defaultuser'),
+                          onTap: () {}),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
@@ -141,27 +121,20 @@ class _MyLoginPageState extends State<LoginPage> {
                           BoxShadow(color: Colors.black, spreadRadius: 3, blurRadius: 5),
                         ],
                       ),
-                   ),
+                    ),
                     Container(
                       height: 10,
                     ),
-                  Container(
-                    
-                      child: ListTile (
-                      hoverColor: Colors.black,
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        backgroundImage: AssetImage('lib/images/applications/account/default_avatar.png'),
-                      ),
-                      title: Text(
-                        'Guest'
-                      ),
-                      subtitle: Text(
-                        'use as a guest'
-                      ),
-                      onTap: () {}
-                      ),
-                    
+                    Container(
+                      child: ListTile(
+                          hoverColor: Colors.black,
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            backgroundImage: AssetImage('resources/images/applications/account/default_avatar.png'),
+                          ),
+                          title: Text('Guest'),
+                          subtitle: Text('use as a guest'),
+                          onTap: () {}),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
@@ -169,23 +142,22 @@ class _MyLoginPageState extends State<LoginPage> {
                           BoxShadow(color: Colors.black, spreadRadius: 3, blurRadius: 5),
                         ],
                       ),
-                   ),
-                   Container(
+                    ),
+                    Container(
                       height: 10,
-                   ),
-                 ],
+                    ),
+                  ],
                 ),
               ),
             ),
             // User list ends here
-            
+
             // User login box begins here
             Positioned(
               top: 70,
               right: 50,
               bottom: 70,
               width: 500,
-
               child: Container(
                 child: froastedContainer(
                   Container(
@@ -196,13 +168,11 @@ class _MyLoginPageState extends State<LoginPage> {
                         CircleAvatar(
                           radius: 50,
                           backgroundColor: Colors.green,
-                          backgroundImage: AssetImage('lib/images/applications/account/default_avatar.png'),
+                          backgroundImage: AssetImage('resources/images/applications/account/default_avatar.png'),
                         ),
                         Text(
                           'JUser01',
-                          style: TextStyle(
-                            fontSize: 25
-                          ),
+                          style: TextStyle(fontSize: 25),
                         ),
                         Container(
                           width: 200,
@@ -229,14 +199,11 @@ class _MyLoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                        
-                      
-                    
                   ),
                 ),
               ),
             ),
-            
+
             // User login box ends here
           ],
         ),
@@ -244,45 +211,32 @@ class _MyLoginPageState extends State<LoginPage> {
     );
   }
 
-Widget froastedContainer (Widget child) {
-  return ClipRRect (
-    borderRadius: BorderRadius.circular(10.0),
-    child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-      child: Container(
-        height: MediaQuery
-          .of(context)
-          .size
-          .height / 4,
-        width: MediaQuery
-          .of(context)
-          .size
-          .width / 1.2,
-        color:Colors.white.withOpacity(0.3),
-        child: child,
+  Widget froastedContainer(Widget child) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 4,
+          width: MediaQuery.of(context).size.width / 1.2,
+          color: Colors.white.withOpacity(0.3),
+          child: child,
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget topBarContainer (Widget child) {
-  return ClipRRect (
-    child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-      child: Container(
-        height: MediaQuery
-          .of(context)
-          .size
-          .height / 4,
-        width: MediaQuery
-          .of(context)
-          .size
-          .width / 1.2,
-        color:Colors.black.withOpacity(0.5),
-        child: child,
+  Widget topBarContainer(Widget child) {
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 4,
+          width: MediaQuery.of(context).size.width / 1.2,
+          color: Colors.black.withOpacity(0.5),
+          child: child,
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

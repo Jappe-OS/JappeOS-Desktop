@@ -59,8 +59,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
 
   assets:
-    - lib/images/desktop/backgrounds/
-    - lib/images/null.png
+    - resources/images/desktop/backgrounds/
+    - resources/images/null.png
     
   # assets:
   #   - images/a_dot_burr.jpeg

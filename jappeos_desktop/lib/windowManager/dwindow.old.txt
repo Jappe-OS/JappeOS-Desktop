@@ -31,7 +31,7 @@ const wTitlebarColor = Color(0xFF27AE60); /// --- Titlebar color: [The color of 
 const wIconColor = Color(0xFFFFFFFF); /// --- Window caption icon color: [The window caption button icon color.] --- [you can change this]
 const wBackgroundColor = Color(0xFF000000); /// --- Window background color: [The window content background color.] --- [you can change this]
 const String wWindowTitle = 'Window Title'; /// --- Window title: [The window title in the top left corner of your app window.] --- [you can change this]
-const String wWindowIcon = 'lib/images/applications/icons/window_1_100.png'; /// --- Window icon: [The window icon in the top left corner of your app window.] --- [you can change this]
+const String wWindowIcon = 'resources/images/applications/icons/window_1_100.png'; /// --- Window icon: [The window icon in the top left corner of your app window.] --- [you can change this]
 
 class _WindowPageState extends State<WindowPage> {
   @override

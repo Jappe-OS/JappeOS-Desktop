@@ -80,7 +80,7 @@ class DesktopState extends State<Desktop> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             // The desktop background image.
-            image: AssetImage("lib/images/desktop/backgrounds/wallpaper2.jpg"),
+            image: AssetImage("resources/images/desktop/backgrounds/wallpaper2.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -319,7 +319,7 @@ class _DesktopElements {
     if (!isIcon) {
       return _dockItemBase(
           Image(
-            image: img ?? const AssetImage("lib/images/null.png"),
+            image: img ?? const AssetImage("resources/images/null.png"),
           ),
           onPressed);
     } else {
