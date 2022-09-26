@@ -15,34 +15,39 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:provider/provider.dart';
 
 /// A normal text-field.
-///
-/// Made by Jappe. (2022)
-class UI_NormalTextFields_TextField extends StatefulWidget {
+class UINormalTextFieldsTextField extends StatefulWidget {
   final String? hintText;
   final bool? autoFocus;
   final bool? readOnly;
 
-  UI_NormalTextFields_TextField({Key? key, this.hintText, this.autoFocus, this.readOnly}) : super(key: key);
+  const UINormalTextFieldsTextField({Key? key, this.hintText, this.autoFocus, this.readOnly}) : super(key: key);
 
+  @override
   _TextField createState() => _TextField();
 }
 
-class _TextField extends State<UI_NormalTextFields_TextField> {
+class _TextField extends State<UINormalTextFieldsTextField> {
   @override
   Widget build(BuildContext context) {
-    return new TextField(
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
+    return TextField(
       autofocus: widget.autoFocus ?? false,
       readOnly: widget.readOnly ?? false,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.all(7.5),
+        border: const OutlineInputBorder(),
+        contentPadding: const EdgeInsets.all(7.5),
         isDense: true,
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 0.7, color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context) ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT)),
-        focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.7, color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context))),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                width: 0.7,
+                color: themeColorGetters.getBorderColor(context))),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.7, color: themeColorGetters.getCurrentAccentColor())),
       ),
     );
   }

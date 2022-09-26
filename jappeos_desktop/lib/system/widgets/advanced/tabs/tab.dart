@@ -15,23 +15,21 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
 
 /// A tab widget that can be used in the tabSystem.
-///
-/// Made by Jappe. (2022)
-class UI_Tabs_Tab extends StatefulWidget {
+class UITabsTab extends StatefulWidget {
   final String text;
 
-  UI_Tabs_Tab({Key? key, required this.text}) : super(key: key);
+  const UITabsTab({Key? key, required this.text}) : super(key: key);
 
+  @override
   _Tab createState() => _Tab();
 }
 
-class _Tab extends State<UI_Tabs_Tab> {
+class _Tab extends State<UITabsTab> {
   @override
   Widget build(BuildContext context) {
-    return new Tab(
+    return Tab(
       child: Align(
         alignment: Alignment.center,
         child: Text(widget.text.toUpperCase()),

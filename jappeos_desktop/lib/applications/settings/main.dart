@@ -17,9 +17,10 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/widgets/generalWidgets.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:jappeos_desktop/system/widgets/generalWidgets.dart.old.txt';
 import 'package:jappeos_desktop/desktop/desktop.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);
@@ -99,7 +100,7 @@ class Settings extends Application implements IApplication {
                   jicon: Icons.wifi,
                   jtext: 'Wifi',
                   jstartopacity: 1,
-                  jhighlight: DesktopCfg.DESKTOPCFG_INSTANCE
+                  jhighlight: DesktopCfg.get
                           .getJappeosThemeColor(JappeOsColor.DEFAULT) ??
                       Colors.white,
                 ),
@@ -108,70 +109,70 @@ class Settings extends Application implements IApplication {
                   jtext: 'Bluetooth',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.edit,
                   jtext: 'Appearance',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.notifications,
                   jtext: 'Notifications',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.system_update,
                   jtext: 'Updates',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.language,
                   jtext: 'Regions & Language',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.account_circle,
                   jtext: 'Accounts',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.security,
                   jtext: 'Security',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.surround_sound,
                   jtext: 'Sound',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.power_settings_new,
                   jtext: 'Power',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
                 SettingsSidebarButton(
                   jicon: Icons.info,
                   jtext: 'About',
                   jstartopacity: 0,
                   jhighlight:
-                      DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
                 ),
               ]),
             ),
@@ -195,7 +196,9 @@ class Settings extends Application implements IApplication {
 class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
+    return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
@@ -205,7 +208,7 @@ class _Content extends StatelessWidget {
             bottom: 0,
             width: Settings.sidebarWidth,
             child: ListView(
-              children: [],
+              children: const [],
             ),
           ),
           Positioned(
@@ -215,9 +218,7 @@ class _Content extends StatelessWidget {
               bottom: 0,
               child: Container(
                 width: 1,
-                color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                  ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK
-                  : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT,
+                color: themeColorGetters.getBorderColor(context),
               )),
           Positioned(
             top: 0,
@@ -225,9 +226,7 @@ class _Content extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                  ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK
-                  : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT,
+              color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
             ),
           ),
         ],

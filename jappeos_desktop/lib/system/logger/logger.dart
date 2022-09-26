@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import 'package:jappeos_desktop/system/logger/logType.dart';
+import 'package:jappeos_desktop/system/logger/log_type.dart';
 
 /// This is the logger for the JappeOS desktop environment. You may use
 /// this logger instead of `print(Object? object)`.
@@ -26,13 +26,9 @@ import 'package:jappeos_desktop/system/logger/logType.dart';
 /// method to change the state of `debugMode`. To get the state of
 /// `debugMode`, [jappeOsLogger$getDebugMode] can be used, it will
 /// return a `boolean`
-/// 
-/// Made by Jappe. (2022)
 class Logger {
 
   /// Get the Logger() instance and use the methods inside it.
-  /// 
-  /// Made by Jappe. (2022)
   static Logger GET = new Logger();
 
   // Private boolean to know the debug mode.
@@ -46,22 +42,9 @@ class Logger {
   /// - bool debugOnly // If true, the message will only be sent if debugMode is enabled.
   /// - String message // The log message to print.
   /// ```
-  /// 
-  /// Made by Jappe. (2022)
   void jappeOsLogger$sendLog(JappeOsLoggerMsgType type, bool debugOnly, String message) {
     DateTime now = DateTime.now();
-    String logMsg = " [" +
-        now.hour.toString() +
-        ":" +
-        now.minute.toString() +
-        ":" +
-        now.second.toString() +
-        "] " +
-        "[main] " +
-        "[" +
-        type.toString().toUpperCase() +
-        "]: " +
-        message;
+    String logMsg = " [${now.hour}:${now.minute}:${now.second}] [main] [${type.toString().toUpperCase()}]: $message";
 
     if (debugOnly) {
       if (_debugMode) print(logMsg);
@@ -76,15 +59,11 @@ class Logger {
   /// ```dart
   /// - bool debugMode // Whether to enable/disable debugMode.
   /// ```
-  /// 
-  /// Made by Jappe. (2022)
   void jappeOsLogger$setDebugMode(bool debugMode) {
     _debugMode = debugMode;
   }
 
   /// Get the state of debugMode.
-  /// 
-  /// Made by Jappe. (2022)
   bool jappeOsLogger$getDebugMode() {
     return _debugMode;
   }

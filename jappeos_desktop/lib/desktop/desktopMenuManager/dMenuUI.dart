@@ -19,7 +19,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:provider/provider.dart';
 
 class DesktopMenu$UI extends StatefulWidget {
   double w;
@@ -81,18 +82,16 @@ class MenuState extends State<DesktopMenu$UI> {
   /// ```dart
   /// - Widget child // The widget inside this widget.
   /// ```
-  ///
-  /// Made by Jappe. (2022)
   Widget blurContainer(Widget child) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
         child: Container(
           width: widget.w,
           height: widget.h,
-          color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-              ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK
-              : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT,
+          color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
           child: child,
         ),
       ),

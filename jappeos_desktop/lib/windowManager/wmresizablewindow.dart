@@ -19,7 +19,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:provider/provider.dart';
 
 class ResizableWindow extends StatefulWidget {
   late double currentHeight, defaultHeight = 400.0;
@@ -50,23 +51,23 @@ class ResizableWindow extends StatefulWidget {
 }
 
 class ResizableWindowState extends State<ResizableWindow> {
-  static ResizableWindowState I = new ResizableWindowState();
+  static ResizableWindowState I = ResizableWindowState();
 
   // The height of the header
-  late var _headerSize = widget.cwd == null ? 40.0 : 40.0 + 10;
+  late final _headerSize = widget.cwd == null ? 40.0 : 40.0 + 10;
 
   // The border radius of the window
-  var _borderRadius = 10.0;
+  final _borderRadius = 10.0;
 
   // The size of the icons
-  double _iconSize = 18.5;
+  final double _iconSize = 18.5;
 
   // The size of the font
-  double _fontSize = 16;
+  final double _fontSize = 16;
 
   // BoxShadow list
-  List<BoxShadow> _bsList = [
-    BoxShadow(
+  final List<BoxShadow> _bsList = [
+    const BoxShadow(
       color: Color.fromARGB(70, 0, 0, 0),
       spreadRadius: 5,
       blurRadius: 10,
@@ -75,15 +76,15 @@ class ResizableWindowState extends State<ResizableWindow> {
 
   @override
   Widget build(BuildContext context) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     bool maximized = widget.isMaximized ?? false;
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(maximized ? 0.0 : _borderRadius)),
         border: Border.all(
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_DARK
-                : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BORDER_COLOR_LIGHT,
+            color: themeColorGetters.getBorderColor(context),
             width: 1,
             style: BorderStyle.solid),
         boxShadow: _bsList,
@@ -93,7 +94,7 @@ class ResizableWindowState extends State<ResizableWindow> {
         child: Stack(
           children: [
             Column(
-              children: [_getHeader(), _getBody()],
+              children: [_getHeader(context), _getBody()],
             ),
             Positioned(
                 right: 0,
@@ -156,10 +157,10 @@ class ResizableWindowState extends State<ResizableWindow> {
                 right: 0,
                 child: GestureDetector(
                   onPanUpdate: _onHorizontalDragBottomRight,
-                  child: MouseRegion(
+                  child: const MouseRegion(
                     cursor: SystemMouseCursors.resizeUpLeftDownRight,
                     opaque: true,
-                    child: Container(
+                    child: SizedBox(
                       height: 6,
                       width: 6,
                     ),
@@ -170,10 +171,10 @@ class ResizableWindowState extends State<ResizableWindow> {
                 left: 0,
                 child: GestureDetector(
                   onPanUpdate: _onHorizontalDragBottomLeft,
-                  child: MouseRegion(
+                  child: const MouseRegion(
                     cursor: SystemMouseCursors.resizeUpRightDownLeft,
                     opaque: true,
-                    child: Container(
+                    child: SizedBox(
                       height: 6,
                       width: 6,
                     ),
@@ -184,10 +185,10 @@ class ResizableWindowState extends State<ResizableWindow> {
                 right: 0,
                 child: GestureDetector(
                   onPanUpdate: _onHorizontalDragTopRight,
-                  child: MouseRegion(
+                  child: const MouseRegion(
                     cursor: SystemMouseCursors.resizeUpRightDownLeft,
                     opaque: true,
-                    child: Container(
+                    child: SizedBox(
                       height: 6,
                       width: 6,
                     ),
@@ -198,10 +199,10 @@ class ResizableWindowState extends State<ResizableWindow> {
                 top: 0,
                 child: GestureDetector(
                   onPanUpdate: _onHorizontalDragTopLeft,
-                  child: MouseRegion(
+                  child: const MouseRegion(
                     cursor: SystemMouseCursors.resizeUpLeftDownRight,
                     opaque: true,
-                    child: Container(
+                    child: SizedBox(
                       height: 6,
                       width: 6,
                     ),
@@ -214,7 +215,9 @@ class ResizableWindowState extends State<ResizableWindow> {
   }
 
   // The header/dragging area of the window.
-  _getHeader() {
+  _getHeader(BuildContext context) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     bool maximized = widget.isMaximized ?? false;
 
     return GestureDetector(
@@ -229,7 +232,8 @@ class ResizableWindowState extends State<ResizableWindow> {
         widget.onWindowDragged!(0, 0);
       },
       child: headerBlurContainer(
-        Container(
+        context,
+        SizedBox(
           width: widget.currentWidth,
           height: _headerSize,
           child: Stack(
@@ -240,11 +244,11 @@ class ResizableWindowState extends State<ResizableWindow> {
                 bottom: 4,
                 child: Row(
                   children: [
-                    headerButton(Icons.minimize_rounded, () {}),
+                    headerButton(context, Icons.minimize_rounded, () {}),
                     Container(
                       width: 5,
                     ),
-                    headerButton(maximized ? Icons.close_fullscreen_rounded : Icons.crop_square_rounded, () {
+                    headerButton(context, maximized ? Icons.close_fullscreen_rounded : Icons.crop_square_rounded, () {
                       if (maximized) {
                         _onRestore();
                       } else {
@@ -254,7 +258,7 @@ class ResizableWindowState extends State<ResizableWindow> {
                     Container(
                       width: 5,
                     ),
-                    headerButton(Icons.close_rounded, () {
+                    headerButton(context, Icons.close_rounded, () {
                       widget.onCloseButtonClicked!();
                     }),
                   ],
@@ -266,9 +270,7 @@ class ResizableWindowState extends State<ResizableWindow> {
                   widget.title!,
                   style: TextStyle(
                       fontSize: _fontSize,
-                      color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                          ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
-                          : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT),
+                      color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title)),
                 ),
               )),
               Positioned(left: 7, right: 120, top: 7.5, height: _headerSize - 15, child: widget.cwd ?? Container()),
@@ -290,6 +292,7 @@ class ResizableWindowState extends State<ResizableWindow> {
         height: widget.currentHeight - _headerSize,
         color: Colors.transparent,
         child: blurContainer(
+          context,
           widget.body!,
         ),
       ),
@@ -317,11 +320,13 @@ class ResizableWindowState extends State<ResizableWindow> {
       widget.x = 100;
       widget.y = 100;
       widget.onWindowDragged!(0, 0);
-      _bsList.add(new BoxShadow(
+      _bsList.add(
+        const BoxShadow(
           color: Color.fromARGB(70, 0, 0, 0),
           spreadRadius: 5,
           blurRadius: 10,
-      ),);
+        ),
+      );
       widget.isMaximized = false;
     });
   }
@@ -330,7 +335,7 @@ class ResizableWindowState extends State<ResizableWindow> {
     bool maximized = widget.isMaximized ?? false;
     setState(() {
       if (maximized) _onRestore();
-      if (widget.currentWidth != null) widget.currentWidth -= details.delta.dx;
+      widget.currentWidth -= details.delta.dx;
       if (widget.currentWidth < widget.defaultWidth) {
         widget.currentWidth = widget.defaultWidth;
       } else {
@@ -401,9 +406,9 @@ class ResizableWindowState extends State<ResizableWindow> {
   /// ```dart
   /// - Widget child // The widget inside this widget.
   /// ```
-  ///
-  /// Made by Jappe. (2022)
-  Widget blurContainer(Widget child) {
+  Widget blurContainer(BuildContext context, Widget child) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     if (widget.isBlurry) {
       return ClipRRect(
         child: BackdropFilter(
@@ -411,9 +416,7 @@ class ResizableWindowState extends State<ResizableWindow> {
           child: Container(
             width: widget.currentWidth,
             height: _headerSize,
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK
-                : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT,
+            color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
             child: child,
           ),
         ),
@@ -423,9 +426,7 @@ class ResizableWindowState extends State<ResizableWindow> {
         child: Container(
           width: widget.currentWidth,
           height: _headerSize,
-          color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-              ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK
-              : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT,
+          color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
           child: child,
         ),
       );
@@ -438,9 +439,9 @@ class ResizableWindowState extends State<ResizableWindow> {
   /// ```dart
   /// - Widget child // The widget inside this widget.
   /// ```
-  ///
-  /// Made by Jappe. (2022)
-  Widget headerBlurContainer(Widget child) {
+  Widget headerBlurContainer(BuildContext context, Widget child) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     if (widget.isBlurry) {
       return ClipRRect(
         child: BackdropFilter(
@@ -448,9 +449,7 @@ class ResizableWindowState extends State<ResizableWindow> {
           child: Container(
             width: widget.currentWidth,
             height: _headerSize,
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK
-                : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT,
+            color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
             child: child,
           ),
         ),
@@ -460,9 +459,7 @@ class ResizableWindowState extends State<ResizableWindow> {
         child: Container(
           width: widget.currentWidth,
           height: _headerSize,
-          color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-              ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY
-              : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY,
+          color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
           child: child,
         ),
       );
@@ -471,26 +468,25 @@ class ResizableWindowState extends State<ResizableWindow> {
 
   // Button
   /// A button that can be used in the titlebar/header.
-  ///
-  /// Made by Jappe. (2022)
-  Widget headerButton(IconData icon, void Function()? onPress) {
-    return Container(
+  Widget headerButton(BuildContext context, IconData icon, void Function()? onPress) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
+    return SizedBox(
       width: 30,
       height: 30,
       child: TextButton(
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+          enabledMouseCursor: SystemMouseCursors.alias,
+          disabledMouseCursor: SystemMouseCursors.alias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        onPressed: onPress,
         child: Icon(icon,
             size: _iconSize,
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_ICON_COLOR_DARK
-                : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_ICON_COLOR_LIGHT),
-        style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-            enabledMouseCursor: SystemMouseCursors.alias,
-            disabledMouseCursor: SystemMouseCursors.alias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            )),
-        onPressed: onPress,
+            color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),),
       ),
     );
   }

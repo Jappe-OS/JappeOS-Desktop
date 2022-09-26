@@ -18,20 +18,19 @@
 import 'package:flutter/material.dart';
 
 /// A normal-sized text widget.
-///
-/// Made by Jappe. (2022)
-class UI_Text_NormalText extends StatefulWidget {
+class UITextNormalText extends StatefulWidget {
   final String text;
 
-  UI_Text_NormalText({Key? key, required this.text}) : super(key: key);
+  const UITextNormalText({Key? key, required this.text}) : super(key: key);
 
+  @override
   _NormalText createState() => _NormalText();
 }
 
-class _NormalText extends State<UI_Text_NormalText> {
+class _NormalText extends State<UITextNormalText> {
   @override
   Widget build(BuildContext context) {
-    return new Text(
+    return Text(
       widget.text
     );
   }

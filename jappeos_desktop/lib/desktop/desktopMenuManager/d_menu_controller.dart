@@ -19,8 +19,6 @@ import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'dMenuUI.dart';
 
 /// This class can be used to spawn a new desktop overlay menu.
-///
-/// Made by Jappe. (2022)
 class DesktopMenu$Controller {
   DesktopMenu$Controller(this._onUpdate);
 
@@ -31,25 +29,21 @@ class DesktopMenu$Controller {
   final VoidCallback _onUpdate;
 
   /// Open a desktop overlay menu.
-  ///
-  /// Made by Jappe. (2022)
-  void openDesktopOverlayMenu(DesktopMenu$Menus menu) {
+  void openDesktopOverlayMenu(BuildContext context, DesktopMenu$Menus menu) {
     switch (menu) {
       case DesktopMenu$Menus.launcher:
-        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.launcher), 0, 30, 500, 500, true, Alignment.topLeft);
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.launcher, uContext: context), 0, 30, 500, 500, true, Alignment.topLeft);
         break;
       case DesktopMenu$Menus.taskView:
-        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.taskView), 10, 40, 500, 500, false, Alignment.topLeft);
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.taskView, uContext: context), 10, 40, 500, 500, false, Alignment.topLeft);
         break;
       case DesktopMenu$Menus.quickSettings:
-        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.quickSettings), 10, 40, 500, 500, false, Alignment.topLeft);
+        _spawnMenu(DesktopOverlayMenus(DesktopMenu$Menus.quickSettings, uContext: context), 10, 40, 500, 500, false, Alignment.topLeft);
         break;
     }
   }
 
   /// Spawns a menu window on the desktop.
-  ///
-  /// Made by Jappe. (2022)
   void _spawnMenu(Widget body, double x, double y, double w, double h, bool fill, AlignmentGeometry align) {
     _createNewWindowedApp(body, x, y, w, h, fill, align);
   }
@@ -78,6 +72,4 @@ class DesktopMenu$Controller {
 }
 
 /// An `enum` that contains all the different desktop menus.
-///
-/// Made by Jappe. (2022)
 enum DesktopMenu$Menus { launcher, taskView, quickSettings }

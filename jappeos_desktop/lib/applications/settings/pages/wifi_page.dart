@@ -17,7 +17,7 @@
 
 import 'package:flutter/material.dart';
 
-class sWifiPage {
+class WifiPage {
   Widget w() {
     return Container();
   }

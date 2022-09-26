@@ -16,11 +16,9 @@
 
 
 /// An `enum` to specify the type of a log message.
-/// 
-/// Made by Jappe. (2022)
 enum JappeOsLoggerMsgType {
-  INFO,
-  WARN,
-  ERROR,
-  FATAL
+  info,
+  warn,
+  error,
+  fatal
 }

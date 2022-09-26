@@ -19,10 +19,12 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/applications/app-center/screens/home.dart';
 
 void main() {
-  runApp(AppCenter());
+  runApp(const AppCenter());
 }
 
 class AppCenter extends StatelessWidget {
+  const AppCenter({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,11 +40,12 @@ class AppCenter extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 

@@ -20,8 +20,6 @@ import 'package:flutter/material.dart';
 import 'wmresizablewindow.dart';
 
 /// This class can be used to spawn a new window.
-/// 
-/// Made by Jappe. (2022)
 class WmController {
   WmController(this._onUpdate);
 
@@ -33,8 +31,6 @@ class WmController {
 
   // Jappeos window spawner
   /// Spawns a new JappeOS window and displays it on the screen.
-  /// 
-  /// Made by Jappe. (2022)
   void wm$spawn_gui_window(String title, Widget body, Widget? cwd, bool isBlurry) {
     _createNewWindowedApp(title, body, cwd, isBlurry);
   }

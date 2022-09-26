@@ -24,8 +24,9 @@ import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_controller.dart';
 import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_manager.dart';
 import 'package:jappeos_desktop/system/appSystem/applications.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/widgets/basic/textField/normalTextFields.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:jappeos_desktop/system/widgets/basic/textField/normal_text_fields.dart';
+import 'package:provider/provider.dart';
 
 import '../windowManager/wmcontroller.dart';
 import '../windowManager/wmmanager.dart';
@@ -57,21 +58,6 @@ class DesktopState extends State<Desktop> {
   // Create a new instance of [DesktopMenu$Controller].
   static DesktopMenu$Controller? _desktopMenuController;
 
-  // The padding on the left and right side of the TopBar element.
-  // ignore: non_constant_identifier_names
-  final double _TOP_BAR_sidePadding = 5;
-
-  // The icon size for Icons on the TopBar buttons.
-  // ignore: non_constant_identifier_names
-  final double _TOP_BAR_buttonIconSize = 17;
-
-  // The icon/text color for TopBar buttons.
-  //final Color _TOP_BAR_buttonOverlayColor = Colors.white;
-
-  // The default border radius for _blurContainer elements.
-  // ignore: non_constant_identifier_names
-  final double _G_borderRadius = 10;
-
   @override
   void initState() {
     super.initState();
@@ -91,10 +77,10 @@ class DesktopState extends State<Desktop> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             // The desktop background image.
-            image: AssetImage(DesktopCfg.DESKTOPCFG_INSTANCE.dsktpWallpaper),
+            image: AssetImage("lib/images/desktop/backgrounds/wallpaper2.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -302,7 +288,8 @@ class _DesktopElements {
                         true,
                         Row(
                           children: [
-                            const Text('19:00',
+                            const Text(
+                              '19:00',
                               //style: TextStyle(
                               //  color: topBarItemContentColor,
                               //),
@@ -369,6 +356,8 @@ class _DesktopElements {
 
   /// The item element used in the [topBar] widget.
   static Widget _topBarItem(BuildContext context, String? text, Function()? onPressed, bool custom, Widget? customWidget) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     if (!custom) {
       return TextButton(
           style: TextButton.styleFrom(
@@ -383,9 +372,7 @@ class _DesktopElements {
           onPressed: onPressed,
           child: Text(text ?? "",
               style: TextStyle(
-                color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                    ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
-                    : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+                color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
               )));
     } else {
       return TextButton(
@@ -406,12 +393,12 @@ class _DesktopElements {
 
   /// The icons used in the [_topBarItem] element.
   static Widget _topBarItemIcon(BuildContext context, IconData iconData) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     return Icon(
       iconData,
       size: 17,
-      color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-        ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
-        : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
+      color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
     );
   }
 }
@@ -420,14 +407,14 @@ class _DesktopElements {
 class _DesktopWidgets {
   /// A blur effect used for backgrounds.
   static Widget _blurContainer(BuildContext context, Widget child, bool radius) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     final BackdropFilter bf = BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
       child: Container(
         height: MediaQuery.of(context).size.height / 4,
         decoration: BoxDecoration(
-          color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-              ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_DARK
-              : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BLUR_COLOR_LIGHT,
+          color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
         ),
         child: child,
       ),
@@ -462,16 +449,13 @@ class _DesktopWidgets {
 /// - 1 = TaskView
 /// - 2 = QuickSettings
 class DesktopOverlayMenus extends StatelessWidget {
-  DesktopMenu$Menus menu = DesktopMenu$Menus.launcher;
+  final DesktopMenu$Menus menu; // DesktopMenu$Menus.launcher
+  final BuildContext uContext;
 
-  DesktopOverlayMenus(this.menu, {Key? key}) : super(key: key);
-
-  late final BuildContext uContext;
+  const DesktopOverlayMenus(this.menu, {Key? key, required this.uContext}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    uContext = context;
-
     switch (menu) {
       case DesktopMenu$Menus.launcher:
         return _launcher();
@@ -484,6 +468,8 @@ class DesktopOverlayMenus extends StatelessWidget {
 
   // The UI for the launcher.
   Widget _launcher() {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(uContext);
+
     double width = 1200;
 
     return Column(
@@ -495,7 +481,7 @@ class DesktopOverlayMenus extends StatelessWidget {
           margin: const EdgeInsets.only(top: 50),
           padding: const EdgeInsets.only(left: 100, right: 100, top: 6),
           color: Colors.red,
-          child: UI_NormalTextFields_TextField(
+          child: const UINormalTextFieldsTextField(
             hintText: "Search apps...",
             autoFocus: true,
           ),
@@ -521,10 +507,8 @@ class DesktopOverlayMenus extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
-                      backgroundColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(uContext)
-                          ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY.withOpacity(0.5)
-                          : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY.withOpacity(0.5),
+                      foregroundColor: themeColorGetters.getCurrentAccentColor(),
+                      backgroundColor: themeColorGetters.getBackgroundColor(uContext, DesktopCfg$BackgroundColorType.normal).withOpacity(0.5),
                       shape: const RoundedRectangleBorder(
                         side: BorderSide(width: 0.0, style: BorderStyle.none),
                         borderRadius: BorderRadius.zero,
@@ -535,7 +519,7 @@ class DesktopOverlayMenus extends StatelessWidget {
                     onPressed: () {},
                     child: Icon(
                       Icons.power,
-                      color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(uContext),
+                      color: themeColorGetters.getCurrentAccentColor(),
                     ),
                   ),
                 ],

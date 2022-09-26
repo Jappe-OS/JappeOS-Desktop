@@ -19,23 +19,27 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/widgets/basic/buttons/normalButtons.dart';
-import 'package:jappeos_desktop/system/widgets/basic/switch/normalSwitches.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:jappeos_desktop/system/widgets/basic/buttons/normal_buttons.dart';
+import 'package:jappeos_desktop/system/widgets/basic/switch/normal_switches.dart';
 import 'package:jappeos_desktop/system/widgets/basic/text/text.dart';
-import 'package:jappeos_desktop/system/widgets/basic/textField/normalTextFields.dart';
+import 'package:jappeos_desktop/system/widgets/basic/textField/normal_text_fields.dart';
+import 'package:provider/provider.dart';
 
 class WidgetTesting extends Application implements IApplication {
   WidgetTesting() : super("WidgetTesting", "widget-testing", null);
 
+  @override
   void app$launch() {
     DesktopState.getWmController()?.wm$spawn_gui_window("WidgetTesting", body(), null, false);
   }
 
+  @override
   Widget body() {
     return _Content();
   }
 
+  @override
   Widget? cwd() {
     return null;
   }
@@ -44,42 +48,32 @@ class WidgetTesting extends Application implements IApplication {
 class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //final themeProvider = DesktopCfg.DESKTOPCFG_INSTANCE.getThemeProvider(context);
+    final themeProvider = Provider.of<DesktopCfg$ThemeManager>(context);
 
-    return new Container(
-      child: Column(
-        children: [
-          Wrap(
-            spacing: 10,
-            direction: Axis.horizontal,
-            children: [
-              UI_NormalButtons_PrimaryTextButton(
-                text: "Primary Button",
-                onPress: () {}
+    return Column(
+      children: [
+        Wrap(
+          spacing: 10,
+          direction: Axis.horizontal,
+          children: [
+            UINormalButtonsPrimaryTextButton(text: "Primary Button", onPress: () {}),
+            UINormalButtonsSecondaryTextButton(text: "Secondary Button", onPress: () {}),
+            const UITextNormalText(text: "This is a text widget."),
+            const SizedBox(
+              width: 200,
+              child: UINormalTextFieldsTextField(
+                hintText: "Type Here...",
               ),
-              UI_NormalButtons_SecondaryTextButton(
-                text: "Secondary Button",
-                onPress: () {}
-              ),
-              UI_Text_NormalText(
-                text: "This is a text widget."
-              ),
-              Container(
-                width: 200,
-                child: UI_NormalTextFields_TextField(
-                  hintText: "Type Here...",
-                ),
-              ),
-              UI_NormalSwitches_NormalSwitch(
-                value: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context),
-                onChanged: (value) {
-                  DesktopCfg.DESKTOPCFG_INSTANCE.setDarkMode(context, value);
-                },
-              )
-            ],
-          )
-        ],
-      ),
+            ),
+            UINormalSwitchesNormalSwitch(
+              value: themeProvider.isDarkMode(),
+              onChanged: (value) {
+                themeProvider.setDarkMode(value);
+              },
+            )
+          ],
+        )
+      ],
     );
   }
 }

@@ -15,93 +15,41 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/logger/logType.dart';
-import 'package:jappeos_desktop/system/logger/logger.dart';
-import 'desktop/desktop.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
 import 'package:provider/provider.dart';
+
+import 'desktop/desktop.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const JappeOsDesktop());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => DesktopCfg$ThemeManager()),
+
+      ChangeNotifierProvider(create: (_) => DesktopCfg$ThemeColorGetters()),
+      ChangeNotifierProvider(create: (_) => DesktopCfg$ThemeColorSetters()),
+    ],
+    child: const JappeOsDesktop(),
+  ),);
 }
 
 /// This is the main class of the JappeOS Desktop, you may not access it.
 ///
-/// Made by Jappe. (2020 - 2022)
+/// (2020 - 2022)
 class JappeOsDesktop extends StatelessWidget {
   const JappeOsDesktop({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
-    builder: (context, _) {
-      final themeProvider = Provider.of<ThemeProvider>(context);
-      return MaterialApp(
-        title: 'jappeos_desktop',
-        debugShowCheckedModeBanner: false,
-        themeMode: themeProvider.themeMode,
-        theme: _Themes.lightTheme,
-        darkTheme: _Themes.darkTheme,
-        home: Desktop(),
-      );
-    },
-  );
-}
+  Widget build(BuildContext context) {
+    final themeGetterProvider = Provider.of<DesktopCfg$ThemeManager>(context);
 
-// This class is the ThemeProvider.
-class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.light;
-
-  bool get isDarkMode {
-    if (themeMode == ThemeMode.system) {
-      final brightness = SchedulerBinding.instance.window.platformBrightness;
-      Logger.GET.jappeOsLogger$sendLog(
-          JappeOsLoggerMsgType.ERROR, false, "'themeMode', typeof ThemeMode returned ThemeMode.system, this is not supported!");
-      return brightness == Brightness.dark;
-    } else {
-      return themeMode == ThemeMode.dark;
-    }
+    return MaterialApp(
+      title: 'jappeos_desktop',
+      debugShowCheckedModeBanner: false,
+      themeMode: themeGetterProvider.getThemeMode(),
+      theme: DesktopCfg$ThemeManager.lightTheme(context),
+      darkTheme: DesktopCfg$ThemeManager.darkTheme(context),
+      home: const Desktop(),
+    );
   }
-
-  void toggleTheme(bool isOn) {
-    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
-  }
-
-  // --
-
-  JappeOsColor jappeOsColor = JappeOsColor.DEFAULT;
-
-  JappeOsColor get getJappeOsColor {
-    return jappeOsColor;
-  }
-
-  void setJappeOsColor(JappeOsColor color) {
-    jappeOsColor = color;
-    notifyListeners();
-  }
-}
-
-// This class is to provide accent colors for the theme.
-class ThemeAccentProvider extends ChangeNotifier {
-  
-}
-
-// This class contains the [ThemeData] for all themes.
-class _Themes {
-  // ThemeData for light theme.
-  static final ThemeData lightTheme = ThemeData(
-    visualDensity: VisualDensity.standard,
-    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-        .copyWith(brightness: Brightness.light),
-  );
-
-  // ThemeData for dark theme.
-  static final ThemeData darkTheme = ThemeData(
-    visualDensity: VisualDensity.standard,
-    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-        .copyWith(brightness: Brightness.dark),
-  );
 }

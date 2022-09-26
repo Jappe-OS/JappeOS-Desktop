@@ -16,7 +16,7 @@
 
 
 import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/logger/logType.dart';
+import 'package:jappeos_desktop/system/logger/log_type.dart';
 import 'package:jappeos_desktop/system/logger/logger.dart';
 
 // ignore: constant_identifier_names
@@ -33,17 +33,17 @@ class Applications {
     if (!_jappeOSprocessList.contains(application)) {
       application.app$launch();
       _jappeOSprocessList.add(application);
-      _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.INFO, true, "Starting process application:${application.s_id}.");
+      _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.info, true, "Starting process application:${application.s_id}.");
     } else {
       _logger.jappeOsLogger$sendLog(
-          JappeOsLoggerMsgType.WARN, true, "Tried to launch process application:${application.s_id}. But it was already running.");
+          JappeOsLoggerMsgType.warn, true, "Tried to launch process application:${application.s_id}. But it was already running.");
     }
   }
 
   static void sys$killProcess(Application application) {
     application.app$kill();
     _jappeOSprocessList.remove(application);
-    _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.INFO, true, "Killing process application:${application.s_id}.");
+    _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.info, true, "Killing process application:${application.s_id}.");
   }
 
   static Application sys$getProcess(Application application) {

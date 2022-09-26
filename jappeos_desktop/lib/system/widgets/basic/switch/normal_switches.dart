@@ -17,21 +17,20 @@
 import 'package:flutter/material.dart';
 
 /// A normal boolean switch.
-///
-/// Made by Jappe. (2022)
-class UI_NormalSwitches_NormalSwitch extends StatefulWidget {
+class UINormalSwitchesNormalSwitch extends StatefulWidget {
   final void Function(bool)? onChanged;
   final bool value;
 
-  UI_NormalSwitches_NormalSwitch({Key? key, required this.onChanged, required this.value}) : super(key: key);
+  const UINormalSwitchesNormalSwitch({Key? key, required this.onChanged, required this.value}) : super(key: key);
 
+  @override
   _NormalSwitch createState() => _NormalSwitch();
 }
 
-class _NormalSwitch extends State<UI_NormalSwitches_NormalSwitch> {
+class _NormalSwitch extends State<UINormalSwitchesNormalSwitch> {
   @override
   Widget build(BuildContext context) {
-    return new Switch(
+    return Switch(
       onChanged: widget.onChanged, 
       value: widget.value,
     );

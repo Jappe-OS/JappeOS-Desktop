@@ -15,33 +15,31 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/system/desktopCfg.dart';
-import 'package:jappeos_desktop/system/widgets/advanced/tabs/tab.dart';
-import 'package:jappeos_desktop/system/widgets/basic/buttons/normalButtons.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
 import 'package:jappeos_desktop/system/widgets/basic/text/text.dart';
+import 'package:provider/provider.dart';
 
 /// A complete basic widget with tabs and tab content.
-///
-/// Made by Jappe. (2022)
-class UI_Tabs_NormalTabSystem extends StatefulWidget {
+class UITabsNormalTabSystem extends StatefulWidget {
   final List<Widget> tabs;
   final List<Widget> pages;
 
-  UI_Tabs_NormalTabSystem({Key? key, required this.tabs, required this.pages}) : super(key: key);
+  const UITabsNormalTabSystem({Key? key, required this.tabs, required this.pages}) : super(key: key);
 
+  @override
   _NormalTabSystem createState() => _NormalTabSystem();
 }
 
-class _NormalTabSystem extends State<UI_Tabs_NormalTabSystem> {
-  double _barHeight = 45;
-  double _pad = 5;
+class _NormalTabSystem extends State<UITabsNormalTabSystem> {
+  final double _barHeight = 45;
+  final double _pad = 5;
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-          ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK
-          : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT,
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
+    return Container(
+      color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
       child: DefaultTabController(
           length: widget.tabs.length,
           child: Stack(
@@ -52,18 +50,12 @@ class _NormalTabSystem extends State<UI_Tabs_NormalTabSystem> {
                 right: 0,
                 height: _barHeight,
                 child: TabBar(
-                    labelColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                        ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
-                        : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
-                    unselectedLabelColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                        ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK_SECONDARY
-                        : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT_SECONDARY,
+                    labelColor: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title),
+                    unselectedLabelColor: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
                     indicatorSize: TabBarIndicatorSize.label,
                     indicator: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                            ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY
-                            : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY),
+                        color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.brighter),),
                     tabs: widget.tabs),
               ),
               Positioned(
@@ -82,28 +74,27 @@ class _NormalTabSystem extends State<UI_Tabs_NormalTabSystem> {
 /// A complete advanced widget with tabs and tab content.
 /// This will allow opening new tabs, and closing them.
 /// NOTE: You will need to use the same widget for each tab.
-///
-/// Made by Jappe. (2022)
-class UI_Tabs_AdvancedTabSystem extends StatefulWidget {
+class UITabsAdvancedTabSystem extends StatefulWidget {
   final Widget tab;
 
-  UI_Tabs_AdvancedTabSystem({Key? key, required this.tab}) : super(key: key);
+  const UITabsAdvancedTabSystem({Key? key, required this.tab}) : super(key: key);
 
+  @override
   _AdvancedTabSystem createState() => _AdvancedTabSystem();
 }
 
-class _AdvancedTabSystem extends State<UI_Tabs_AdvancedTabSystem> {
-  double _barHeight = 45;
-  double _pad = 5;
+class _AdvancedTabSystem extends State<UITabsAdvancedTabSystem> {
+  final double _barHeight = 45;
+  final double _pad = 5;
 
-  int _length = 3;
+  final int _length = 3;
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-          ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK
-          : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT,
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
+    return Container(
+      color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
       child: DefaultTabController(
         length: _length,
         child: Stack(
@@ -115,18 +106,12 @@ class _AdvancedTabSystem extends State<UI_Tabs_AdvancedTabSystem> {
               height: _barHeight,
               child: TabBar(
                 isScrollable: true,
-                labelColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                    ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK
-                    : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT,
-                unselectedLabelColor: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                    ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_DARK_SECONDARY
-                    : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_TEXT_COLOR_LIGHT_SECONDARY,
+                labelColor: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title),
+                unselectedLabelColor: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
                 indicatorSize: TabBarIndicatorSize.label,
                 indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                        ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_DARK_SECONDARY
-                        : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_BG_COLOR_LIGHT_SECONDARY),
+                    color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.brighter),),
                 tabs: [
                   _PrivateWidgets.advancedTab('Text'),
                   _PrivateWidgets.advancedTab('Text'),
@@ -156,63 +141,61 @@ class _AdvancedTabSystem extends State<UI_Tabs_AdvancedTabSystem> {
 }
 
 /// A close button for the advanced tab.
-///
-/// Made by Jappe. (2022)
 class _AdvancedCloseButton extends StatefulWidget {
   final void Function()? onPress;
 
-  _AdvancedCloseButton({Key? key, required this.onPress}) : super(key: key);
+  const _AdvancedCloseButton({Key? key, required this.onPress}) : super(key: key);
 
+  @override
   _AdvancedCloseButtonState createState() => _AdvancedCloseButtonState();
 }
 
 class _AdvancedCloseButtonState extends State<_AdvancedCloseButton> {
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
+    return SizedBox(
       width: 30,
       height: 30,
       child: TextButton(
-        child: Icon(Icons.close,
-            size: 17,
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.isDarkMode(context)
-                ? DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_ICON_COLOR_DARK
-                : DesktopCfg.DESKTOPCFG_INSTANCE.dsktp_ICON_COLOR_LIGHT),
         style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-            enabledMouseCursor: SystemMouseCursors.alias,
-            disabledMouseCursor: SystemMouseCursors.alias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            )),
+          padding: EdgeInsets.zero,
+          enabledMouseCursor: SystemMouseCursors.alias,
+          disabledMouseCursor: SystemMouseCursors.alias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
         onPressed: widget.onPress,
+        child: Icon(Icons.close,
+            size: 17, color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title)),
       ),
     );
   }
 }
 
-
 // Some private widgets that don't need to use a BuildContext.
 class _PrivateWidgets {
   static Widget advancedTab(String text) {
-    return Container(
+    return SizedBox(
       width: 250,
       child: Tab(
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 8),
+              margin: const EdgeInsets.only(left: 8),
               alignment: Alignment.centerLeft,
               child: Row(
                 children: [
-                  FlutterLogo(size: 20),
+                  const FlutterLogo(size: 20),
                   Container(width: 8),
-                  UI_Text_NormalText(text: text),
+                  UITextNormalText(text: text),
                 ],
               ),
             ),
             Container(
-              margin: EdgeInsets.only(right: 8),
+              margin: const EdgeInsets.only(right: 8),
               child: Align(
                 alignment: Alignment.centerRight,
                 child: _AdvancedCloseButton(onPress: () {}),

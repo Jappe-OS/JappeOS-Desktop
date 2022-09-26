@@ -44,14 +44,14 @@ class _SettingsSidebarButtonState extends State<SettingsSidebarButton> {
           height: 45,
           width: 1,
           decoration: BoxDecoration(
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context).withOpacity(widget.jstartopacity),
+            color: DesktopCfg.get.getCurrentJappeOsAccentColorAsColor(context).withOpacity(widget.jstartopacity),
           ),
         ),
         Container(
           height: 43,
           width: 1,
           decoration: BoxDecoration(
-            color: DesktopCfg.DESKTOPCFG_INSTANCE.getCurrentJappeOsAccentColorAsColor(context).withOpacity(widget.jstartopacity),
+            color: DesktopCfg.get.getCurrentJappeOsAccentColorAsColor(context).withOpacity(widget.jstartopacity),
           ),
         ),
         Container(
