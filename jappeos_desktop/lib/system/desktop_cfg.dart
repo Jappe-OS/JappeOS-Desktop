@@ -53,6 +53,8 @@ import 'package:provider/provider.dart';
 
 /// Get(/set) theme (dark/light) or switch between them.
 class DesktopCfg$ThemeManager extends ChangeNotifier {
+  ThemeMode _themeMode = ThemeMode.light;
+
   /// Get the current theme using [ThemeMode]. See: [isDarkMode].
   ThemeMode getThemeMode() {
     return isDarkMode() ? ThemeMode.dark : ThemeMode.light;
@@ -60,11 +62,14 @@ class DesktopCfg$ThemeManager extends ChangeNotifier {
 
   /// Get the current theme (light/dark).
   bool isDarkMode() {
-    return false;
+    return _themeMode == ThemeMode.dark;
   }
 
   /// Set the theme, setting will apply instantly (light/dark).
-  void setDarkMode(bool darkMode) {}
+  void setDarkMode(bool darkMode) {
+    _themeMode = darkMode ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+  }
 
   // -+-+-+-+-+-+-+-+-+
 
@@ -74,7 +79,7 @@ class DesktopCfg$ThemeManager extends ChangeNotifier {
 
     return ThemeData(
       visualDensity: VisualDensity.standard,
-      colorScheme: ColorScheme.fromSwatch(primarySwatch: themeColorGettersProvider.getCurrentAccentColor()).copyWith(brightness: Brightness.light),
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: themeColorGettersProvider.getCurrentAccentColor(), accentColor: themeColorGettersProvider.getCurrentAccentColor(),).copyWith(brightness: Brightness.light),
     );
   }
 
@@ -84,7 +89,7 @@ class DesktopCfg$ThemeManager extends ChangeNotifier {
 
     return ThemeData(
       visualDensity: VisualDensity.standard,
-      colorScheme: ColorScheme.fromSwatch(primarySwatch: themeColorGettersProvider.getCurrentAccentColor()).copyWith(brightness: Brightness.dark),
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: themeColorGettersProvider.getCurrentAccentColor(), accentColor: themeColorGettersProvider.getCurrentAccentColor(),).copyWith(brightness: Brightness.dark),
     );
   }
 }
@@ -94,9 +99,13 @@ class DesktopCfg$ThemeColorGetters extends ChangeNotifier {
   Color getBackgroundColor(BuildContext context, DesktopCfg$BackgroundColorType arg0) {
     switch (arg0) {
       case DesktopCfg$BackgroundColorType.normal:
-        return Provider.of<DesktopCfg$ThemeManager>(context).isDarkMode() ? const Color.fromARGB(255, 30, 30, 30) : const Color.fromARGB(255, 255, 255, 255);
+        return Provider.of<DesktopCfg$ThemeManager>(context).isDarkMode()
+            ? const Color.fromARGB(255, 30, 30, 30)
+            : const Color.fromARGB(255, 255, 255, 255);
       case DesktopCfg$BackgroundColorType.brighter:
-        return Provider.of<DesktopCfg$ThemeManager>(context).isDarkMode() ? const Color.fromARGB(255, 37, 37, 38) : const Color.fromARGB(255, 243, 243, 243);
+        return Provider.of<DesktopCfg$ThemeManager>(context).isDarkMode()
+            ? const Color.fromARGB(255, 37, 37, 38)
+            : const Color.fromARGB(255, 243, 243, 243);
     }
   }
 

@@ -18,17 +18,18 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/system/desktop_cfg.dart';
-import 'package:jappeos_desktop/system/widgets/generalWidgets.dart.old.txt';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);
 
+  @override
   void app$launch() {
     DesktopState.getWmController()?.wm$spawn_gui_window("Settings", body(), cwd(), true);
   }
 
+  @override
   Widget body() {
     return _Content();
   }
@@ -182,14 +183,16 @@ class Settings extends Application implements IApplication {
     );
   }*/
 
-  Widget cwd() {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: JAppMainSearchBox(
-        jbgtext: "Search...",
-        width: sidebarWidth - 14,
-      ),
-    );
+  @override
+  Widget? cwd() {
+    //return Align(
+    //  alignment: Alignment.centerLeft,
+    //  child: JAppMainSearchBox(
+    //    jbgtext: "Search...",
+    //    width: sidebarWidth - 14,
+    //  ),
+    //);
+    return null;
   }
 }
 

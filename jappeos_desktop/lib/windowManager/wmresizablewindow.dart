@@ -486,7 +486,7 @@ class ResizableWindowState extends State<ResizableWindow> {
         onPressed: onPress,
         child: Icon(icon,
             size: _iconSize,
-            color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),),
+            color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title),),
       ),
     );
   }

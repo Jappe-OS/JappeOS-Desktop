@@ -32,14 +32,26 @@ class UINormalButtonsPrimaryTextButton extends StatefulWidget {
 class _PrimaryTextButton extends State<UINormalButtonsPrimaryTextButton> {
   @override
   Widget build(BuildContext context) {
-    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+    //final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
 
-    return OutlinedButton(
+    return _ButtonBase.base(
+      context,
+      true,
+      Text(
+        widget.text,
+        style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+      widget.onPress,
+    );
+
+    /*return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        foregroundColor: themeColorGetters.getCurrentAccentColor(), backgroundColor:
-            themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.brighter),
+        foregroundColor: themeColorGetters.getCurrentAccentColor(),
+        backgroundColor: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.brighter),
         side: BorderSide(
-            width: 0.7, color: themeColorGetters.getBorderColor(context),),
+          width: 0.7,
+          color: themeColorGetters.getBorderColor(context),
+        ),
         enabledMouseCursor: SystemMouseCursors.alias,
         disabledMouseCursor: SystemMouseCursors.alias,
       ),
@@ -48,7 +60,7 @@ class _PrimaryTextButton extends State<UINormalButtonsPrimaryTextButton> {
         widget.text,
         style: TextStyle(color: themeColorGetters.getCurrentAccentColor()),
       ),
-    );
+    );*/
   }
 }
 
@@ -68,18 +80,64 @@ class _SecondaryTextButton extends State<UINormalButtonsSecondaryTextButton> {
   Widget build(BuildContext context) {
     final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
 
-    return OutlinedButton(
+    return _ButtonBase.base(
+      context,
+      false,
+      Text(
+        widget.text,
+        style: TextStyle(color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal), fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+      widget.onPress,
+    );
+
+    /*return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        foregroundColor: themeColorGetters.getCurrentAccentColor(), side: BorderSide(
-            width: 0.7, color: themeColorGetters.getBorderColor(context)),
+        foregroundColor: themeColorGetters.getCurrentAccentColor(),
+        side: BorderSide(width: 0.7, color: themeColorGetters.getBorderColor(context)),
         enabledMouseCursor: SystemMouseCursors.alias,
         disabledMouseCursor: SystemMouseCursors.alias,
       ),
       onPressed: widget.onPress,
       child: Text(
         widget.text,
-        style: TextStyle(
-            color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal)),
+        style: TextStyle(color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal)),
+      ),
+    );*/
+  }
+}
+
+// The base widget for a button
+class _ButtonBase {
+  static Widget base(BuildContext context, bool accentBackground, Widget child, Function()? onPress) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+    final Color accent = themeColorGetters.getCurrentAccentColor();
+
+    const double borderRadius = 4.5;
+
+    return Container(
+      height: 35,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(
+          width: 0.7,
+          color: themeColorGetters.getBorderColor(context),
+        ),
+        color: accentBackground ? themeColorGetters.getCurrentAccentColor() : themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.brighter),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          mouseCursor: SystemMouseCursors.alias,
+          hoverColor: accentBackground ? Colors.white.withOpacity(0.1) : accent.withOpacity(0.1),
+          splashColor: accentBackground ? Colors.white.withOpacity(0.25) : accent.withOpacity(0.25),
+          highlightColor: accentBackground ? Colors.white.withOpacity(0.1) : accent.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(borderRadius),
+          onTap: onPress,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, top: 6, bottom: 6, right: 15),
+            child: child,
+          ),
+        ),
       ),
     );
   }

@@ -414,7 +414,7 @@ class _DesktopWidgets {
       child: Container(
         height: MediaQuery.of(context).size.height / 4,
         decoration: BoxDecoration(
-          color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
+          color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
         ),
         child: child,
       ),

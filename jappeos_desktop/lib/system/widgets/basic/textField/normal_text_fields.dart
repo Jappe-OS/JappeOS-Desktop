@@ -35,19 +35,19 @@ class _TextField extends State<UINormalTextFieldsTextField> {
   Widget build(BuildContext context) {
     final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
 
-    return TextField(
-      autofocus: widget.autoFocus ?? false,
-      readOnly: widget.readOnly ?? false,
-      decoration: InputDecoration(
-        hintText: widget.hintText,
-        border: const OutlineInputBorder(),
-        contentPadding: const EdgeInsets.all(7.5),
-        isDense: true,
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                width: 0.7,
-                color: themeColorGetters.getBorderColor(context))),
-        focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.7, color: themeColorGetters.getCurrentAccentColor())),
+    return SizedBox(
+      height: 35,
+      child: TextField(
+        autofocus: widget.autoFocus ?? false,
+        readOnly: widget.readOnly ?? false,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          border: const OutlineInputBorder(),
+          contentPadding: const EdgeInsets.all(7.5),
+          isDense: true,
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 0.7, color: themeColorGetters.getBorderColor(context))),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.7, color: themeColorGetters.getCurrentAccentColor())),
+        ),
       ),
     );
   }

@@ -15,6 +15,8 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:provider/provider.dart';
 
 /// A normal boolean switch.
 class UINormalSwitchesNormalSwitch extends StatefulWidget {
@@ -30,9 +32,14 @@ class UINormalSwitchesNormalSwitch extends StatefulWidget {
 class _NormalSwitch extends State<UINormalSwitchesNormalSwitch> {
   @override
   Widget build(BuildContext context) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     return Switch(
       onChanged: widget.onChanged, 
       value: widget.value,
+      //thumbColor: MaterialStatePropertyAll(themeColorGetters.getCurrentAccentColor()),
+      activeColor: themeColorGetters.getCurrentAccentColor(),
+      activeTrackColor: themeColorGetters.getCurrentAccentColor().withOpacity(0.5),
     );
   }
 }
