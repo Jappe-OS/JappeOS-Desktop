@@ -38,7 +38,7 @@ class TestApp extends Application implements IApplication {
     ;
 
     //DesktopState dm;
-    DesktopState.getWmController()?.wm$spawn_gui_window("TestApp", body(), cwd(), true);
+    DesktopState.getWmController()?.wm$spawnGuiWindow("TestApp", body(), cwd(), true);
   }
 
   Widget? body() {

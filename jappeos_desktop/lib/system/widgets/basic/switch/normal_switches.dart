@@ -37,7 +37,7 @@ class _NormalSwitch extends State<UINormalSwitchesNormalSwitch> {
     return Switch(
       onChanged: widget.onChanged, 
       value: widget.value,
-      //thumbColor: MaterialStatePropertyAll(themeColorGetters.getCurrentAccentColor()),
+      mouseCursor: SystemMouseCursors.alias,
       activeColor: themeColorGetters.getCurrentAccentColor(),
       activeTrackColor: themeColorGetters.getCurrentAccentColor().withOpacity(0.5),
     );

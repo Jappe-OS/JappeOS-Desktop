@@ -24,43 +24,37 @@ class WmController {
   WmController(this._onUpdate);
 
   // Resizable window.
-  List<ResizableWindow> _resizablewindows = List.empty(growable: true);
+  final List<ResizableWindow> _resizablewindows = List.empty(growable: true);
   List<ResizableWindow> get resizablewindows => _resizablewindows;
 
-  VoidCallback _onUpdate;
+  final VoidCallback _onUpdate;
 
   // Jappeos window spawner
   /// Spawns a new JappeOS window and displays it on the screen.
-  void wm$spawn_gui_window(String title, Widget body, Widget? cwd, bool isBlurry) {
+  void wm$spawnGuiWindow(String title, Widget body, Widget? cwd, bool isBlurry) {
     _createNewWindowedApp(title, body, cwd, isBlurry);
-  }
-
-  void _addWindow() {
-    _addWindowContent();
-  }
-
-  void _addWindowContent() {
-    _createNewWindowedApp("Main Window", Container(), Container(), true);
   }
 
   void _createNewWindowedApp(String title, Widget body, Widget? cwd, bool isBlurry) {
     ResizableWindow resizableWindow = ResizableWindow(title, body, cwd, isBlurry);
 
     // Set initial position.
-    var rng = new Random();
+    Random rng = Random();
     resizableWindow.x = rng.nextDouble() * 500;
     resizableWindow.y = rng.nextDouble() * 500;
 
     // Init onWindowDragged.
     resizableWindow.onWindowDragged = (dx, dy) {
-      var x1 = resizableWindow.x;
-      var y1 = resizableWindow.y;
+      double? x1 = resizableWindow.x;
+      double? y1 = resizableWindow.y;
 
-      if (x1 != null)
+      if (x1 != null) {
         x1 += dx;
+      }
 
-      if (y1 != null)
+      if (y1 != null) {
         y1 += dy;
+      }
 
 
       resizableWindow.x = x1;

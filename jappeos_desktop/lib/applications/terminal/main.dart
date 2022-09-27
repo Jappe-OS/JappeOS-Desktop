@@ -25,7 +25,7 @@ class Terminal extends Application implements IApplication {
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawn_gui_window("Terminal", body(), cwd(), false);
+    DesktopState.getWmController()?.wm$spawnGuiWindow("Terminal", body(), cwd(), false);
   }
 
   @override

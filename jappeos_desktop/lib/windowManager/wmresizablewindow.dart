@@ -20,6 +20,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:jappeos_desktop/system/widgets/basic/blur_container.dart';
 import 'package:provider/provider.dart';
 
 class ResizableWindow extends StatefulWidget {
@@ -65,29 +66,27 @@ class ResizableWindowState extends State<ResizableWindow> {
   // The size of the font
   final double _fontSize = 16;
 
-  // BoxShadow list
-  final List<BoxShadow> _bsList = [
-    const BoxShadow(
-      color: Color.fromARGB(70, 0, 0, 0),
-      spreadRadius: 5,
-      blurRadius: 10,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
 
     bool maximized = widget.isMaximized ?? false;
 
+    // BoxShadow list
+    final List<BoxShadow> _bsList = [
+      const BoxShadow(
+        color: Color.fromARGB(70, 0, 0, 0),
+        spreadRadius: 2,
+        blurRadius: 30,
+        offset: Offset(0, 5),
+      ),
+    ];
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(maximized ? 0.0 : _borderRadius)),
-        border: Border.all(
-            color: themeColorGetters.getBorderColor(context),
-            width: 1,
-            style: BorderStyle.solid),
-        boxShadow: _bsList,
+        border: Border.all(color: themeColorGetters.getBorderColor(context), width: 1, style: BorderStyle.solid),
+        boxShadow: maximized ? null : _bsList,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(maximized ? 0.0 : _borderRadius)),
@@ -268,9 +267,7 @@ class ResizableWindowState extends State<ResizableWindow> {
                   child: Center(
                 child: Text(
                   widget.title!,
-                  style: TextStyle(
-                      fontSize: _fontSize,
-                      color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title)),
+                  style: TextStyle(fontSize: _fontSize, color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title)),
                 ),
               )),
               Positioned(left: 7, right: 120, top: 7.5, height: _headerSize - 15, child: widget.cwd ?? Container()),
@@ -308,7 +305,6 @@ class ResizableWindowState extends State<ResizableWindow> {
       widget.x = -1;
       widget.y = -1;
       widget.onWindowDragged!(0, 30);
-      _bsList.clear();
       widget.isMaximized = true;
     });
   }
@@ -320,13 +316,6 @@ class ResizableWindowState extends State<ResizableWindow> {
       widget.x = 100;
       widget.y = 100;
       widget.onWindowDragged!(0, 0);
-      _bsList.add(
-        const BoxShadow(
-          color: Color.fromARGB(70, 0, 0, 0),
-          spreadRadius: 5,
-          blurRadius: 10,
-        ),
-      );
       widget.isMaximized = false;
     });
   }
@@ -411,12 +400,11 @@ class ResizableWindowState extends State<ResizableWindow> {
 
     if (widget.isBlurry) {
       return ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
-          child: Container(
+        child: UIBlurContainer(
+          child: SizedBox(
             width: widget.currentWidth,
             height: _headerSize,
-            color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
+            //color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
             child: child,
           ),
         ),
@@ -484,9 +472,11 @@ class ResizableWindowState extends State<ResizableWindow> {
           ),
         ),
         onPressed: onPress,
-        child: Icon(icon,
-            size: _iconSize,
-            color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title),),
+        child: Icon(
+          icon,
+          size: _iconSize,
+          color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title),
+        ),
       ),
     );
   }

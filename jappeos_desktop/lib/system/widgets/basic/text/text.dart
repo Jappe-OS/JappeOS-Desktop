@@ -16,6 +16,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:provider/provider.dart';
 
 /// A normal-sized text widget.
 class UITextNormalText extends StatefulWidget {
@@ -30,8 +32,14 @@ class UITextNormalText extends StatefulWidget {
 class _NormalText extends State<UITextNormalText> {
   @override
   Widget build(BuildContext context) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
     return Text(
-      widget.text
+      widget.text,
+      style: TextStyle(
+        color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
+        fontSize: 15,
+      ),
     );
   }
 }

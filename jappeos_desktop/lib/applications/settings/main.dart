@@ -26,7 +26,7 @@ class Settings extends Application implements IApplication {
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawn_gui_window("Settings", body(), cwd(), true);
+    DesktopState.getWmController()?.wm$spawnGuiWindow("Settings", body(), cwd(), true);
   }
 
   @override

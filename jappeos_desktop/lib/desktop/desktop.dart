@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import 'package:jappeos_desktop/applications/settings/main.dart';
@@ -25,6 +23,9 @@ import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_controller.dar
 import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_manager.dart';
 import 'package:jappeos_desktop/system/appSystem/applications.dart';
 import 'package:jappeos_desktop/system/desktop_cfg.dart';
+import 'package:jappeos_desktop/system/widgets/base/button_base.dart';
+import 'package:jappeos_desktop/system/widgets/basic/blur_container.dart';
+import 'package:jappeos_desktop/system/widgets/basic/text/text.dart';
 import 'package:jappeos_desktop/system/widgets/basic/textField/normal_text_fields.dart';
 import 'package:provider/provider.dart';
 
@@ -140,7 +141,7 @@ class _DesktopElements {
         height: 80,
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
+          //boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
           borderRadius: const BorderRadius.all(Radius.circular(_DesktopThemeProperties.borderRadius)),
           border: Border.all(
             color: Colors.grey.withOpacity(0.3),
@@ -148,26 +149,27 @@ class _DesktopElements {
           ),
         ),
         child: IntrinsicWidth(
-          child: _DesktopWidgets._blurContainer(
-              context,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: UIBlurContainer(
+            radius: true,
+            radiusAmount: _DesktopThemeProperties.borderRadius,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
 
-                // The items shown in the dock.
-                children: [
-                  _dockItem(null, null, false, () {
-                    Applications.sys$runProcess(Settings());
-                  }),
-                  _dockItem(null, null, false, () {
-                    Applications.sys$runProcess(WidgetTesting());
-                  }),
-                  _dockItem(null, null, false, () {
-                    Applications.sys$runProcess(Terminal());
-                  }),
-                  _dockItem(null, null, false, () {}),
-                ],
-              ),
-              true),
+              // The items shown in the dock.
+              children: [
+                _dockItem(null, null, false, () {
+                  Applications.sys$runProcess(Settings());
+                }),
+                _dockItem(null, null, false, () {
+                  Applications.sys$runProcess(WidgetTesting());
+                }),
+                _dockItem(null, null, false, () {
+                  Applications.sys$runProcess(Terminal());
+                }),
+                _dockItem(null, null, false, () {}),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -183,131 +185,127 @@ class _DesktopElements {
       right: 0,
       height: 30,
       child: Container(
-        decoration: BoxDecoration(
-          boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
-        ),
-        child: _DesktopWidgets._blurContainer(
-            context,
-            Stack(
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: sidePadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-
-                    // The items on the TopBar on the left side.
-                    children: [
-                      // Launcher button.
-                      _topBarItem(
+        //decoration: BoxDecoration(
+        //  boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
+        //),
+        child: UIBlurContainer(
+          radius: false,
+          child: Stack(
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: sidePadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // The items on the TopBar on the left side.
+                  children: [
+                    // Launcher button.
+                    _topBarItem(
+                      context,
+                      null,
+                      () {
+                        //_desktopMenuController?.openDesktopOverlayMenu(DesktopMenu$Menus.launcher);
+                      },
+                      true,
+                      _topBarItemIcon(
                         context,
-                        null,
-                        () {
-                          //_desktopMenuController?.openDesktopOverlayMenu(DesktopMenu$Menus.launcher);
-                        },
-                        true,
-                        _topBarItemIcon(
-                          context,
-                          Icons.apps,
-                        ),
+                        Icons.apps,
                       ),
-                      const SizedBox(width: 5),
-                      // TaskView button.
-                      _topBarItem(
+                    ),
+                    const SizedBox(width: 5),
+                    // TaskView button.
+                    _topBarItem(
+                      context,
+                      null,
+                      () {},
+                      true,
+                      _topBarItemIcon(
                         context,
-                        null,
-                        () {},
-                        true,
-                        _topBarItemIcon(
-                          context,
-                          Icons.menu_open,
-                        ),
+                        Icons.menu_open,
                       ),
-                      const SizedBox(width: 5),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 5),
+                  ],
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: sidePadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-
-                    // The items on the TopBar on the right side.
-                    children: [
-                      // System tray buttons.
-                      _topBarItem(
-                          context,
-                          null,
-                          () {},
-                          true,
-                          Row(
-                            children: [
-                              _topBarItemIcon(
-                                context,
-                                Icons.mic,
-                              ),
-                              const SizedBox(width: 3),
-                              _topBarItemIcon(
-                                context,
-                                Icons.camera,
-                              ),
-                            ],
-                          )),
-                      const SizedBox(width: 5),
-                      // QuickSettings button.
-                      _topBarItem(
-                          context,
-                          null,
-                          () {},
-                          true,
-                          Row(
-                            children: [
-                              _topBarItemIcon(
-                                context,
-                                Icons.wifi,
-                              ),
-                              const SizedBox(width: 3),
-                              _topBarItemIcon(
-                                context,
-                                Icons.volume_mute,
-                              ),
-                              const SizedBox(width: 3),
-                              _topBarItemIcon(
-                                context,
-                                Icons.battery_full,
-                              ),
-                            ],
-                          )),
-                      const SizedBox(width: 5),
-                      // Notifications and Time&Date button.
-                      _topBarItem(
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.only(right: sidePadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  // The items on the TopBar on the right side.
+                  children: [
+                    // System tray buttons.
+                    _topBarItem(
                         context,
                         null,
                         () {},
                         true,
                         Row(
                           children: [
-                            const Text(
-                              '19:00',
-                              //style: TextStyle(
-                              //  color: topBarItemContentColor,
-                              //),
+                            _topBarItemIcon(
+                              context,
+                              Icons.mic,
                             ),
                             const SizedBox(width: 3),
                             _topBarItemIcon(
                               context,
-                              Icons.notifications,
+                              Icons.camera,
                             ),
                           ],
-                        ),
+                        )),
+                    const SizedBox(width: 5),
+                    // QuickSettings button.
+                    _topBarItem(
+                        context,
+                        null,
+                        () {},
+                        true,
+                        Row(
+                          children: [
+                            _topBarItemIcon(
+                              context,
+                              Icons.wifi,
+                            ),
+                            const SizedBox(width: 3),
+                            _topBarItemIcon(
+                              context,
+                              Icons.volume_mute,
+                            ),
+                            const SizedBox(width: 3),
+                            _topBarItemIcon(
+                              context,
+                              Icons.battery_full,
+                            ),
+                          ],
+                        )),
+                    const SizedBox(width: 5),
+                    // Notifications and Time&Date button.
+                    _topBarItem(
+                      context,
+                      null,
+                      () {},
+                      true,
+                      Row(
+                        children: [
+                          _topBarItemText(
+                            context,
+                            '19:00',
+                          ),
+                          const SizedBox(width: 3),
+                          _topBarItemIcon(
+                            context,
+                            Icons.notifications,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            false),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -356,39 +354,49 @@ class _DesktopElements {
 
   /// The item element used in the [topBar] widget.
   static Widget _topBarItem(BuildContext context, String? text, Function()? onPressed, bool custom, Widget? customWidget) {
-    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+    //final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
 
-    if (!custom) {
-      return TextButton(
-          style: TextButton.styleFrom(
-            minimumSize: const Size(30, 30),
-            padding: const EdgeInsets.all(6),
-            enabledMouseCursor: SystemMouseCursors.alias,
-            disabledMouseCursor: SystemMouseCursors.alias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
-            ),
-          ),
-          onPressed: onPressed,
-          child: Text(text ?? "",
-              style: TextStyle(
-                color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
-              )));
-    } else {
-      return TextButton(
-        style: TextButton.styleFrom(
-          minimumSize: const Size(30, 30),
-          padding: const EdgeInsets.all(6),
-          enabledMouseCursor: SystemMouseCursors.alias,
-          disabledMouseCursor: SystemMouseCursors.alias,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
-          ),
-        ),
-        onPressed: onPressed,
-        child: customWidget ?? Container(),
-      );
-    }
+    final Widget child = custom ? customWidget ?? _topBarItemText(context, text ?? "custom::null") : _topBarItemText(context, text ?? "null");
+
+    return UIBasesButtonBase(
+      onPress: onPressed,
+      height: 30,
+      padding: const EdgeInsets.only(left: 6, right: 6),
+      radiusAmount: _DesktopThemeProperties.borderRadius,
+      child: child,
+    );
+
+    //if (!custom) {
+    //  return TextButton(
+    //      style: TextButton.styleFrom(
+    //        minimumSize: const Size(30, 30),
+    //        padding: const EdgeInsets.all(6),
+    //        enabledMouseCursor: SystemMouseCursors.alias,
+    //        disabledMouseCursor: SystemMouseCursors.alias,
+    //        shape: RoundedRectangleBorder(
+    //          borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
+    //        ),
+    //      ),
+    //      onPressed: onPressed,
+    //      child: Text(text ?? "",
+    //          style: TextStyle(
+    //            color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
+    //          )));
+    //} else {
+    //  return TextButton(
+    //    style: TextButton.styleFrom(
+    //      minimumSize: const Size(30, 30),
+    //      padding: const EdgeInsets.all(6),
+    //      enabledMouseCursor: SystemMouseCursors.alias,
+    //      disabledMouseCursor: SystemMouseCursors.alias,
+    //      shape: RoundedRectangleBorder(
+    //        borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
+    //      ),
+    //    ),
+    //    onPressed: onPressed,
+    //    child: customWidget ?? Container(),
+    //  );
+    //}
   }
 
   /// The icons used in the [_topBarItem] element.
@@ -401,37 +409,24 @@ class _DesktopElements {
       color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
     );
   }
+
+  /// The text used in the [_topBarItem] element.
+  static Widget _topBarItemText(BuildContext context, String data) {
+    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
+
+    return Text(
+      data,
+      style: TextStyle(
+        color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title),
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
 }
 
 /// Multiple widgets that can be used within the desktop.
 class _DesktopWidgets {
-  /// A blur effect used for backgrounds.
-  static Widget _blurContainer(BuildContext context, Widget child, bool radius) {
-    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
-
-    final BackdropFilter bf = BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 4,
-        decoration: BoxDecoration(
-          color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
-        ),
-        child: child,
-      ),
-    );
-
-    if (radius) {
-      return ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(_DesktopThemeProperties.borderRadius)),
-        child: bf,
-      );
-    } else {
-      return ClipRRect(
-        child: bf,
-      );
-    }
-  }
-
   /// Shadow element for TopBar and the Dock.
   static BoxShadow _basicShadow() {
     return const BoxShadow(

@@ -36,8 +36,8 @@ class _WmManagerState extends State<WmManager> {
         return Positioned(
           left: e.x,
           top: e.y,
-          child: e,
           key: e.key,
+          child: e,
         );
       }).toList()
     );
