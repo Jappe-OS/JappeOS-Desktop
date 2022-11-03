@@ -106,13 +106,13 @@ class _SecondaryTextButton extends State<UINormalButtonsSecondaryTextButton> {
   }
 }
 
-// The base widget for a button
+/// The base widget for a button
 class _ButtonBase {
   static Widget base(BuildContext context, bool accentBackground, Widget child, Function()? onPress) {
     final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
     final Color accent = themeColorGetters.getCurrentAccentColor();
 
-    const double borderRadius = 4.5;
+    const double borderRadius = 6.5;
 
     return Container(
       height: 35,

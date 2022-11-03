@@ -152,6 +152,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "shade_ui",
+      "rootUri": "../packages/shade_ui",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///C:/FlutterSDK/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -218,7 +224,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-09-26T18:10:31.888634Z",
+  "generated": "2022-11-02T17:11:52.940164Z",
   "generator": "pub",
   "generatorVersion": "2.19.0-240.0.dev"
 }

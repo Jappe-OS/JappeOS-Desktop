@@ -31,6 +31,9 @@ class UINormalTextFieldsTextField extends StatefulWidget {
 }
 
 class _TextField extends State<UINormalTextFieldsTextField> {
+
+  static const double _borderRadius = 6.5;
+
   @override
   Widget build(BuildContext context) {
     final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
@@ -45,8 +48,8 @@ class _TextField extends State<UINormalTextFieldsTextField> {
           border: const OutlineInputBorder(),
           contentPadding: const EdgeInsets.all(7.5),
           isDense: true,
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 0.7, color: themeColorGetters.getBorderColor(context))),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.7, color: themeColorGetters.getCurrentAccentColor())),
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 0.7, color: themeColorGetters.getBorderColor(context)), borderRadius: BorderRadius.circular(_borderRadius)),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.7, color: themeColorGetters.getCurrentAccentColor()), borderRadius: BorderRadius.circular(_borderRadius)),
         ),
       ),
     );

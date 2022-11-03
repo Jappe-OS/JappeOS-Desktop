@@ -25,7 +25,6 @@ import 'package:jappeos_desktop/system/appSystem/applications.dart';
 import 'package:jappeos_desktop/system/desktop_cfg.dart';
 import 'package:jappeos_desktop/system/widgets/base/button_base.dart';
 import 'package:jappeos_desktop/system/widgets/basic/blur_container.dart';
-import 'package:jappeos_desktop/system/widgets/basic/text/text.dart';
 import 'package:jappeos_desktop/system/widgets/basic/textField/normal_text_fields.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +35,9 @@ import '../windowManager/wmmanager.dart';
 class _DesktopThemeProperties {
   /// A border radius mainly used for background UI elements.
   static const double borderRadius = 10;
+
+  /// Whether to render GUI on the desktop or not, if false, only the WM windows will be rendered.
+  static bool renderGUI = true;
 }
 
 /// The stateful widget for the base desktop UI.
@@ -74,7 +76,24 @@ class DesktopState extends State<Desktop> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    // The window layer of the desktop UI.
+    final Widget windowLayer = 
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          child: Stack(
+            children: [
+              WmManager(
+                wmController: _wmController,
+              ),
+            ],
+          ),
+        );
+
+    return !_DesktopThemeProperties.renderGUI ? windowLayer : Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -87,20 +106,7 @@ class DesktopState extends State<Desktop> {
         ),
         child: Stack(
           children: [
-            // The window layer of the desktop UI.
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Stack(
-                children: [
-                  WmManager(
-                    wmController: _wmController,
-                  ),
-                ],
-              ),
-            ),
+            windowLayer,
 
             // The desktop-menu layer of the desktop.
             Positioned(

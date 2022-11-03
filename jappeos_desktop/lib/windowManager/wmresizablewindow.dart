@@ -24,22 +24,29 @@ import 'package:jappeos_desktop/system/widgets/basic/blur_container.dart';
 import 'package:provider/provider.dart';
 
 class ResizableWindow extends StatefulWidget {
-  late double currentHeight, defaultHeight = 400.0;
-  late double currentWidth, defaultWidth = 400.0;
+  late double currentHeight, defaultHeight = defaultSize == null ? 400.0 : defaultSize!.height;
+  late double currentWidth, defaultWidth = defaultSize == null ? 400.0 : defaultSize!.width;
   late double? oldHeight;
   late double? oldWidth;
+  bool? isMaximized;
   double? x;
   double? y;
+
   String? title;
   Widget? body;
   Widget? cwd;
-  bool? isMaximized;
   bool isBlurry;
+  Size? defaultSize;
+  Size minimumSize;
 
   Function(double, double)? onWindowDragged;
   VoidCallback? onCloseButtonClicked;
 
-  ResizableWindow(this.title, this.body, this.cwd, this.isBlurry) : super(key: UniqueKey()) {
+  ResizableWindow(this.title, this.body, this.cwd, this.isBlurry, this.defaultSize, this.minimumSize) : super(key: UniqueKey()) {
+    init();
+  }
+
+  void init() {
     currentHeight = defaultHeight;
     currentWidth = defaultWidth;
     oldHeight = defaultHeight;
@@ -73,7 +80,7 @@ class ResizableWindowState extends State<ResizableWindow> {
     bool maximized = widget.isMaximized ?? false;
 
     // BoxShadow list
-    final List<BoxShadow> _bsList = [
+    final List<BoxShadow> bsList = [
       const BoxShadow(
         color: Color.fromARGB(70, 0, 0, 0),
         spreadRadius: 2,
@@ -82,11 +89,17 @@ class ResizableWindowState extends State<ResizableWindow> {
       ),
     ];
 
+    if (widget.currentWidth < widget.minimumSize.width) {
+      widget.currentWidth = widget.minimumSize.width;
+    } else if (widget.currentHeight < widget.minimumSize.height) {
+      widget.currentWidth = widget.minimumSize.width;
+    }
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(maximized ? 0.0 : _borderRadius)),
         border: Border.all(color: themeColorGetters.getBorderColor(context), width: 1, style: BorderStyle.solid),
-        boxShadow: maximized ? null : _bsList,
+        boxShadow: maximized ? null : bsList,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(maximized ? 0.0 : _borderRadius)),
@@ -225,10 +238,19 @@ class ResizableWindowState extends State<ResizableWindow> {
           _onRestore();
         } else {
           widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
+
+          if (widget.y! < 5) {
+            widget.y = 5;
+          }
         }
       },
       onTap: () {
         widget.onWindowDragged!(0, 0);
+      },
+      onLongPressCancel: () {
+        if (widget.y! < 25) {
+          _onMaximize();
+        }
       },
       child: headerBlurContainer(
         context,

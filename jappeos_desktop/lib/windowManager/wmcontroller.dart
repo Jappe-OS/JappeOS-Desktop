@@ -31,12 +31,12 @@ class WmController {
 
   // Jappeos window spawner
   /// Spawns a new JappeOS window and displays it on the screen.
-  void wm$spawnGuiWindow(String title, Widget body, Widget? cwd, bool isBlurry) {
-    _createNewWindowedApp(title, body, cwd, isBlurry);
+  void wm$spawnGuiWindow(String title, Widget body, Widget? cwd, bool isBlurry, Size? defaultSize, Size minimumSize) {
+    _createNewWindowedApp(title, body, cwd, isBlurry, defaultSize, minimumSize);
   }
 
-  void _createNewWindowedApp(String title, Widget body, Widget? cwd, bool isBlurry) {
-    ResizableWindow resizableWindow = ResizableWindow(title, body, cwd, isBlurry);
+  void _createNewWindowedApp(String title, Widget body, Widget? cwd, bool isBlurry, Size? defaultSize, Size minimumSize) {
+    ResizableWindow resizableWindow = ResizableWindow(title, body, cwd, isBlurry, defaultSize, minimumSize);
 
     // Set initial position.
     Random rng = Random();

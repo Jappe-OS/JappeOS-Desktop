@@ -31,7 +31,7 @@ class WidgetTesting extends Application implements IApplication {
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow("WidgetTesting", body(), null, false);
+    DesktopState.getWmController()?.wm$spawnGuiWindow("WidgetTesting", body(), null, false, const Size(500, 400), const Size(500, 400));
   }
 
   @override

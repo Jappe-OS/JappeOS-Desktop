@@ -28,6 +28,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  shade_ui:
+    path: ./packages/shade_ui
 
   flutter_svg: ^0.17.4
   flutter_menu: ^0.4.1

@@ -14,38 +14,24 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/desktop/desktop.dart';
-import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
-import 'package:jappeos_desktop/system/widgets/advanced/tabs/tab_system.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-class Terminal extends Application implements IApplication {
-  Terminal() : super("Terminal", "terminal", null);
+import 'package:flutter/widgets.dart';
 
-  @override
-  void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow("Terminal", body(), cwd(), false, const Size(500, 400), const Size(500, 400));
-  }
+class ButtonBase extends StatefulWidget {
+  final Widget child;
+  final Function()? onPress;
+
+  const ButtonBase({Key? key, required this.child, this.onPress}) : super(key: key);
 
   @override
-  Widget body() {
-    return _Content();
-  }
-
-  @override
-  Widget? cwd() {
-    return null;
-  }
+  _ButtonBaseState createState() => _ButtonBaseState();
 }
 
-class _Content extends StatelessWidget {
+class _ButtonBaseState extends State<ButtonBase> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: UITabsAdvancedTabSystem(
-        tab: Container(),
-      ),
-    );
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }
