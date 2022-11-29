@@ -16,22 +16,79 @@
 
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:shade_ui/utils.dart';
 
+/// The base button widget, any color other than [backgroundColor] should not be transparent because that's already determined by this class.
 class ButtonBase extends StatefulWidget {
+  /// The widget inside the button itself.
   final Widget child;
+
+  /// The color of the button background.
+  final Color backgroundColor;
+
+  /// Color of the button when highlighted, no transparency needed.
+  final Color highlightColor;
+
+  /// Color of the button when hovered, no transparency needed.
+  final Color hoverColor;
+
+  /// Color of the button material splash effect, no transparency needed.
+  final Color splashColor;
+
+  /// The height of the button. If null, default height will be used.
+  final double? height;
+
+  /// The padding of the button content; the empty space around the [child] widget.
+  final EdgeInsetsGeometry? padding;
+
+  /// The [Function] is called when the button is pressed.
   final Function()? onPress;
 
-  const ButtonBase({Key? key, required this.child, this.onPress}) : super(key: key);
+  const ButtonBase(
+      {Key? key,
+      required this.child,
+      required this.backgroundColor,
+      required this.highlightColor,
+      required this.hoverColor,
+      required this.splashColor,
+      this.height,
+      this.padding,
+      this.onPress})
+      : super(key: key);
 
   @override
   _ButtonBaseState createState() => _ButtonBaseState();
 }
 
+/// The [State] class for [ButtonBase].
 class _ButtonBaseState extends State<ButtonBase> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    final double height = widget.height ?? Utils.getSigleLineElementHeight();
+    final BorderRadius br = BorderRadius.circular(Utils.getDefaultBorderRadius());
+
+    return Container(
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: br,
+        color: widget.backgroundColor,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          mouseCursor: SystemMouseCursors.alias,
+          hoverColor: widget.hoverColor.withOpacity(0.1),
+          splashColor: widget.splashColor.withOpacity(0.25),
+          highlightColor: widget.highlightColor.withOpacity(0.1),
+          borderRadius: br,
+          onTap: widget.onPress,
+          child: Padding(
+            padding: widget.padding ?? const EdgeInsets.all(5),
+            child: widget.child,
+          ),
+        ),
+      ),
+    );
   }
 }
