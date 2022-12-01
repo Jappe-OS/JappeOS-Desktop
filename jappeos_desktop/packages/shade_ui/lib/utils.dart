@@ -1,4 +1,4 @@
-//  JappeOS-Desktop, The desktop environment for JappeOS.
+//  ShadeUI, An UI elements package for JappeOS apps.
 //  Copyright (C) 2022  Jappe02
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -14,11 +14,16 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
+/// Utilities
 class Utils {
+
+  /// Returns the normal height of an UI element.
   static double getSigleLineElementHeight() {
     return 35;
   }
 
+  /// Returns the border radius used by most widgets.
   static double getDefaultBorderRadius() {
     return 5;
   }

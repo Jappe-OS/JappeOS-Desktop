@@ -1,4 +1,4 @@
-//  JappeOS-Desktop, The desktop environment for JappeOS.
+//  ShadeUI, An UI elements package for JappeOS apps.
 //  Copyright (C) 2022  Jappe02
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,12 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/widgets.dart';
+import 'package:shade_ui/theming.dart';
 
+/// Properties for a theme.
 class ThemeProperties {
-  const ThemeProperties(this.backgroundColor1, this.backgroundColor2, this.borderColor, this.accentColor, this.normalTextColor, this.secondaryTextColor);
+  const ThemeProperties(this.backgroundColor1, this.backgroundColor2, this.borderColor, this.accentColor, this.normalTextColor, this.darkerTextColor,
+      this.secondaryTextColor, this.invertedTextColor);
 
   final Color backgroundColor1;
   final Color backgroundColor2;
@@ -29,21 +32,29 @@ class ThemeProperties {
   final Color accentColor;
 
   final Color normalTextColor;
+  final Color darkerTextColor;
   final Color secondaryTextColor;
+  final Color invertedTextColor;
 }
 
+/// Properties for the dark theme.
 class DarkThemeProperties {
   const DarkThemeProperties(this.themeProperties);
 
   final ThemeProperties themeProperties;
 }
 
+/// Properties for the light theme.
 class LightThemeProperties {
   const LightThemeProperties(this.themeProperties);
 
   final ThemeProperties themeProperties;
 }
 
+/// The main class.
 class ShadeUI {
-  void init(DarkThemeProperties dtp, LightThemeProperties ltp) {}
+  /// Initialize ShadeUI.
+  void init(DarkThemeProperties dtp, LightThemeProperties ltp) {
+    CurrentTheme.setThemeProperties(dtp, ltp);
+  }
 }

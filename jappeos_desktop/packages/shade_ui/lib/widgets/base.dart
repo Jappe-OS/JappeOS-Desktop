@@ -1,4 +1,4 @@
-//  JappeOS-Desktop, The desktop environment for JappeOS.
+//  ShadeUI, An UI elements package for JappeOS apps.
 //  Copyright (C) 2022  Jappe02
 //
 //  This program is free software: you can redistribute it and/or modify
