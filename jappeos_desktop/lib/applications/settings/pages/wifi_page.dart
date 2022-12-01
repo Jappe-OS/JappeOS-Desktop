@@ -16,9 +16,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:shade_ui/widgets/buttons/shade_button.dart';
 
 class WifiPage {
   Widget w() {
-    return Container();
+    return Container(child: const ShadeButton(text: 'Potato',));
   }
 }

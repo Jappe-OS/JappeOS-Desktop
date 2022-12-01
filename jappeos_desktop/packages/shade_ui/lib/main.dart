@@ -54,7 +54,7 @@ class LightThemeProperties {
 /// The main class.
 class ShadeUI {
   /// Initialize ShadeUI.
-  void init(DarkThemeProperties dtp, LightThemeProperties ltp) {
+  static void init(DarkThemeProperties dtp, LightThemeProperties ltp) {
     CurrentTheme.setThemeProperties(dtp, ltp);
   }
 }
