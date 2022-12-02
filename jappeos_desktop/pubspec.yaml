@@ -34,6 +34,9 @@ dependencies:
   shade_theming:
     path: ./packages/shade_theming
 
+  jappeos_desktop_ui:
+    path: ./packages/jappeos_desktop_ui
+
   flutter_svg: ^0.17.4
   flutter_menu: ^0.4.1
   provider: ^6.0.3

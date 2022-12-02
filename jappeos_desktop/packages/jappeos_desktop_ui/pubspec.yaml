@@ -1,0 +1,32 @@
+name: jappeos_desktop_ui
+description: Provides user interfaces for the JappeOS Desktop UI.
+
+publish_to: 'none'
+version: 1.0.0+1
+google_sign_in_web: ^0.9.1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_svg: ^0.17.4
+  flutter_menu: ^0.4.1
+
+  shade_theming:
+    path: ../shade_theming
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  
+  uses-material-design: true
+
+  assets:
+    - "resources/images/blur_noise.png"
