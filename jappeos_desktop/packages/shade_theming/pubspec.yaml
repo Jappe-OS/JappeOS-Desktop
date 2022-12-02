@@ -1,0 +1,23 @@
+name: shade_theming
+description: A simple theming system for shade_ui.
+
+publish_to: 'none'
+version: 1.0.0+1
+google_sign_in_web: ^0.9.1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  
+  uses-material-design: false
