@@ -17,7 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:shade_ui/theming.dart';
+import 'package:shade_theming/main.dart';
 
 /// Contains different size variants for [ShadeText].
 enum ShadeTextStyle { secondary, normal, big, title, title1, title2 }
@@ -47,7 +47,7 @@ class _ShadeTextState extends State<ShadeText> {
   double fontSize = 0.0;
   final double normalFontSize = 10.5;
 
-  Color fontColor = CurrentTheme.getCurrentThemeProperties().normalTextColor;
+  Color fontColor = ShadeTheme.getCurrentThemeProperties().normalTextColor;
 
   FontWeight fontWeight = FontWeight.normal;
 
@@ -56,7 +56,7 @@ class _ShadeTextState extends State<ShadeText> {
     switch (widget.style) {
       case ShadeTextStyle.secondary:
         fontSize = 10;
-        fontColor = CurrentTheme.getCurrentThemeProperties().secondaryTextColor;
+        fontColor = ShadeTheme.getCurrentThemeProperties().secondaryTextColor;
         break;
       case ShadeTextStyle.normal:
         fontSize = normalFontSize;
@@ -66,17 +66,17 @@ class _ShadeTextState extends State<ShadeText> {
         break;
       case ShadeTextStyle.title:
         fontSize = 25;
-        fontColor = CurrentTheme.getCurrentThemeProperties().darkerTextColor;
+        fontColor = ShadeTheme.getCurrentThemeProperties().darkerTextColor;
         fontWeight = FontWeight.bold;
         break;
       case ShadeTextStyle.title1:
         fontSize = 20;
-        fontColor = CurrentTheme.getCurrentThemeProperties().darkerTextColor;
+        fontColor = ShadeTheme.getCurrentThemeProperties().darkerTextColor;
         fontWeight = FontWeight.bold;
         break;
       case ShadeTextStyle.title2:
         fontSize = 16;
-        fontColor = CurrentTheme.getCurrentThemeProperties().darkerTextColor;
+        fontColor = ShadeTheme.getCurrentThemeProperties().darkerTextColor;
         fontWeight = FontWeight.bold;
         break;
       case null:
@@ -87,7 +87,7 @@ class _ShadeTextState extends State<ShadeText> {
     return Text(
       widget.text,
       style: TextStyle(
-        fontSize: fontSize,
+        fontSize: fontSize * 1.5,
         color: widget.customColor ?? fontColor,
         fontWeight: widget.customFontWeight ?? fontWeight,
       ),

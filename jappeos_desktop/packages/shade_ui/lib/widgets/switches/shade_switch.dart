@@ -19,33 +19,30 @@
 import 'package:flutter/material.dart';
 import 'package:shade_theming/main.dart';
 
-/// A simple icon element.
-class ShadeIcon extends StatefulWidget {
-  /// The icon.
-  final IconData icon;
+/// A simple switch that can be toggled on and off, by ShadeUI.
+class ShadeSwitch extends StatefulWidget {
+  /// The default value of the switch.
+  final bool value;
 
-  /// The size of the icon.
-  final double? size;
+  /// This [Function] is triggered when the value of the switch has changed.
+  final void Function(bool)? onChanged;
 
-  /// The custom color of the icon.
-  final Color? customColor;
-
-  const ShadeIcon({Key? key, required this.icon, this.size, this.customColor}) : super(key: key);
+  const ShadeSwitch({Key? key, required this.value, this.onChanged}) : super(key: key);
 
   @override
-  _ShadeIconState createState() => _ShadeIconState();
+  _ShadeSwitchState createState() => _ShadeSwitchState();
 }
 
-/// The [State] class for [ShadeIcon].
-class _ShadeIconState extends State<ShadeIcon> {
-  final Color color = ShadeTheme.getCurrentThemeProperties().accentColor;
-
+/// The [State] class for [ShadeSwitch].
+class _ShadeSwitchState extends State<ShadeSwitch> {
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      widget.icon,
-      color: widget.customColor ?? color,
-      size: widget.size,
+    return Switch(
+      onChanged: widget.onChanged,
+      value: widget.value,
+      mouseCursor: SystemMouseCursors.alias,
+      activeColor: ShadeTheme.getCurrentThemeProperties().accentColor,
+      activeTrackColor: ShadeTheme.getCurrentThemeProperties().accentColor.withOpacity(0.5),
     );
   }
 }

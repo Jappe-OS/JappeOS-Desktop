@@ -142,6 +142,10 @@ jappeos_desktop
 2.12
 file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/
 file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/lib/
+shade_theming
+2.12
+file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/shade_theming/
+file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/shade_theming/lib/
 shade_ui
 2.12
 file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/shade_ui/

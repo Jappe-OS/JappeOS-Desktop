@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:shade_theming/main.dart';
 import 'package:shade_ui/utils.dart';
 
 /// The base button widget, any color other than [backgroundColor] should not be transparent because that's already determined by this class.
@@ -42,6 +43,9 @@ class ButtonBase extends StatefulWidget {
   /// The padding of the button content; the empty space around the [child] widget.
   final EdgeInsetsGeometry? padding;
 
+  /// The alignment of the button.
+  final Alignment? alignment;
+
   /// The [Function] is called when the button is pressed.
   final Function()? onPress;
 
@@ -54,6 +58,7 @@ class ButtonBase extends StatefulWidget {
       required this.splashColor,
       this.height,
       this.padding,
+      this.alignment,
       this.onPress})
       : super(key: key);
 
@@ -68,24 +73,31 @@ class _ButtonBaseState extends State<ButtonBase> {
     final double height = widget.height ?? Utils.getSigleLineElementHeight();
     final BorderRadius br = BorderRadius.circular(Utils.getDefaultBorderRadius());
 
-    return Container(
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: br,
-        color: widget.backgroundColor,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          mouseCursor: SystemMouseCursors.alias,
-          hoverColor: widget.hoverColor.withOpacity(0.1),
-          splashColor: widget.splashColor.withOpacity(0.25),
-          highlightColor: widget.highlightColor.withOpacity(0.1),
+    return Align(
+      alignment: widget.alignment ?? Alignment.topLeft,
+      child: Container(
+        height: height,
+        decoration: BoxDecoration(
           borderRadius: br,
-          onTap: widget.onPress,
-          child: Padding(
-            padding: widget.padding ?? const EdgeInsets.all(5),
-            child: widget.child,
+          border: Border.all(
+            width: 0.7,
+            color: ShadeTheme.getCurrentThemeProperties().borderColor,
+          ),
+          color: widget.backgroundColor,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            mouseCursor: SystemMouseCursors.alias,
+            hoverColor: widget.hoverColor.withOpacity(0.1),
+            splashColor: widget.splashColor.withOpacity(0.25),
+            highlightColor: widget.highlightColor.withOpacity(0.1),
+            borderRadius: br,
+            onTap: widget.onPress,
+            child: Padding(
+              padding: widget.padding ?? const EdgeInsets.all(5),
+              child: widget.child,
+            ),
           ),
         ),
       ),

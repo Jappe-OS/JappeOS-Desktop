@@ -25,6 +25,7 @@ import 'package:jappeos_desktop/system/widgets/basic/switch/normal_switches.dart
 import 'package:jappeos_desktop/system/widgets/basic/text/text.dart';
 import 'package:jappeos_desktop/system/widgets/basic/textField/normal_text_fields.dart';
 import 'package:provider/provider.dart';
+import 'package:shade_ui/widgets/widgets.dart';
 
 class WidgetTesting extends Application implements IApplication {
   WidgetTesting() : super("WidgetTesting", "widget-testing", null);
@@ -70,7 +71,19 @@ class _Content extends StatelessWidget {
               onChanged: (value) {
                 themeProvider.setDarkMode(value);
               },
-            )
+            ),
+            const UITextNormalText(text: "> New widgets >>>>"),
+            ShadeButton(text: 'Primary ShadeButton', isPrimary: true, onPress: () {},),
+            ShadeButton(text: 'Secondary ShadeButton', isPrimary: false, onPress: () {},),
+            const ShadeTextfield(hintText: 'Type something...',),
+            const ShadeText(text: 'text'),
+            const ShadeIcon(icon: Icons.logo_dev),
+            ShadeSwitch(
+              value: themeProvider.isDarkMode(),
+              onChanged: (value) {
+                themeProvider.setDarkMode(value);
+              },
+            ),
           ],
         )
       ],

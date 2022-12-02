@@ -152,6 +152,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "shade_theming",
+      "rootUri": "../packages/shade_theming",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "shade_ui",
       "rootUri": "../packages/shade_ui",
       "packageUri": "lib/",
@@ -224,7 +230,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-11-02T17:11:52.940164Z",
+  "generated": "2022-12-02T18:36:00.268240Z",
   "generator": "pub",
   "generatorVersion": "2.19.0-240.0.dev"
 }

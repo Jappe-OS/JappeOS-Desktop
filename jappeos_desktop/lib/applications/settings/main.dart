@@ -20,6 +20,7 @@ import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/system/desktop_cfg.dart';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:provider/provider.dart';
+import 'package:shade_ui/widgets/buttons/shade_button.dart';
 
 class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);

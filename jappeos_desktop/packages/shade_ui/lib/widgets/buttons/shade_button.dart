@@ -17,7 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:shade_ui/theming.dart';
+import 'package:shade_theming/main.dart';
 import 'package:shade_ui/widgets/base.dart';
 import 'package:shade_ui/widgets/other/shade_icon.dart';
 import 'package:shade_ui/widgets/text/shade_text.dart';
@@ -44,45 +44,53 @@ class ShadeButton extends StatefulWidget {
 
 /// The [State] class for [ShadeButton].
 class _ShadeButtonState extends State<ShadeButton> {
-  Color backgroundColor = CurrentTheme.getCurrentThemeProperties().backgroundColor2;
-  final Color accentColor = CurrentTheme.getCurrentThemeProperties().accentColor;
-
-  Widget child() {
-    final bool isPrimary = widget.isPrimary ?? false;
-
-    bool text = widget.text != null;
-    bool icon = widget.icon != null;
-
-    Widget wText = ShadeText(
-      text: widget.text ?? "null",
-      customColor: isPrimary ? CurrentTheme.getCurrentThemeProperties().invertedTextColor : accentColor,
-    );
-    Widget wIcon = ShadeIcon(
-      icon: widget.icon ?? Icons.error,
-      customColor: isPrimary ? CurrentTheme.getCurrentThemeProperties().invertedTextColor : accentColor,
-    );
-
-    if (text && !icon) {
-      return wText;
-    } else if (icon && !text) {
-      return wIcon;
-    }
-
-    return Row(
-      children: [
-        wIcon,
-        wText,
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool isPrimary = widget.isPrimary ?? false;
+    final Color accentColor = ShadeTheme.getCurrentThemeProperties().accentColor;
+    Color backgroundColor = isPrimary ? accentColor : ShadeTheme.getCurrentThemeProperties().backgroundColor2;
+    Color buttonHighlight = isPrimary ? Colors.white : accentColor;
 
-    backgroundColor = isPrimary ? accentColor : CurrentTheme.getCurrentThemeProperties().backgroundColor2;
+    Widget child() {
+      bool text = widget.text != null;
+      bool icon = widget.icon != null;
+
+      Widget wText = ShadeText(
+        text: widget.text ?? "null",
+        customColor:
+            isPrimary ? ShadeTheme.getCurrentThemeProperties().invertedTextColor : accentColor,
+        style: ShadeTextStyle.normal,
+        customFontWeight: FontWeight.w500,
+      );
+      Widget wIcon = ShadeIcon(
+        icon: widget.icon ?? Icons.error,
+        customColor:
+            isPrimary ? ShadeTheme.getCurrentThemeProperties().invertedTextColor : accentColor,
+      );
+
+      if (text && !icon) {
+        return Center(child: wText);
+      } else if (icon && !text) {
+        return Center(child: wIcon);
+      }
+
+      return Center(
+        child: Row(
+          children: [
+            wIcon,
+            wText,
+          ],
+        ),
+      );
+    }
 
     return ButtonBase(
-        backgroundColor: backgroundColor, highlightColor: accentColor, hoverColor: accentColor, splashColor: accentColor, child: child());
+      backgroundColor: backgroundColor,
+      highlightColor: buttonHighlight,
+      hoverColor: buttonHighlight,
+      splashColor: buttonHighlight,
+      onPress: widget.onPress,
+      child: child(),
+    );
   }
 }

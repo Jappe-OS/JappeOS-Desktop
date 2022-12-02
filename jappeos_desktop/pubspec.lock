@@ -172,6 +172,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.3"
+  shade_theming:
+    dependency: "direct main"
+    description:
+      path: "packages/shade_theming"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   shade_ui:
     dependency: "direct main"
     description:

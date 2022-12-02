@@ -17,13 +17,13 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/system/desktop_cfg.dart';
 import 'package:provider/provider.dart';
-import 'package:shade_ui/main.dart';
+import 'package:shade_theming/shade_theming.dart';
 
 import 'desktop/desktop.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ShadeUI.init(_Themes.dtp, _Themes.ltp);
+  ShadeTheme.setThemeProperties(_Themes.dtp, _Themes.ltp);
   runApp(
     MultiProvider(
       providers: [
@@ -60,7 +60,21 @@ class JappeOsDesktop extends StatelessWidget {
 /// A private class that contains the dark and light theme data.
 class _Themes {
   static DarkThemeProperties dtp = DarkThemeProperties(ThemeProperties(
-      const Color.fromARGB(255, 30, 30, 30), const Color.fromARGB(255, 37, 37, 38), const Color.fromARGB(80, 243, 243, 243), Colors.blue, const Color(0xFFFFFFFF).withOpacity(0.9), const Color(0xFFFFFFFF), const Color(0xFFFFFFFF).withOpacity(0.6), const Color(0xFF000000).withOpacity(0.9)));
+      const Color.fromARGB(255, 30, 30, 30),
+      const Color.fromARGB(255, 37, 37, 38),
+      const Color.fromARGB(80, 243, 243, 243),
+      Colors.blue,
+      const Color(0xFFFFFFFF).withOpacity(0.9),
+      const Color(0xFFFFFFFF),
+      const Color(0xFFFFFFFF).withOpacity(0.6),
+      const Color(0xFF000000).withOpacity(0.9)));
   static LightThemeProperties ltp = LightThemeProperties(ThemeProperties(
-      const Color.fromARGB(255, 255, 255, 255), const Color.fromARGB(255, 243, 243, 243), const Color.fromARGB(80, 37, 37, 38), Colors.blue, const Color(0xFF000000).withOpacity(0.9), const Color(0xFF000000), const Color(0xFF000000).withOpacity(0.6), const Color(0xFFFFFFFF).withOpacity(0.9)));
+      const Color.fromARGB(255, 255, 255, 255),
+      const Color.fromARGB(255, 243, 243, 243),
+      const Color.fromARGB(80, 37, 37, 38),
+      Colors.blue,
+      const Color(0xFF000000).withOpacity(0.9),
+      const Color(0xFF000000),
+      const Color(0xFF000000).withOpacity(0.6),
+      const Color(0xFFFFFFFF).withOpacity(0.9)));
 }
