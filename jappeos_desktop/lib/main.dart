@@ -15,8 +15,6 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/system/desktop_cfg.dart';
-import 'package:provider/provider.dart';
 import 'package:shade_theming/shade_theming.dart';
 
 import 'desktop/desktop.dart';
@@ -25,14 +23,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ShadeTheme.setThemeProperties(_Themes.dtp, _Themes.ltp);
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => DesktopCfg$ThemeManager()),
-        ChangeNotifierProvider(create: (_) => DesktopCfg$ThemeColorGetters()),
-        ChangeNotifierProvider(create: (_) => DesktopCfg$ThemeColorSetters()),
-      ],
-      child: const JappeOsDesktop(),
-    ),
+    const JappeOsDesktop(),
   );
 }
 
@@ -44,15 +35,10 @@ class JappeOsDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeGetterProvider = Provider.of<DesktopCfg$ThemeManager>(context);
-
-    return MaterialApp(
+    return const MaterialApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
-      themeMode: themeGetterProvider.getThemeMode(),
-      theme: DesktopCfg$ThemeManager.lightTheme(context),
-      darkTheme: DesktopCfg$ThemeManager.darkTheme(context),
-      home: const Desktop(),
+      home: Desktop(),
     );
   }
 }

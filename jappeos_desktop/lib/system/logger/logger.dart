@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import 'dart:developer';
+
 import 'package:jappeos_desktop/system/logger/log_type.dart';
 
 /// This is the logger for the JappeOS desktop environment. You may use
@@ -29,7 +31,7 @@ import 'package:jappeos_desktop/system/logger/log_type.dart';
 class Logger {
 
   /// Get the Logger() instance and use the methods inside it.
-  static Logger GET = new Logger();
+  static Logger get = Logger();
 
   // Private boolean to know the debug mode.
   late bool _debugMode = false;
@@ -47,9 +49,9 @@ class Logger {
     String logMsg = " [${now.hour}:${now.minute}:${now.second}] [main] [${type.toString().toUpperCase()}]: $message";
 
     if (debugOnly) {
-      if (_debugMode) print(logMsg);
+      if (_debugMode) log(logMsg);
     } else {
-      print(logMsg);
+      log(logMsg);
     }
   }
 

@@ -34,10 +34,13 @@ class DeuiButtonBase extends StatefulWidget {
   /// The height of the button.
   final double? height;
 
+  /// The width of the button.
+  final double? width;
+
   /// The [Function] triggered when the button is pressed.
   final Function()? onPress;
 
-  const DeuiButtonBase({Key? key, this.child, this.borderRadius, this.padding, this.alignment, this.height, this.onPress}) : super(key: key);
+  const DeuiButtonBase({Key? key, this.child, this.borderRadius, this.padding, this.alignment, this.height, this.width, this.onPress}) : super(key: key);
 
   @override
   _DeuiButtonBaseState createState() => _DeuiButtonBaseState();
@@ -53,6 +56,7 @@ class _DeuiButtonBaseState extends State<DeuiButtonBase> {
       alignment: widget.alignment ?? Alignment.topLeft,
       child: Container(
         height: widget.height ?? 35,
+        width: widget.width,
         decoration: BoxDecoration(
           borderRadius: widget.borderRadius != null ? BorderRadius.circular(widget.borderRadius ?? 10) : null,
           color: accentColor.withOpacity(0.5),

@@ -14,25 +14,34 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import 'package:flutter/material.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-/// A tab widget that can be used in the tabSystem.
-class UITabsTab extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:shade_theming/main.dart';
+
+/// A simple text widget.
+class DeuiText extends StatefulWidget {
+  /// Whether the text is a title or not.
+  final bool isTitle;
+
+  /// The text.
   final String text;
 
-  const UITabsTab({Key? key, required this.text}) : super(key: key);
+  const DeuiText({Key? key, required this.isTitle, required this.text}) : super(key: key);
 
   @override
-  _Tab createState() => _Tab();
+  _DeuiTextState createState() => _DeuiTextState();
 }
 
-class _Tab extends State<UITabsTab> {
+/// The [State] class for [DeuiText].
+class _DeuiTextState extends State<DeuiText> {
   @override
   Widget build(BuildContext context) {
-    return Tab(
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(widget.text.toUpperCase()),
+    return Text(
+      widget.text,
+      style: TextStyle(
+        color: ShadeTheme.getCurrentThemeProperties().normalTextColor,
+        fontSize: widget.isTitle ? 25 : 15,
       ),
     );
   }

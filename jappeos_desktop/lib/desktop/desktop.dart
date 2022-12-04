@@ -15,29 +15,28 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-
 import 'package:jappeos_desktop/applications/settings/main.dart';
 import 'package:jappeos_desktop/applications/terminal/main.dart';
 import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_controller.dart';
 import 'package:jappeos_desktop/desktop/desktopMenuManager/d_menu_manager.dart';
 import 'package:jappeos_desktop/system/appSystem/applications.dart';
-import 'package:jappeos_desktop/system/desktop_cfg.dart';
-import 'package:jappeos_desktop/system/widgets/base/button_base.dart';
-import 'package:jappeos_desktop/system/widgets/basic/blur_container.dart';
-import 'package:jappeos_desktop/system/widgets/basic/textField/normal_text_fields.dart';
+import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:provider/provider.dart';
+import 'package:jappeos_desktop_ui/widgets/button_base.dart';
+import 'package:jappeos_desktop_ui/widgets/text.dart';
+import 'package:shade_theming/main.dart';
 
 import '../windowManager/wmcontroller.dart';
 import '../windowManager/wmmanager.dart';
 
 /// Fields that can be used in the desktop UI.
 class _DesktopThemeProperties {
-  /// A border radius mainly used for background UI elements.
-  static const double borderRadius = 10;
-
   /// Whether to render GUI on the desktop or not, if false, only the WM windows will be rendered.
   static bool renderGUI = true;
+
+  /// The wallpaper of the desktop background.
+  static String wallpaperAssetDir = "resources/images/desktop/backgrounds/wallpaper2.jpg";
 }
 
 /// The stateful widget for the base desktop UI.
@@ -76,380 +75,175 @@ class DesktopState extends State<Desktop> {
 
   @override
   Widget build(BuildContext context) {
-
     // The window layer of the desktop UI.
-    final Widget windowLayer = 
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-          child: Stack(
-            children: [
-              WmManager(
-                wmController: _wmController,
-              ),
-            ],
+    final Widget windowLayer = Positioned(
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      child: Stack(
+        children: [
+          WmManager(
+            wmController: _wmController,
           ),
-        );
-
-    return !_DesktopThemeProperties.renderGUI ? windowLayer : Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            // The desktop background image.
-            image: AssetImage("resources/images/desktop/backgrounds/wallpaper2.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Stack(
-          children: [
-            windowLayer,
-
-            // The desktop-menu layer of the desktop.
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Stack(
-                children: [
-                  DesktopMenu$Manager(
-                    dmController: _desktopMenuController,
-                  ),
-                ],
-              ),
-            ),
-
-            // The dock shown in the bottom of the desktop UI.
-            _DesktopElements.dock(context),
-
-            // This is the TopBar, it's shown on the top of the desktop UI.
-            _DesktopElements.topBar(context),
-          ],
-        ),
+        ],
       ),
     );
-  }
-}
 
-/// A class that contains all the desktop elements like the TopBar, Dock, etc.
-class _DesktopElements {
-  // [-- PUBLIC WIDGETS --]
-
-  /// This is the dock, it is shown in the bottom of the screen.
-  static Widget dock(BuildContext context) {
-    return Align(
+    // This is the dock, it is shown in the bottom of the screen.
+    final Widget dock = Align(
       alignment: Alignment.bottomCenter,
       child: Container(
         height: 80,
         margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-          //boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
-          borderRadius: const BorderRadius.all(Radius.circular(_DesktopThemeProperties.borderRadius)),
-          border: Border.all(
-            color: Colors.grey.withOpacity(0.3),
-            width: 1,
-          ),
-        ),
         child: IntrinsicWidth(
-          child: UIBlurContainer(
-            radius: true,
-            radiusAmount: _DesktopThemeProperties.borderRadius,
+          child: DeuiBlurContainer(
+            gradient: true,
+            bordered: true,
+            radiusSides: BorderRadiusSides(true, true, true, true),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-
-              // The items shown in the dock.
               children: [
-                _dockItem(null, null, false, () {
-                  Applications.sys$runProcess(Settings());
-                }),
-                _dockItem(null, null, false, () {
-                  Applications.sys$runProcess(WidgetTesting());
-                }),
-                _dockItem(null, null, false, () {
-                  Applications.sys$runProcess(Terminal());
-                }),
-                _dockItem(null, null, false, () {}),
+                _DesktopWidgets._dockItem(null, () {}),
+                _DesktopWidgets._dockItem(null, () {}),
+                _DesktopWidgets._dockItem(null, () {}),
+                _DesktopWidgets._dockItem(null, () {}),
               ],
             ),
           ),
         ),
       ),
     );
-  }
 
-  /// This is the topBar, it is shown in the top of the screen. It can be used to launch apps, or using the quickSettings menu.
-  static Widget topBar(BuildContext context) {
-    double sidePadding = 5;
-
-    return Positioned(
+    // This is the topBar, it is shown in the top of the screen. It can be used to launch apps, or using the quickSettings menu.
+    final Widget topBar = Positioned(
       top: 0,
       left: 0,
       right: 0,
       height: 30,
-      child: Container(
-        //decoration: BoxDecoration(
-        //  boxShadow: <BoxShadow>[_DesktopWidgets._basicShadow()],
-        //),
-        child: UIBlurContainer(
-          radius: false,
-          child: Stack(
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: sidePadding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  // The items on the TopBar on the left side.
-                  children: [
-                    // Launcher button.
-                    _topBarItem(
-                      context,
-                      null,
-                      () {
-                        //_desktopMenuController?.openDesktopOverlayMenu(DesktopMenu$Menus.launcher);
-                      },
-                      true,
-                      _topBarItemIcon(
-                        context,
-                        Icons.apps,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    // TaskView button.
-                    _topBarItem(
-                      context,
-                      null,
-                      () {},
-                      true,
-                      _topBarItemIcon(
-                        context,
-                        Icons.menu_open,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                  ],
-                ),
+      child: DeuiBlurContainer(
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // The items on the TopBar on the left side.
+                children: [
+                  // Launcher button.
+                  _DesktopWidgets._topBarItem(null, _DesktopWidgets._topBarItemIcon(Icons.apps), true, () {}),
+                  const SizedBox(width: 5),
+                  // TaskView button.
+                  _DesktopWidgets._topBarItem(null, _DesktopWidgets._topBarItemIcon(Icons.menu_open), true, () {}),
+                  const SizedBox(width: 5),
+                ],
               ),
-              Container(
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.only(right: sidePadding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  // The items on the TopBar on the right side.
-                  children: [
-                    // System tray buttons.
-                    _topBarItem(
-                        context,
-                        null,
-                        () {},
-                        true,
-                        Row(
-                          children: [
-                            _topBarItemIcon(
-                              context,
-                              Icons.mic,
-                            ),
-                            const SizedBox(width: 3),
-                            _topBarItemIcon(
-                              context,
-                              Icons.camera,
-                            ),
-                          ],
-                        )),
-                    const SizedBox(width: 5),
-                    // QuickSettings button.
-                    _topBarItem(
-                        context,
-                        null,
-                        () {},
-                        true,
-                        Row(
-                          children: [
-                            _topBarItemIcon(
-                              context,
-                              Icons.wifi,
-                            ),
-                            const SizedBox(width: 3),
-                            _topBarItemIcon(
-                              context,
-                              Icons.volume_mute,
-                            ),
-                            const SizedBox(width: 3),
-                            _topBarItemIcon(
-                              context,
-                              Icons.battery_full,
-                            ),
-                          ],
-                        )),
-                    const SizedBox(width: 5),
-                    // Notifications and Time&Date button.
-                    _topBarItem(
-                      context,
-                      null,
-                      () {},
-                      true,
-                      Row(
-                        children: [
-                          _topBarItemText(
-                            context,
-                            '19:00',
-                          ),
-                          const SizedBox(width: 3),
-                          _topBarItemIcon(
-                            context,
-                            Icons.notifications,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                // The items on the TopBar on the right side.
+                children: [
+                  // System tray buttons.
+                  _DesktopWidgets._topBarItem(null, Row(children: [_DesktopWidgets._topBarItemIcon(Icons.mic), const SizedBox(width: 3), _DesktopWidgets._topBarItemIcon(Icons.camera)]), true, () {}),
+                  const SizedBox(width: 5),
+                  // QuickSettings button.
+                  _DesktopWidgets._topBarItem(null, Row(children: [_DesktopWidgets._topBarItemIcon(Icons.wifi), const SizedBox(width: 3), _DesktopWidgets._topBarItemIcon(Icons.volume_mute), const SizedBox(width: 3), _DesktopWidgets._topBarItemIcon(Icons.battery_full)]), true, () {}),
+                  const SizedBox(width: 5),
+                  // Notifications and Time&Date button.
+                  _DesktopWidgets._topBarItem(null, Row(children: [const DeuiText(isTitle: false, text: "19:00"), const SizedBox(width: 3), _DesktopWidgets._topBarItemIcon(Icons.notifications)]), true, () {}),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
+
+    // Desktop UI.
+    return !_DesktopThemeProperties.renderGUI
+        ? windowLayer
+        : Scaffold(
+            body: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  // The desktop background image.
+                  image: AssetImage(_DesktopThemeProperties.wallpaperAssetDir),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Stack(
+                children: [
+                  windowLayer,
+
+                  // The desktop-menu layer of the desktop.
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Stack(
+                      children: [
+                        DesktopMenu$Manager(
+                          dmController: _desktopMenuController,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // The dock shown in the bottom of the desktop UI.
+                  dock,
+
+                  // This is the TopBar, it's shown on the top of the desktop UI.
+                  topBar,
+                ],
+              ),
+            ),
+          );
   }
+}
 
-  // [-- PRIVATE WIDGETS --]
-
-  /// The item element(s) that will be shown in the dock. Uses [_dockItemBase] as the base.
-  static Widget _dockItem(ImageProvider? img, IconData? icon, bool isIcon, Function() onPressed) {
-    if (!isIcon) {
-      return _dockItemBase(
-          Image(
-            image: img ?? const AssetImage("resources/images/null.png"),
-          ),
-          onPressed);
-    } else {
-      return _dockItemBase(
-        Icon(
-          icon,
-          size: 40,
-        ),
-        onPressed,
-      );
-    }
-  }
-
-  /// This is the base for the [_dockItem].
-  static Widget _dockItemBase(Widget child, Function() onPressed) {
-    return Container(
-      width: 70,
-      height: 70,
-      margin: const EdgeInsets.all(5),
-      child: TextButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          enabledMouseCursor: SystemMouseCursors.alias,
-          disabledMouseCursor: SystemMouseCursors.alias,
-          padding: const EdgeInsets.all(10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
-          ),
-        ),
-        child: child,
-      ),
-    );
-  }
-
-  /// The item element used in the [topBar] widget.
-  static Widget _topBarItem(BuildContext context, String? text, Function()? onPressed, bool custom, Widget? customWidget) {
-    //final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
-
-    final Widget child = custom ? customWidget ?? _topBarItemText(context, text ?? "custom::null") : _topBarItemText(context, text ?? "null");
-
-    return UIBasesButtonBase(
+/// A class that contains all the desktop widgets like the TopBar buttons, Dock items, etc.
+class _DesktopWidgets {
+  /// The item element(s) that will be shown in the dock.
+  static Widget _dockItem(ImageProvider? img, Function() onPressed) {
+    return DeuiButtonBase(
+      height: 80,
+      width: 80,
       onPress: onPressed,
-      height: 30,
-      padding: const EdgeInsets.only(left: 6, right: 6),
-      radiusAmount: _DesktopThemeProperties.borderRadius,
-      child: child,
+      child: Padding(padding: const EdgeInsets.all(8.0), child: Image(image: img ?? const AssetImage("resources/images/null.png"),),),
     );
+  }
 
-    //if (!custom) {
-    //  return TextButton(
-    //      style: TextButton.styleFrom(
-    //        minimumSize: const Size(30, 30),
-    //        padding: const EdgeInsets.all(6),
-    //        enabledMouseCursor: SystemMouseCursors.alias,
-    //        disabledMouseCursor: SystemMouseCursors.alias,
-    //        shape: RoundedRectangleBorder(
-    //          borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
-    //        ),
-    //      ),
-    //      onPressed: onPressed,
-    //      child: Text(text ?? "",
-    //          style: TextStyle(
-    //            color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
-    //          )));
-    //} else {
-    //  return TextButton(
-    //    style: TextButton.styleFrom(
-    //      minimumSize: const Size(30, 30),
-    //      padding: const EdgeInsets.all(6),
-    //      enabledMouseCursor: SystemMouseCursors.alias,
-    //      disabledMouseCursor: SystemMouseCursors.alias,
-    //      shape: RoundedRectangleBorder(
-    //        borderRadius: BorderRadius.circular(_DesktopThemeProperties.borderRadius),
-    //      ),
-    //    ),
-    //    onPressed: onPressed,
-    //    child: customWidget ?? Container(),
-    //  );
-    //}
+  /// The item element(s) used in the topBar widget.
+  static Widget _topBarItem(String? text, Widget? customWidget, bool custom, Function()? onPressed) {
+    return DeuiButtonBase(
+      height: 30,
+      onPress: onPressed,
+      child: custom ? customWidget : DeuiText(isTitle: false, text: text ?? "null"),
+    );
   }
 
   /// The icons used in the [_topBarItem] element.
-  static Widget _topBarItemIcon(BuildContext context, IconData iconData) {
-    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
-
+  static Widget _topBarItemIcon(IconData iconData) {
     return Icon(
       iconData,
       size: 17,
-      color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.normal),
-    );
-  }
-
-  /// The text used in the [_topBarItem] element.
-  static Widget _topBarItemText(BuildContext context, String data) {
-    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
-
-    return Text(
-      data,
-      style: TextStyle(
-        color: themeColorGetters.getTextColor(context, DesktopCfg$TextColorType.title),
-        fontSize: 15,
-        fontWeight: FontWeight.w500,
-      ),
+      color: ShadeTheme.getCurrentThemeProperties().normalTextColor,
     );
   }
 }
 
-/// Multiple widgets that can be used within the desktop.
-class _DesktopWidgets {
-  /// Shadow element for TopBar and the Dock.
-  static BoxShadow _basicShadow() {
-    return const BoxShadow(
-      color: Colors.black,
-      offset: Offset(0, 0),
-      blurRadius: 10.0,
-    );
-  }
-}
-
+// TODO: Rewrite overlay system.
 /// Contains the overlay menus for the desktop UI, for example, the launcher.
 ///
 /// Menus:
 /// - 0 = Launcher
 /// - 1 = TaskView
 /// - 2 = QuickSettings
-class DesktopOverlayMenus extends StatelessWidget {
+/*class DesktopOverlayMenus extends StatelessWidget {
   final DesktopMenu$Menus menu; // DesktopMenu$Menus.launcher
   final BuildContext uContext;
 
@@ -542,3 +336,4 @@ class DesktopOverlayMenus extends StatelessWidget {
     return Container();
   }
 }
+*/
