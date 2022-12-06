@@ -14,9 +14,9 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'wmresizablewindow.dart';
 
 /// This class can be used to spawn a new window.
@@ -24,19 +24,19 @@ class WmController {
   WmController(this._onUpdate);
 
   // Resizable window.
-  final List<ResizableWindow> _resizablewindows = List.empty(growable: true);
-  List<ResizableWindow> get resizablewindows => _resizablewindows;
+  final List<Window> _resizablewindows = List.empty(growable: true);
+  List<Window> get resizablewindows => _resizablewindows;
 
   final VoidCallback _onUpdate;
 
   // Jappeos window spawner
   /// Spawns a new JappeOS window and displays it on the screen.
-  void wm$spawnGuiWindow(String title, Widget body, Widget? cwd, bool isBlurry, Size? defaultSize, Size minimumSize) {
-    _createNewWindowedApp(title, body, cwd, isBlurry, defaultSize, minimumSize);
+  void wm$spawnGuiWindow(WMWindowType type) {
+    _createNewWindow(type);
   }
 
-  void _createNewWindowedApp(String title, Widget body, Widget? cwd, bool isBlurry, Size? defaultSize, Size minimumSize) {
-    ResizableWindow resizableWindow = ResizableWindow(title, body, cwd, isBlurry, defaultSize, minimumSize);
+  void _createNewWindow(WMWindowType type) {
+    Window resizableWindow = Window(type);
 
     // Set initial position.
     Random rng = Random();
@@ -48,14 +48,9 @@ class WmController {
       double? x1 = resizableWindow.x;
       double? y1 = resizableWindow.y;
 
-      if (x1 != null) {
-        x1 += dx;
-      }
+      x1 += dx;
 
-      if (y1 != null) {
-        y1 += dy;
-      }
-
+      y1 += dy;
 
       resizableWindow.x = x1;
       resizableWindow.y = y1;

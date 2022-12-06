@@ -15,24 +15,21 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
-import 'package:jappeos_desktop/system/desktop_cfg.dart';
-import 'package:jappeos_desktop/system/widgets/basic/buttons/normal_buttons.dart';
-import 'package:jappeos_desktop/system/widgets/basic/switch/normal_switches.dart';
-import 'package:jappeos_desktop/system/widgets/basic/text/text.dart';
-import 'package:jappeos_desktop/system/widgets/basic/textField/normal_text_fields.dart';
-import 'package:provider/provider.dart';
+import 'package:shade_theming/main.dart';
 import 'package:shade_ui/widgets/widgets.dart';
+
+import '../../windowManager/windowTypes/normal_window.dart';
+import '../../windowManager/windowTypes/wm_window_general.dart';
 
 class WidgetTesting extends Application implements IApplication {
   WidgetTesting() : super("WidgetTesting", "widget-testing", null);
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow("WidgetTesting", body(), null, false, const Size(500, 400), const Size(500, 400));
+    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Widget Testing", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
   }
 
   @override
@@ -49,39 +46,31 @@ class WidgetTesting extends Application implements IApplication {
 class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<DesktopCfg$ThemeManager>(context);
-
     return Column(
       children: [
         Wrap(
           spacing: 10,
           direction: Axis.horizontal,
           children: [
-            UINormalButtonsPrimaryTextButton(text: "Primary Button", onPress: () {}),
-            UINormalButtonsSecondaryTextButton(text: "Secondary Button", onPress: () {}),
-            const UITextNormalText(text: "This is a text widget."),
-            const SizedBox(
-              width: 200,
-              child: UINormalTextFieldsTextField(
-                hintText: "Type Here...",
-              ),
+            ShadeButton(
+              text: 'Primary ShadeButton',
+              isPrimary: true,
+              onPress: () {},
             ),
-            UINormalSwitchesNormalSwitch(
-              value: themeProvider.isDarkMode(),
-              onChanged: (value) {
-                themeProvider.setDarkMode(value);
-              },
+            ShadeButton(
+              text: 'Secondary ShadeButton',
+              isPrimary: false,
+              onPress: () {},
             ),
-            const UITextNormalText(text: "> New widgets >>>>"),
-            ShadeButton(text: 'Primary ShadeButton', isPrimary: true, onPress: () {},),
-            ShadeButton(text: 'Secondary ShadeButton', isPrimary: false, onPress: () {},),
-            const ShadeTextfield(hintText: 'Type something...',),
+            const ShadeTextfield(
+              hintText: 'Type something...',
+            ),
             const ShadeText(text: 'text'),
             const ShadeIcon(icon: Icons.logo_dev),
             ShadeSwitch(
-              value: themeProvider.isDarkMode(),
+              value: ShadeTheme.getTheme() != 0,
               onChanged: (value) {
-                themeProvider.setDarkMode(value);
+                ShadeTheme.setTheme(value == true ? 1 : 0);
               },
             ),
           ],

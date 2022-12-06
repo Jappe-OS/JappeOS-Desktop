@@ -48,6 +48,8 @@ class DeuiSolidContainer extends StatefulWidget {
 class _DeuiSolidContainerState extends State<DeuiSolidContainer> {
   @override
   Widget build(BuildContext context) {
+    Color borderColor = ShadeTheme.getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
+
     BorderRadiusGeometry brg = BorderRadius.only(
       topLeft: widget.radiusSides!.topLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
       topRight: widget.radiusSides!.topRight ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
@@ -62,7 +64,7 @@ class _DeuiSolidContainerState extends State<DeuiSolidContainer> {
         height: widget.height,
         decoration: BoxDecoration(
           borderRadius: brg,
-          border: (widget.bordered ?? false) ? Border.all(width: 2, color: ShadeTheme.getCurrentThemeProperties().borderColor) : null,
+          border: (widget.bordered ?? false) ? Border.all(width: 1.5, color: borderColor) : null,
           color: ShadeTheme.getCurrentThemeProperties().backgroundColor1,
         ),
         child: widget.child,

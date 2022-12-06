@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:shade_theming/shade_theming.dart';
 
@@ -30,17 +32,42 @@ Future main() async {
 /// This is the main class of the JappeOS Desktop, you may not access it.
 ///
 /// (2020 - 2022)
-class JappeOsDesktop extends StatelessWidget {
+class JappeOsDesktop extends StatefulWidget {
   const JappeOsDesktop({Key? key}) : super(key: key);
 
   @override
+  _JappeOsDesktopState createState() => _JappeOsDesktopState();
+}
+
+class _JappeOsDesktopState extends State<JappeOsDesktop> {
+  int _oldTheme = ShadeTheme.getTheme();
+
+  @override
   Widget build(BuildContext context) {
+    // Theme update listener.
+    if (_oldTheme != ShadeTheme.getTheme()) {
+      _rebuildAllChildren(context);
+      ShadeTheme.getTheme();
+    }
+
     return const MaterialApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
       home: Desktop(),
     );
   }
+}
+
+// Rebuilds all the widgets.
+void _rebuildAllChildren(BuildContext context) {
+  print("Rebuilding all widgets...");
+
+  void rebuild(Element el) {
+    el.markNeedsBuild();
+    el.visitChildren(rebuild);
+  }
+
+  (context as Element).visitChildren(rebuild);
 }
 
 /// A private class that contains the dark and light theme data.

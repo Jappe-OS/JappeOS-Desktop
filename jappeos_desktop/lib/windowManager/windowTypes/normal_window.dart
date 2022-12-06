@@ -20,12 +20,13 @@ import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart
 /// This is the default type for every window.
 class NormalWindow extends WMWindowType {
   final String title;
-  final Image icon;
+  final Image? icon;
   final Widget body;
 
   final WMWindowSize size;
+  final bool blur;
 
-  NormalWindow(this.title, this.icon, this.size, this.body);
+  NormalWindow(this.title, this.icon, this.size, this.blur, this.body);
 
   @override
   Widget getWindow() {
@@ -34,13 +35,13 @@ class NormalWindow extends WMWindowType {
       left: 0,
       bottom: 0,
       right: 0,
-      child: body
+      child: body,
     );
   }
 
   @override
   bool applyBlur() {
-    return false;
+    return blur;
   }
 
   @override
@@ -50,7 +51,9 @@ class NormalWindow extends WMWindowType {
 
   @override
   WMWindowDragAreaProperties? getDragAreaProperties() {
-    return null;
+    WMWindowDragAreaProperties a = WMWindowDragAreaProperties()..setDefault();
+
+    return a;
   }
 
   @override

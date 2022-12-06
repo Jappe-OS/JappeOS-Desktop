@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
@@ -47,6 +45,9 @@ class Window extends StatefulWidget {
     isResizable = windowType.isResizable();
     dragAreaProperties = windowType.getDragAreaProperties();
     windowSizeProp = windowType.getSizeProperties();
+
+    w = windowSizeProp.defaultSize.width;
+    h = windowSizeProp.defaultSize.height;
   }
 
   @override
@@ -56,6 +57,13 @@ class Window extends StatefulWidget {
 class WindowState extends State<Window> {
   @override
   Widget build(BuildContext context) {
+    // Width and height
+    if (widget.w < widget.windowSizeProp.minimumSize.width) {
+      widget.w = widget.windowSizeProp.minimumSize.width;
+    } else if (widget.h < widget.windowSizeProp.minimumSize.height) {
+      widget.h = widget.windowSizeProp.minimumSize.height;
+    }
+
     List<Widget> baseChildren = [];
 
     Widget base(Widget child) {
@@ -63,12 +71,16 @@ class WindowState extends State<Window> {
         return DeuiBlurContainer(
           gradient: true,
           bordered: true,
+          width: widget.w,
+          height: widget.h,
           radiusSides: BorderRadiusSides(true, true, true, true),
           child: child,
         );
       } else {
         return DeuiSolidContainer(
           bordered: true,
+          width: widget.w,
+          height: widget.h,
           radiusSides: BorderRadiusSides(true, true, true, true),
           child: child,
         );
@@ -233,7 +245,8 @@ class WindowState extends State<Window> {
         ),
       ]);
     }
-    
+
+    baseChildren.add(widget.window);
 
     return base(
       Stack(

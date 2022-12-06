@@ -15,19 +15,19 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
-import 'package:jappeos_desktop/system/desktop_cfg.dart';
-import 'package:jappeos_desktop/desktop/desktop.dart';
-import 'package:provider/provider.dart';
-import 'package:shade_ui/widgets/buttons/shade_button.dart';
+import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
+import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
+import 'package:shade_theming/main.dart';
 
 class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow("Settings", body(), cwd(), true, const Size(500, 400), const Size(500, 400));
+    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
   }
 
   @override
@@ -200,8 +200,6 @@ class Settings extends Application implements IApplication {
 class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final themeColorGetters = Provider.of<DesktopCfg$ThemeColorGetters>(context);
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -222,7 +220,7 @@ class _Content extends StatelessWidget {
               bottom: 0,
               child: Container(
                 width: 1,
-                color: themeColorGetters.getBorderColor(context),
+                color: ShadeTheme.getCurrentThemeProperties().borderColor,
               )),
           Positioned(
             top: 0,
@@ -230,7 +228,7 @@ class _Content extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              color: themeColorGetters.getBackgroundColor(context, DesktopCfg$BackgroundColorType.normal),
+              color: ShadeTheme.getCurrentThemeProperties().backgroundColor1,
             ),
           ),
         ],

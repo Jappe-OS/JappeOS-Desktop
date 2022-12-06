@@ -14,22 +14,15 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:shade_theming/main.dart';
 
-/// A simple base button.
+/// A simple basic button.
 class DeuiButtonBase extends StatefulWidget {
   /// The widget inside the button.
   final Widget? child;
-
-  /// Controls the border radius of the button.
-  final double? borderRadius;
-
-  /// Set the padding of the button.
-  final EdgeInsetsGeometry? padding;
-
-  /// Sets the alignment of the button.
-  final Alignment? alignment;
 
   /// The height of the button.
   final double? height;
@@ -37,10 +30,40 @@ class DeuiButtonBase extends StatefulWidget {
   /// The width of the button.
   final double? width;
 
+  /// Controls the border radius of the button.
+  final double? borderRadius;
+
+  /// Set the color of the button background.
+  final Color? backgroundColor;
+
+  // Whether to use the default transparency effect on the button.
+  final bool? backgroundColorTransp;
+
+  /// Set the padding of the button.
+  final EdgeInsetsGeometry? padding;
+
+  /// Set the margin of the button.
+  final EdgeInsetsGeometry? margin;
+
+  /// Sets the alignment of the button.
+  final Alignment? alignment;
+
   /// The [Function] triggered when the button is pressed.
   final Function()? onPress;
 
-  const DeuiButtonBase({Key? key, this.child, this.borderRadius, this.padding, this.alignment, this.height, this.width, this.onPress}) : super(key: key);
+  const DeuiButtonBase(
+      {Key? key,
+      this.child,
+      this.height,
+      this.width,
+      this.borderRadius,
+      this.backgroundColor,
+      this.backgroundColorTransp,
+      this.padding,
+      this.margin,
+      this.alignment,
+      this.onPress})
+      : super(key: key);
 
   @override
   _DeuiButtonBaseState createState() => _DeuiButtonBaseState();
@@ -51,15 +74,17 @@ class _DeuiButtonBaseState extends State<DeuiButtonBase> {
   @override
   Widget build(BuildContext context) {
     Color accentColor = ShadeTheme.getCurrentThemeProperties().accentColor;
+    double backgroundTransparency = widget.backgroundColor != null ? ((widget.backgroundColorTransp ?? true) ? 0.5 : widget.backgroundColor!.opacity) : 0.5;
 
     return Align(
       alignment: widget.alignment ?? Alignment.topLeft,
       child: Container(
+        margin: widget.margin,
         height: widget.height ?? 35,
         width: widget.width,
         decoration: BoxDecoration(
           borderRadius: widget.borderRadius != null ? BorderRadius.circular(widget.borderRadius ?? 10) : null,
-          color: accentColor.withOpacity(0.5),
+          color: widget.backgroundColor?.withOpacity(backgroundTransparency) ?? accentColor.withOpacity(0.5),
         ),
         child: Material(
           color: Colors.transparent,

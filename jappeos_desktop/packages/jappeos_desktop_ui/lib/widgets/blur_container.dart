@@ -61,37 +61,60 @@ class DeuiBlurContainer extends StatefulWidget {
 class _DeuiBlurContainerState extends State<DeuiBlurContainer> {
   @override
   Widget build(BuildContext context) {
-    BorderRadiusGeometry brg = BorderRadius.only(
-      topLeft: widget.radiusSides!.topLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
-      topRight: widget.radiusSides!.topRight ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
-      bottomLeft: widget.radiusSides!.bottomLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
-      bottomRight: widget.radiusSides!.bottomRight ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
-    );
+    int gradientSecondColorChange = 100;
+    double backgroundOpacity = 0.4;
+
+    BorderRadiusGeometry brg = widget.radiusSides != null
+        ? BorderRadius.only(
+            topLeft: widget.radiusSides!.topLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
+            topRight: widget.radiusSides!.topRight ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
+            bottomLeft: widget.radiusSides!.bottomLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
+            bottomRight: widget.radiusSides!.bottomRight ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
+          )
+        : const BorderRadius.all(Radius.zero);
 
     List<Color> gradientColors() {
       if (ShadeTheme.getTheme() == 0) {
-        return [const Color.fromRGBO(255, 255, 255, 0.6), const Color.fromRGBO(255, 255, 255, 0.102)];
+        return [
+          Color.fromRGBO(255, 255, 255, backgroundOpacity),
+          Color.fromRGBO(255 - gradientSecondColorChange, 255 - gradientSecondColorChange, 255 - gradientSecondColorChange, backgroundOpacity)
+        ];
       } else {
-        return [const Color.fromRGBO(0, 0, 0, 0.6), const Color.fromRGBO(0, 0, 0, 0.102)];
+        return [
+          Color.fromRGBO(0, 0, 0, backgroundOpacity),
+          Color.fromRGBO(0 + gradientSecondColorChange, 0 + gradientSecondColorChange, 0 + gradientSecondColorChange, backgroundOpacity)
+        ];
       }
     }
+
+    Color borderColor = ShadeTheme.getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
 
     return ClipRRect(
       borderRadius: brg,
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
         child: Container(
           width: widget.width,
           height: widget.height,
           decoration: BoxDecoration(
-            image: const DecorationImage(image: AssetImage("resources/images/blur_noise.png"), fit: BoxFit.cover, opacity: 0.2),
-            gradient: (widget.gradient ?? false) ? LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-              colors: gradientColors(),
-            ) : null,
+            image: const DecorationImage(
+                image: AssetImage("resources/images/blur_noise.png", package: "jappeos_desktop_ui"),
+                fit: BoxFit.none,
+                repeat: ImageRepeat.repeat,
+                scale: 7,
+                opacity: 0.035),
+            gradient: (widget.gradient ?? false)
+                ? LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomCenter,
+                    colors: gradientColors(),
+                  )
+                : null,
             borderRadius: brg,
-            border: (widget.bordered ?? false) ? Border.all(width: 2, color: ShadeTheme.getCurrentThemeProperties().borderColor) : null,
+            border: (widget.bordered ?? false) ? Border.all(width: 1.5, color: borderColor) : null,
+            color: (widget.gradient ?? false)
+                ? null
+                : (ShadeTheme.getTheme() == 0 ? Color.fromRGBO(255 - 35, 255 - 35, 255 - 35, backgroundOpacity) : Color.fromRGBO(0 + 35, 0 + 35, 0 + 35, backgroundOpacity)),
           ),
           child: widget.child,
         ),
