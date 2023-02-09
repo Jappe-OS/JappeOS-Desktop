@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 /// Contains different size variants for [ShadeText].
@@ -44,19 +45,21 @@ class ShadeText extends StatefulWidget {
 
 /// The [State] class for [ShadeText].
 class _ShadeTextState extends State<ShadeText> {
-  double fontSize = 0.0;
-  final double normalFontSize = 10.5;
-
-  Color fontColor = ShadeTheme.getCurrentThemeProperties().normalTextColor;
-
-  FontWeight fontWeight = FontWeight.normal;
+  
 
   @override
   Widget build(BuildContext context) {
+    double fontSize = 0.0;
+    const double normalFontSize = 10.5;
+  
+    Color fontColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor;
+  
+    FontWeight fontWeight = FontWeight.normal;
+
     switch (widget.style) {
       case ShadeTextStyle.secondary:
         fontSize = 10;
-        fontColor = ShadeTheme.getCurrentThemeProperties().secondaryTextColor;
+        fontColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().secondaryTextColor;
         break;
       case ShadeTextStyle.normal:
         fontSize = normalFontSize;
@@ -66,17 +69,17 @@ class _ShadeTextState extends State<ShadeText> {
         break;
       case ShadeTextStyle.title:
         fontSize = 25;
-        fontColor = ShadeTheme.getCurrentThemeProperties().darkerTextColor;
+        fontColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().darkerTextColor;
         fontWeight = FontWeight.bold;
         break;
       case ShadeTextStyle.title1:
         fontSize = 20;
-        fontColor = ShadeTheme.getCurrentThemeProperties().darkerTextColor;
+        fontColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().darkerTextColor;
         fontWeight = FontWeight.bold;
         break;
       case ShadeTextStyle.title2:
         fontSize = 16;
-        fontColor = ShadeTheme.getCurrentThemeProperties().darkerTextColor;
+        fontColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().darkerTextColor;
         fontWeight = FontWeight.bold;
         break;
       case null:

@@ -19,6 +19,7 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop_ui/jappeos_desktop_ui.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 /// A container with a solid background.
@@ -48,7 +49,7 @@ class DeuiSolidContainer extends StatefulWidget {
 class _DeuiSolidContainerState extends State<DeuiSolidContainer> {
   @override
   Widget build(BuildContext context) {
-    Color borderColor = ShadeTheme.getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
+    Color borderColor = context.watch<ShadeThemeProvider>().getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
 
     BorderRadiusGeometry brg = BorderRadius.only(
       topLeft: widget.radiusSides!.topLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
@@ -65,7 +66,7 @@ class _DeuiSolidContainerState extends State<DeuiSolidContainer> {
         decoration: BoxDecoration(
           borderRadius: brg,
           border: (widget.bordered ?? false) ? Border.all(width: 1.5, color: borderColor) : null,
-          color: ShadeTheme.getCurrentThemeProperties().backgroundColor1,
+          color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor1,
         ),
         child: widget.child,
       ),

@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 /// A simple icon element.
@@ -38,10 +39,10 @@ class ShadeIcon extends StatefulWidget {
 
 /// The [State] class for [ShadeIcon].
 class _ShadeIconState extends State<ShadeIcon> {
-  final Color color = ShadeTheme.getCurrentThemeProperties().accentColor;
-
   @override
   Widget build(BuildContext context) {
+    final Color color = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor;
+
     return Icon(
       widget.icon,
       color: widget.customColor ?? color,

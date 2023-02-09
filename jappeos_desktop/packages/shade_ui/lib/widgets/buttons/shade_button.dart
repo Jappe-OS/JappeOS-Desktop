@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 import 'package:shade_ui/widgets/base.dart';
 import 'package:shade_ui/widgets/other/shade_icon.dart';
@@ -47,8 +48,8 @@ class _ShadeButtonState extends State<ShadeButton> {
   @override
   Widget build(BuildContext context) {
     final bool isPrimary = widget.isPrimary ?? false;
-    final Color accentColor = ShadeTheme.getCurrentThemeProperties().accentColor;
-    Color backgroundColor = isPrimary ? accentColor : ShadeTheme.getCurrentThemeProperties().backgroundColor2;
+    final Color accentColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor;
+    Color backgroundColor = isPrimary ? accentColor : context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor2;
     Color buttonHighlight = isPrimary ? Colors.white : accentColor;
 
     Widget child() {
@@ -58,14 +59,14 @@ class _ShadeButtonState extends State<ShadeButton> {
       Widget wText = ShadeText(
         text: widget.text ?? "null",
         customColor:
-            isPrimary ? ShadeTheme.getCurrentThemeProperties().invertedTextColor : accentColor,
+            isPrimary ? context.watch<ShadeThemeProvider>().getCurrentThemeProperties().invertedTextColor : accentColor,
         style: ShadeTextStyle.normal,
         customFontWeight: FontWeight.w500,
       );
       Widget wIcon = ShadeIcon(
         icon: widget.icon ?? Icons.error,
         customColor:
-            isPrimary ? ShadeTheme.getCurrentThemeProperties().invertedTextColor : accentColor,
+            isPrimary ? context.watch<ShadeThemeProvider>().getCurrentThemeProperties().invertedTextColor : accentColor,
       );
 
       if (text && !icon) {

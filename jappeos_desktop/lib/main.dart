@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/shade_theming.dart';
 
 import 'desktop/desktop.dart';
@@ -25,49 +26,29 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ShadeTheme.setThemeProperties(_Themes.dtp, _Themes.ltp);
   runApp(
-    const JappeOsDesktop(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ShadeThemeProvider>(create: (_) => ShadeThemeProvider())
+      ],
+      child: const JappeOsDesktop(),
+    ),
   );
 }
 
 /// This is the main class of the JappeOS Desktop, you may not access it.
 ///
 /// (2020 - 2022)
-class JappeOsDesktop extends StatefulWidget {
+class JappeOsDesktop extends StatelessWidget {
   const JappeOsDesktop({Key? key}) : super(key: key);
 
   @override
-  _JappeOsDesktopState createState() => _JappeOsDesktopState();
-}
-
-class _JappeOsDesktopState extends State<JappeOsDesktop> {
-  int _oldTheme = ShadeTheme.getTheme();
-
-  @override
   Widget build(BuildContext context) {
-    // Theme update listener.
-    if (_oldTheme != ShadeTheme.getTheme()) {
-      _rebuildAllChildren(context);
-      ShadeTheme.getTheme();
-    }
-
     return const MaterialApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
       home: Desktop(),
     );
   }
-}
-
-// Rebuilds all the widgets.
-void _rebuildAllChildren(BuildContext context) {
-  print("Rebuilding all widgets...");
-
-  void rebuild(Element el) {
-    el.markNeedsBuild();
-    el.visitChildren(rebuild);
-  }
-
-  (context as Element).visitChildren(rebuild);
 }
 
 /// A private class that contains the dark and light theme data.

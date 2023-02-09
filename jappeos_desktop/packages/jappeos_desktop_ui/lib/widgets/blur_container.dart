@@ -20,6 +20,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop_ui/jappeos_desktop_ui.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 class BorderRadiusSides {
@@ -87,7 +88,7 @@ class _DeuiBlurContainerState extends State<DeuiBlurContainer> {
       }
     }
 
-    Color borderColor = ShadeTheme.getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
+    Color borderColor = context.watch<ShadeThemeProvider>().getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
 
     return ClipRRect(
       borderRadius: brg,
@@ -114,7 +115,7 @@ class _DeuiBlurContainerState extends State<DeuiBlurContainer> {
             border: (widget.bordered ?? false) ? Border.all(width: 1.5, color: borderColor) : null,
             color: (widget.gradient ?? false)
                 ? null
-                : (ShadeTheme.getTheme() == 0 ? Color.fromRGBO(255 - 35, 255 - 35, 255 - 35, backgroundOpacity) : Color.fromRGBO(0 + 35, 0 + 35, 0 + 35, backgroundOpacity)),
+                : (context.watch<ShadeThemeProvider>().getTheme() == 0 ? Color.fromRGBO(255 - 35, 255 - 35, 255 - 35, backgroundOpacity) : Color.fromRGBO(0 + 35, 0 + 35, 0 + 35, backgroundOpacity)),
           ),
           child: widget.child,
         ),

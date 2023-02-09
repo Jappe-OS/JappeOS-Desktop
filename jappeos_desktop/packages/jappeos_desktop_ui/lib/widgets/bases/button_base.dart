@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 /// A simple basic button.
@@ -73,7 +74,7 @@ class DeuiButtonBase extends StatefulWidget {
 class _DeuiButtonBaseState extends State<DeuiButtonBase> {
   @override
   Widget build(BuildContext context) {
-    Color accentColor = ShadeTheme.getCurrentThemeProperties().accentColor;
+    Color accentColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor;
     double backgroundTransparency = widget.backgroundColor != null ? ((widget.backgroundColorTransp ?? true) ? 0.5 : widget.backgroundColor!.opacity) : 0.5;
 
     return Align(

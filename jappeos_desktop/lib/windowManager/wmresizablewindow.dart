@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/solid_container.dart';
+import 'package:shade_ui/widgets/widgets.dart';
 
 class Window extends StatefulWidget {
   // Window Properties & Info
@@ -34,8 +35,8 @@ class Window extends StatefulWidget {
   double prevW = 0, prevH = 0;
   bool isMaximized = false;
 
-  Function(double, double)? onWindowDragged;
-  VoidCallback? onCloseButtonClicked;
+  late Function(double, double) onWindowDragged;
+  late VoidCallback onCloseButtonClicked;
 
   final WMWindowType windowType;
 
@@ -100,7 +101,8 @@ class WindowState extends State<Window> {
               if (widget.isMaximized) {
                 _statefuncOnRestore();
               } else {
-                widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
+                widget.onWindowDragged(tapInfo.delta.dx, tapInfo.delta.dy);
+                print("OnPanUpdate titlebar : ${widget.x}");
 
                 if (widget.y < 5) {
                   widget.y = 5;
@@ -108,12 +110,8 @@ class WindowState extends State<Window> {
               }
             },
             onTap: () {
-              widget.onWindowDragged!(0, 0);
-            },
-            onLongPressCancel: () {
-              if (widget.y < 25) {
-                _statefuncOnMaximize();
-              }
+              widget.onWindowDragged(0, 0);
+              print("OnTap titlebar : ${widget.x}");
             },
           ),
         ),
@@ -264,7 +262,7 @@ class WindowState extends State<Window> {
       if (widget.w < widget.windowSizeProp.minimumSize.width) {
         widget.w = widget.windowSizeProp.minimumSize.width;
       } else {
-        widget.onWindowDragged!(details.delta.dx, 0);
+        widget.onWindowDragged(details.delta.dx, 0);
       }
     });
   }
@@ -299,7 +297,7 @@ class WindowState extends State<Window> {
       if (widget.h < widget.windowSizeProp.minimumSize.height) {
         widget.h = widget.windowSizeProp.minimumSize.height;
       } else {
-        widget.onWindowDragged!(0, details.delta.dy);
+        widget.onWindowDragged(0, details.delta.dy);
       }
     });
   }
@@ -334,7 +332,7 @@ class WindowState extends State<Window> {
       widget.h = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height - 30;
       widget.x = -1;
       widget.y = -1;
-      widget.onWindowDragged!(0, 30);
+      widget.onWindowDragged(0, 30);
       widget.isMaximized = true;
     });
   }
@@ -345,7 +343,7 @@ class WindowState extends State<Window> {
       widget.h = widget.prevH;
       widget.x = widget.prevX;
       widget.y = widget.prevY;
-      widget.onWindowDragged!(0, 0);
+      widget.onWindowDragged(0, 0);
       widget.isMaximized = false;
     });
   }

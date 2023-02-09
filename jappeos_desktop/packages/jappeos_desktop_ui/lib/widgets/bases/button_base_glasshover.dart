@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api, dead_code
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 /// A simple basic button with a glassy hover & click effect.
@@ -75,12 +76,12 @@ class _DeuiButtonBaseGlasshoverState extends State<DeuiButtonBaseGlasshover> {
 
   @override
   Widget build(BuildContext context) {
-    Color accentColor = ShadeTheme.getCurrentThemeProperties().accentColor;
+    Color accentColor = context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor;
     double backgroundTransparency =
         widget.backgroundColor != null ? ((widget.backgroundColorTransp ?? true) ? 0.5 : widget.backgroundColor!.opacity) : 0.5;
 
     double borderWidth = 1.5;
-    Color borderColor = ShadeTheme.getTheme() == 0 ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2);
+    Color borderColor = context.watch<ShadeThemeProvider>().getTheme() == 0 ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2);
 
     return Align(
       alignment: widget.alignment ?? Alignment.topLeft,
@@ -97,7 +98,7 @@ class _DeuiButtonBaseGlasshoverState extends State<DeuiButtonBaseGlasshover> {
           color: Colors.transparent,
           child: InkWell(
             mouseCursor: SystemMouseCursors.alias,
-            hoverColor: ShadeTheme.getCurrentThemeProperties().backgroundColor1.withOpacity(0.1),
+            hoverColor: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor1.withOpacity(0.1),
             splashColor: accentColor.withOpacity(0.25),
             highlightColor: accentColor.withOpacity(0.1),
             borderRadius: widget.borderRadius != null ? BorderRadius.circular(widget.borderRadius ?? 10) : null,

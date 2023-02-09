@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 import 'package:shade_ui/widgets/widgets.dart';
 
@@ -68,9 +69,9 @@ class _Content extends StatelessWidget {
             const ShadeText(text: 'text'),
             const ShadeIcon(icon: Icons.logo_dev),
             ShadeSwitch(
-              value: ShadeTheme.getTheme() != 0,
+              value: context.watch<ShadeThemeProvider>().getTheme() != 0,
               onChanged: (value) {
-                ShadeTheme.setTheme(value == true ? 1 : 0);
+                Provider.of<ShadeThemeProvider>(context, listen: false).setTheme(value == true ? 1 : 0);
               },
             ),
           ],

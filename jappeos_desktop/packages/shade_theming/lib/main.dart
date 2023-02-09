@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:shade_theming/theming.dart';
@@ -24,6 +23,33 @@ Future main() async {
   _ShadeTheming.init();
 }
 
+/// This class provides all the properties for a theme.
+/// These properties can be used in the UI to make it automatically
+/// update when changing themes.
+///
+/// For this to work, you will have to use the provider package and
+/// add a new provider into your app.
+///
+/// When you can access the provider, you can use all the theme
+/// properties and update them in your app automatically.
+class ShadeThemeProvider with ChangeNotifier {
+  void setTheme(int theme) {
+    if (theme == 0 || theme == 1) {
+      ShadeTheme.setTheme(theme);
+      notifyListeners();
+    }
+  }
+
+  int getTheme() {
+    return ShadeTheme.getTheme();
+  }
+
+  ThemeProperties getCurrentThemeProperties() {
+    return ShadeTheme.getCurrentThemeProperties();
+  }
+}
+
+// Default colors.
 class _ShadeTheming {
   static Color fallbackColor = const Color.fromARGB(255, 217, 0, 255);
   static ThemeProperties defaultThemeProperties =

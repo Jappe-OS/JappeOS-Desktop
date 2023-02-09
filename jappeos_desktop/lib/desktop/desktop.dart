@@ -21,6 +21,7 @@ import 'package:jappeos_desktop_ui/jappeos_desktop_ui.dart';
 import 'package:jappeos_desktop_ui/widgets/bases/button_base_glasshover.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/text.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 import '../system/appSystem/applications.dart';
@@ -141,11 +142,11 @@ class DesktopState extends State<Desktop> {
                 // The items on the TopBar on the left side.
                 children: [
                   // Launcher button.
-                  _DesktopWidgets._topBarItem(null, _DesktopWidgets._topBarItemIcon(Icons.apps), true, () {
+                  _DesktopWidgets._topBarItem(null, _DesktopWidgets._topBarItemIcon(context, Icons.apps), true, () {
                     setState(() => DesktopMenuController.showMenu(LauncherMenu()));
                   }),
                   // TaskView button.
-                  _DesktopWidgets._topBarItem(null, _DesktopWidgets._topBarItemIcon(Icons.menu_open), true, () {}),
+                  _DesktopWidgets._topBarItem(null, _DesktopWidgets._topBarItemIcon(context, Icons.menu_open), true, () {}),
                 ],
               ),
             ),
@@ -159,9 +160,9 @@ class DesktopState extends State<Desktop> {
                   _DesktopWidgets._topBarItem(
                       null,
                       Row(children: [
-                        _DesktopWidgets._topBarItemIcon(Icons.mic),
+                        _DesktopWidgets._topBarItemIcon(context, Icons.mic),
                         const SizedBox(width: 3),
-                        _DesktopWidgets._topBarItemIcon(Icons.camera)
+                        _DesktopWidgets._topBarItemIcon(context, Icons.camera)
                       ]),
                       true,
                       () {}),
@@ -169,11 +170,11 @@ class DesktopState extends State<Desktop> {
                   _DesktopWidgets._topBarItem(
                       null,
                       Row(children: [
-                        _DesktopWidgets._topBarItemIcon(Icons.wifi),
+                        _DesktopWidgets._topBarItemIcon(context, Icons.wifi),
                         const SizedBox(width: 3),
-                        _DesktopWidgets._topBarItemIcon(Icons.volume_mute),
+                        _DesktopWidgets._topBarItemIcon(context, Icons.volume_mute),
                         const SizedBox(width: 3),
-                        _DesktopWidgets._topBarItemIcon(Icons.battery_full)
+                        _DesktopWidgets._topBarItemIcon(context, Icons.battery_full)
                       ]),
                       true,
                       () {}),
@@ -183,7 +184,7 @@ class DesktopState extends State<Desktop> {
                       Row(children: [
                         const DeuiText(isTitle: false, text: "19:00"),
                         const SizedBox(width: 3),
-                        _DesktopWidgets._topBarItemIcon(Icons.notifications)
+                        _DesktopWidgets._topBarItemIcon(context, Icons.notifications)
                       ]),
                       true,
                       () {}),
@@ -307,11 +308,11 @@ class _DesktopWidgets {
   }
 
   /// The icons used in the [_topBarItem] element.
-  static Widget _topBarItemIcon(IconData iconData) {
+  static Widget _topBarItemIcon(BuildContext context, IconData iconData) {
     return Icon(
       iconData,
       size: 17,
-      color: ShadeTheme.getCurrentThemeProperties().normalTextColor,
+      color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor,
     );
   }
 }

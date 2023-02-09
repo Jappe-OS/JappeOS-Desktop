@@ -20,6 +20,7 @@ import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 class Settings extends Application implements IApplication {
@@ -220,7 +221,7 @@ class _Content extends StatelessWidget {
               bottom: 0,
               child: Container(
                 width: 1,
-                color: ShadeTheme.getCurrentThemeProperties().borderColor,
+                color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().borderColor,
               )),
           Positioned(
             top: 0,
@@ -228,7 +229,7 @@ class _Content extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              color: ShadeTheme.getCurrentThemeProperties().backgroundColor1,
+              color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor1,
             ),
           ),
         ],

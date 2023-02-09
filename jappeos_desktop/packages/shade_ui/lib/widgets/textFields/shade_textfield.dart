@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 import 'package:shade_ui/utils.dart';
 
@@ -65,10 +66,10 @@ class _ShadeTextfieldState extends State<ShadeTextfield> {
           contentPadding: const EdgeInsets.all(7.5),
           isDense: true,
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 0.7, color: ShadeTheme.getCurrentThemeProperties().borderColor),
+              borderSide: BorderSide(width: 0.7, color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().borderColor),
               borderRadius: BorderRadius.circular(Utils.getDefaultBorderRadius())),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.7, color: ShadeTheme.getCurrentThemeProperties().accentColor),
+              borderSide: BorderSide(width: 1.7, color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor),
               borderRadius: BorderRadius.circular(Utils.getDefaultBorderRadius())),
         ),
       ),
