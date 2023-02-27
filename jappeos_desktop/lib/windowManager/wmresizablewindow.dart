@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/solid_container.dart';
+import 'package:shade_theming/main.dart';
 
 /// This is the window [Widget] that every application can instantiate.
 class Window extends StatefulWidget {
@@ -94,6 +95,29 @@ class WindowState extends State<Window> {
     if (widget.dragAreaProperties != null) {
       baseChildren.add(_getDragArea());
     }
+
+    // Window controls
+    Color iconColor = ShadeTheme.getCurrentThemeProperties().normalTextColor;
+    baseChildren.add(
+      Positioned(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _getWindowControlButton(iconColor, Icons.minimize, () {}),
+            _getWindowControlButton(iconColor, !widget.isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
+              if (widget.isMaximized) {
+                _statefuncOnRestore();
+              } else {
+                _statefuncOnMaximize();
+              }
+            }),
+            _getWindowControlButton(iconColor, Icons.close, () {
+              widget.onCloseButtonClicked!();
+            }),
+          ],
+        ),
+      ),
+    );
 
     // Resize areas
     if (widget.isResizable) {
@@ -223,11 +247,13 @@ class WindowState extends State<Window> {
 
     baseChildren.add(widget.window);
 
-    return SizedBox(child: base(
-      Stack(
-        children: baseChildren,
+    return SizedBox(
+      child: base(
+        Stack(
+          children: baseChildren,
+        ),
       ),
-    ),);
+    );
   }
 
   Widget _getDragArea() {
@@ -253,9 +279,28 @@ class WindowState extends State<Window> {
           widget.onWindowDragged!(0, 0);
           print("OnTap titlebar : ${widget.x}");
         },
-        child: SizedBox(
-          width: widget.dragAreaProperties!.w == -1 ? widget.w - widget.dragAreaProperties!.x : widget.dragAreaProperties!.w,
-          height: widget.dragAreaProperties!.h == -1 ? WMWindowDragAreaProperties.getDefaultH() : widget.dragAreaProperties!.h,
+      ),
+    );
+  }
+
+  Widget _getWindowControlButton(Color iconClr, IconData icon, Function()? onPress) {
+    return Container(
+      width: 33,
+      height: 33,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: ClipRRect(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(30),
+            onTap: onPress,
+            child: Icon(
+              icon,
+              color: iconClr,
+            ),
+          ),
         ),
       ),
     );
