@@ -23,8 +23,6 @@ environment:
 
 
 dependencies:
-#  flutter_acrylic: ^0.0.2
-  flappy_search_bar: 1.4.1
   flutter:
     sdk: flutter
 
@@ -37,7 +35,6 @@ dependencies:
   jappeos_desktop_ui:
     path: ./packages/jappeos_desktop_ui
 
-  flutter_svg: ^0.17.4
   flutter_menu: ^0.4.1
   provider: ^6.0.3
 
