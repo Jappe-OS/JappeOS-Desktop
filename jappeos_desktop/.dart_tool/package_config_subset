@@ -10,6 +10,14 @@ flutter_test
 2.19
 file:///C:/FlutterSDK/flutter/packages/flutter_test/
 file:///C:/FlutterSDK/flutter/packages/flutter_test/lib/
+shade_theming
+2.12
+file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeTheming-0f88bfc92efa391b1e29ae30324ace45300d6d26/
+file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeTheming-0f88bfc92efa391b1e29ae30324ace45300d6d26/lib/
+shade_ui
+2.12
+file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-f471989d6f1f590e9994e9071e5ce8bdd9b32eab/
+file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-f471989d6f1f590e9994e9071e5ce8bdd9b32eab/lib/
 async
 2.18
 file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.10.0/
@@ -110,12 +118,4 @@ jappeos_desktop_ui
 2.12
 file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/jappeos_desktop_ui/
 file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/jappeos_desktop_ui/lib/
-shade_theming
-2.12
-file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/shade_theming/
-file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/shade_theming/lib/
-shade_ui
-2.12
-file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/shade_ui/
-file:///D:/JappeOS/1.0/FlutterPrj/simpa_desktop/JappeOS/jappeos_desktop/packages/shade_ui/lib/
 2

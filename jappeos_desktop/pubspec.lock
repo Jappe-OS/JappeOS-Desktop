@@ -149,16 +149,20 @@ packages:
   shade_theming:
     dependency: "direct main"
     description:
-      path: "packages/shade_theming"
-      relative: true
-    source: path
+      path: "."
+      ref: master
+      resolved-ref: "0f88bfc92efa391b1e29ae30324ace45300d6d26"
+      url: "https://github.com/Jappe-OS/ShadeTheming.git"
+    source: git
     version: "1.0.0+1"
   shade_ui:
     dependency: "direct main"
     description:
-      path: "packages/shade_ui"
-      relative: true
-    source: path
+      path: "."
+      ref: master
+      resolved-ref: f471989d6f1f590e9994e9071e5ce8bdd9b32eab
+      url: "https://github.com/Jappe-OS/ShadeUI.git"
+    source: git
     version: "1.0.0+1"
   sky_engine:
     dependency: transitive

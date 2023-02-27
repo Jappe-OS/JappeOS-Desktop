@@ -27,10 +27,14 @@ dependencies:
     sdk: flutter
 
   shade_ui:
-    path: ./packages/shade_ui
+    git:
+      url: https://github.com/Jappe-OS/ShadeUI.git
+      ref: master
 
   shade_theming:
-    path: ./packages/shade_theming
+    git:
+      url: https://github.com/Jappe-OS/ShadeTheming.git
+      ref: master
 
   jappeos_desktop_ui:
     path: ./packages/jappeos_desktop_ui

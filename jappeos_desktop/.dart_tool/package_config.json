@@ -117,13 +117,13 @@
     },
     {
       "name": "shade_theming",
-      "rootUri": "../packages/shade_theming",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeTheming-0f88bfc92efa391b1e29ae30324ace45300d6d26/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "shade_ui",
-      "rootUri": "../packages/shade_ui",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-f471989d6f1f590e9994e9071e5ce8bdd9b32eab/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -182,7 +182,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-02-27T13:34:54.547839Z",
+  "generated": "2023-02-27T18:18:42.059860Z",
   "generator": "pub",
   "generatorVersion": "3.0.0-233.0.dev"
 }
