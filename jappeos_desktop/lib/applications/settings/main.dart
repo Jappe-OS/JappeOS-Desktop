@@ -28,7 +28,8 @@ class Settings extends Application implements IApplication {
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
+    DesktopState.getWmController()
+        ?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
   }
 
   @override
@@ -36,7 +37,7 @@ class Settings extends Application implements IApplication {
     return _Content();
   }
 
-  static double sidebarWidth = 332;
+  static double sidebarWidth = 300;
 
   // OLD
   /*Widget body() {
@@ -199,8 +200,40 @@ class Settings extends Application implements IApplication {
 }
 
 class _Content extends StatelessWidget {
+  final int _selectedPage = 0;
+
   @override
   Widget build(BuildContext context) {
+    final BorderRadius br = BorderRadius.circular(8);
+
+    Widget sidebarItem(int index, String text, Function() onPress) { // TODO: Add icon to the left of the text widget using a row.
+      return Container(
+        height: 35,
+        decoration: BoxDecoration(
+          borderRadius: br,
+          color: _selectedPage == index ? context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor.withOpacity(0.6) : null,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            mouseCursor: SystemMouseCursors.alias,
+            borderRadius: br,
+            onTap: onPress,
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  text,
+                  style: TextStyle(color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor, fontSize: 15,),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -211,7 +244,10 @@ class _Content extends StatelessWidget {
             bottom: 0,
             width: Settings.sidebarWidth,
             child: ListView(
-              children: const [],
+              padding: const EdgeInsets.all(5),
+              children: [
+                sidebarItem(0, "Wi-Fi", () {}),
+              ],
             ),
           ),
           Positioned(
