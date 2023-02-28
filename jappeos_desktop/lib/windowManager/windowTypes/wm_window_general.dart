@@ -66,7 +66,7 @@ class WMWindowDragAreaProperties {
 /// A type of a window has to be extended from this class to be used.
 abstract class WMWindowType {
   // Required paprameters to build window
-  Widget getWindow();
+  List<Widget> getWindow();
   bool applyBlur();
   bool isResizable();
   WMWindowSize getSizeProperties();
