@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import 'package:jappeos_desktop_ui/widgets/context_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/desktop/desktopMenuManager/desktop_menu_controller.dart';
@@ -24,6 +25,7 @@ import 'package:jappeos_desktop_ui/widgets/text.dart';
 import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
+import '../applications/settings/main.dart';
 import '../system/appSystem/applications.dart';
 import '../windowManager/wmcontroller.dart';
 import '../windowManager/wmmanager.dart';
@@ -83,6 +85,8 @@ class DesktopState extends State<Desktop> {
     }
   }
 
+  bool dockIsShown = true;
+
   @override
   Widget build(BuildContext context) {
     // The window layer of the desktop UI.
@@ -101,30 +105,65 @@ class DesktopState extends State<Desktop> {
     );
 
     // This is the dock, it is shown in the bottom of the screen.
-    final Widget dock = Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        height: 80,
-        margin: const EdgeInsets.only(bottom: 10),
-        child: IntrinsicWidth(
-          child: DeuiBlurContainer(
-            gradient: true,
-            bordered: true,
-            radiusSides: BorderRadiusSides(true, true, true, true),
-            child: Row(
-              children: [
-                _DesktopWidgets._dockItem(null, () {
-                  Applications.sys$runProcess(WidgetTesting());
-                }),
-                _DesktopWidgets._dockItem(null, () {}),
-                _DesktopWidgets._dockItem(null, () {}),
-                _DesktopWidgets._dockItem(null, () {}),
-              ],
+    Widget dock() {
+      Widget base(List<Widget> children) {
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Stack(
+            children: children,
+          ),
+        );
+      }
+
+      if (dockIsShown) {
+        return base([
+          Positioned(
+            child: MouseRegion(
+              onExit: (event) => setState(() {
+                dockIsShown = false;
+              }),
+              child: Container(
+                height: 80,
+                margin: const EdgeInsets.only(bottom: 10),
+                child: IntrinsicWidth(
+                  child: DeuiBlurContainer(
+                    gradient: true,
+                    bordered: true,
+                    radiusSides: BorderRadiusSides(true, true, true, true),
+                    child: Row(
+                      children: [
+                        _DesktopWidgets._dockItem(null, () {
+                          Applications.sys$runProcess(WidgetTesting());
+                        }),
+                        _DesktopWidgets._dockItem(null, () {
+                          Applications.sys$runProcess(Settings());
+                        }),
+                        _DesktopWidgets._dockItem(null, () {}),
+                        _DesktopWidgets._dockItem(null, () {}),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ]);
+      } else {
+        return base([
+          Positioned(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              height: 3,
+              child: MouseRegion(
+                onEnter: (event) => setState(() {
+                  dockIsShown = true;
+                }),
+              ),
+            ),
+          ),
+        ]);
+      }
+    }
 
     // This is the topBar, it is shown in the top of the screen. It can be used to launch apps, or using the quickSettings menu.
     final Widget topBar = Positioned(
@@ -198,11 +237,23 @@ class DesktopState extends State<Desktop> {
 
     List<Widget> getDesktopLayersUI() {
       List<Widget> widgets = [
+        // Context menu area.
+        DeuiContextMenuArea(
+          contextMenu: DeuiContextMenu(
+            items: [
+              DeuiContextMenuItem(
+                text: "Item",
+                onPress: () {},
+              ),
+            ],
+          ),
+        ),
+
         // The layer for the desktop windows.
         windowLayer,
 
         // The dock shown in the bottom of the desktop UI.
-        dock,
+        dock(),
 
         // This is the TopBar, it's shown on the top of the desktop UI.
         topBar,
