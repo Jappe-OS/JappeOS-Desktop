@@ -20,12 +20,13 @@ import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/solid_container.dart';
+import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 
 /// This is the window [Widget] that every application can instantiate.
 class Window extends StatefulWidget {
   // Window Properties & Info
-  late Widget window;
+  late List<Widget> window;
   late bool applyBlur;
   late bool isResizable;
   late WMWindowSize windowSizeProp;
@@ -74,22 +75,24 @@ class WindowState extends State<Window> {
       if (widget.applyBlur) {
         return DeuiBlurContainer(
           gradient: true,
-          bordered: true,
+          bordered: !widget.isMaximized,
           width: widget.w,
           height: widget.h,
-          radiusSides: BorderRadiusSides(true, true, true, true),
+          radiusSides: !widget.isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
           child: child,
         );
       } else {
         return DeuiSolidContainer(
-          bordered: true,
+          bordered: !widget.isMaximized,
           width: widget.w,
           height: widget.h,
-          radiusSides: BorderRadiusSides(true, true, true, true),
+          radiusSides: !widget.isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
           child: child,
         );
       }
     }
+
+    baseChildren.addAll(widget.window);
 
     // Drag area
     if (widget.dragAreaProperties != null) {
@@ -97,30 +100,30 @@ class WindowState extends State<Window> {
     }
 
     // Window controls
-    Color iconColor = ShadeTheme.getCurrentThemeProperties().normalTextColor;
     baseChildren.add(
       Positioned(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            _getWindowControlButton(iconColor, Icons.minimize, () {}),
-            _getWindowControlButton(iconColor, !widget.isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
+            _getWindowControlButton(context, Icons.minimize, () {}),
+            _getWindowControlButton(context, !widget.isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
               if (widget.isMaximized) {
                 _statefuncOnRestore();
               } else {
                 _statefuncOnMaximize();
               }
             }),
-            _getWindowControlButton(iconColor, Icons.close, () {
+            _getWindowControlButton(context, Icons.close, () {
               widget.onCloseButtonClicked!();
             }),
+            const SizedBox(width: 5,),
           ],
         ),
       ),
     );
 
     // Resize areas
-    if (widget.isResizable) {
+    if (widget.isResizable && !widget.isMaximized) {
       baseChildren.addAll([
         Positioned(
           right: 0,
@@ -245,8 +248,6 @@ class WindowState extends State<Window> {
       ]);
     }
 
-    baseChildren.add(widget.window);
-
     return SizedBox(
       child: base(
         Stack(
@@ -268,7 +269,6 @@ class WindowState extends State<Window> {
             _statefuncOnRestore();
           } else {
             widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
-            print("OnPanUpdate titlebar : ${widget.x}");
 
             if (widget.y < 5) {
               widget.y = 5;
@@ -277,13 +277,12 @@ class WindowState extends State<Window> {
         },
         onTap: () {
           widget.onWindowDragged!(0, 0);
-          print("OnTap titlebar : ${widget.x}");
         },
       ),
     );
   }
 
-  Widget _getWindowControlButton(Color iconClr, IconData icon, Function()? onPress) {
+  Widget _getWindowControlButton(BuildContext context, IconData icon, Function()? onPress) {
     return Container(
       width: 33,
       height: 33,
@@ -298,7 +297,8 @@ class WindowState extends State<Window> {
             onTap: onPress,
             child: Icon(
               icon,
-              color: iconClr,
+              color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor,
+              size: 20,
             ),
           ),
         ),
@@ -381,8 +381,8 @@ class WindowState extends State<Window> {
       widget.prevH = widget.h;
       widget.prevX = widget.x;
       widget.prevY = widget.y;
-      widget.w = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
-      widget.h = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height - 30;
+      widget.w = MediaQueryData.fromView(WidgetsBinding.instance.window).size.width + 2;
+      widget.h = MediaQueryData.fromView(WidgetsBinding.instance.window).size.height - 30 + 2;
       widget.x = -1;
       widget.y = -1;
       widget.onWindowDragged!(0, 30);
