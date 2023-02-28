@@ -16,6 +16,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
+import 'package:jappeos_desktop_ui/widgets/text.dart';
 
 /// This is the default type for every window.
 class NormalWindow extends WMWindowType {
@@ -29,14 +30,21 @@ class NormalWindow extends WMWindowType {
   NormalWindow(this.title, this.icon, this.size, this.blur, this.body);
 
   @override
-  Widget getWindow() {
-    return Positioned(
-      top: WMWindowDragAreaProperties.getDefaultH(),
-      left: 0,
-      bottom: 0,
-      right: 0,
-      child: body,
-    );
+  List<Widget> getWindow() {
+    return [
+      Positioned(
+        top: WMWindowDragAreaProperties.getDefaultH(),
+        left: 0,
+        bottom: 0,
+        right: 0,
+        child: body,
+      ),
+      Positioned(
+        top: 6,
+        left: 5,
+        child: DeuiText(isTitle: false, text: title),
+      ),
+    ];
   }
 
   @override
