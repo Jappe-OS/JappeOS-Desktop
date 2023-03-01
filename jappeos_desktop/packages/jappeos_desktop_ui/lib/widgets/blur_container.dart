@@ -52,7 +52,10 @@ class DeuiBlurContainer extends StatefulWidget {
   /// Toggle border radius on different corners.
   final BorderRadiusSides? radiusSides;
 
-  const DeuiBlurContainer({Key? key, required this.child, this.gradient, this.bordered, this.width, this.height, this.radiusSides}) : super(key: key);
+  /// Whether to use a smaller variant of border radius.
+  final bool? reducedRadius; // TODO Implement
+
+  const DeuiBlurContainer({Key? key, required this.child, this.gradient, this.bordered, this.width, this.height, this.radiusSides, this.reducedRadius}) : super(key: key);
 
   @override
   _DeuiBlurContainerState createState() => _DeuiBlurContainerState();
@@ -88,7 +91,8 @@ class _DeuiBlurContainerState extends State<DeuiBlurContainer> {
       }
     }
 
-    Color borderColor = context.watch<ShadeThemeProvider>().getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
+    Color borderColor =
+        context.watch<ShadeThemeProvider>().getTheme() == 0 ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 0, 0, 0);
 
     return ClipRRect(
       borderRadius: brg,
@@ -115,7 +119,9 @@ class _DeuiBlurContainerState extends State<DeuiBlurContainer> {
             border: (widget.bordered ?? false) ? Border.all(width: 1.5, color: borderColor) : null,
             color: (widget.gradient ?? false)
                 ? null
-                : (context.watch<ShadeThemeProvider>().getTheme() == 0 ? Color.fromRGBO(255 - 35, 255 - 35, 255 - 35, backgroundOpacity) : Color.fromRGBO(0 + 35, 0 + 35, 0 + 35, backgroundOpacity)),
+                : (context.watch<ShadeThemeProvider>().getTheme() == 0
+                    ? Color.fromRGBO(255 - 35, 255 - 35, 255 - 35, backgroundOpacity)
+                    : Color.fromRGBO(0 + 35, 0 + 35, 0 + 35, backgroundOpacity)),
           ),
           child: widget.child,
         ),
