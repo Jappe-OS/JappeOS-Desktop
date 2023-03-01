@@ -41,7 +41,7 @@ class NormalWindow extends WMWindowType {
       ),
       Positioned(
         top: 6,
-        left: 5,
+        left: 10,
         child: DeuiText(isTitle: false, text: title),
       ),
     ];
