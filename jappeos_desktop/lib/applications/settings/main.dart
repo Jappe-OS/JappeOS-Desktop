@@ -22,6 +22,9 @@ import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
+import 'package:shade_ui/widgets/widgets.dart';
+
+import 'settings_page_widgets.dart';
 
 class Settings extends Application implements IApplication {
   Settings() : super("Settings", "settings", null);
@@ -199,16 +202,23 @@ class Settings extends Application implements IApplication {
   }
 }
 
-class _Content extends StatelessWidget {
-  final int _selectedPage = 0;
+class _Content extends StatefulWidget {
+  @override
+  _ContentState createState() => _ContentState();
+}
+
+class _ContentState extends State<_Content> {
+  int _selectedPage = 0;
+  Widget _page = const Placeholder();
 
   @override
   Widget build(BuildContext context) {
     final BorderRadius br = BorderRadius.circular(8);
 
-    Widget sidebarItem(int index, String text, Function() onPress) { // TODO: Add icon to the left of the text widget using a row.
+    Widget sidebarItem(int index, String text, IconData icon, List<SettingsPageItem> items) {
       return Container(
         height: 35,
+        margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
           borderRadius: br,
           color: _selectedPage == index ? context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor.withOpacity(0.6) : null,
@@ -218,14 +228,34 @@ class _Content extends StatelessWidget {
           child: InkWell(
             mouseCursor: SystemMouseCursors.alias,
             borderRadius: br,
-            onTap: onPress,
+            hoverColor: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().darkerTextColor.withOpacity(0.2),
+            onTap: () {
+              setState(() {
+                _selectedPage = index;
+                _page = SettingsPage(title: text, content: items);
+              });
+            },
             child: Padding(
               padding: const EdgeInsets.all(5),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  text,
-                  style: TextStyle(color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor, fontSize: 15,),
+                child: Row(
+                  children: [
+                    Icon(
+                      icon,
+                      color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor.withOpacity(0.8),
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    Text(
+                      text,
+                      style: TextStyle(
+                        color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor.withOpacity(0.8),
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -246,14 +276,59 @@ class _Content extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.all(5),
               children: [
-                sidebarItem(0, "Wi-Fi", () {}),
+                sidebarItem(0, "Wi-Fi", Icons.wifi, [
+                  SettingsPageItem(title: "Connect to the Internet", content: [
+                    SettingsPageSetting(name: 'Select Wi-Fi network', controls: [ShadeButton(text: "Hello!", onPress: () {},)],),
+                  ],),
+                ]),
+                sidebarItem(1, "Bluetooth", Icons.bluetooth, []),
+                sidebarItem(2, "Appearance", Icons.edit, [
+                  SettingsPageItem(title: "Desktop Wallpaper", content: [
+                    SettingsPageSetting(name: 'Select a wallpaper', controls: [ShadeButton(icon: Icons.folder, onPress: () {},)],),
+                  ],),
+                  SettingsPageItem(title: "Theme", content: [
+                    SettingsPageSetting(name: 'Enable dark theme', controls: [ShadeSwitch(
+                      value: context.watch<ShadeThemeProvider>().getTheme() != 0,
+                      onChanged: (value) {
+                        setState(() {
+                          Provider.of<ShadeThemeProvider>(context, listen: false).setTheme(value == true ? 1 : 0);
+                        });
+                      },
+                    )],),
+                    SettingsPageSetting(name: 'Accent color', controls: [
+                      ShadeButton(icon: Icons.colorize, onPress: () {},)
+                    ],),
+                  ],),
+                  SettingsPageItem(title: "Performance", content: [
+                    SettingsPageSetting(name: 'Disable blur', controls: [ShadeSwitch(value: false, onChanged: (p0) {
+                      
+                    },)],),
+                  ],),
+                ]),
+                sidebarItem(3, "Notifications", Icons.notifications, [
+                  SettingsPageItem(title: "Do not Disturb", content: [
+                    SettingsPageSetting(name: 'Enable Do-not-Disturb mode', controls: [ShadeSwitch(value: false, onChanged: (p0) {
+                      
+                    },)],),
+                    SettingsPageSetting(name: 'Auto-disable Do-not-Disturb mode after', controls: [ShadeSwitch(value: false, onChanged: (p0) {
+                      
+                    },), ShadeButton(text: "Coming Soon", onPress: () {},)],),
+                  ],),
+                ]),
+                sidebarItem(4, "Updates", Icons.update, []),
+                sidebarItem(5, "Region & Language", Icons.language, []),
+                sidebarItem(6, "Accounts", Icons.account_circle, []),
+                sidebarItem(7, "Security", Icons.security, []),
+                sidebarItem(8, "Sound", Icons.speaker, []),
+                sidebarItem(9, "Power", Icons.power, []),
+                sidebarItem(10, "About", Icons.info, []),
               ],
             ),
           ),
           Positioned(
               left: Settings.sidebarWidth,
               width: 1,
-              top: 0,
+              top: 5,
               bottom: 0,
               child: Container(
                 width: 1,
@@ -265,7 +340,11 @@ class _Content extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor1,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(5)),
+                color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor1,
+              ),
+              child: ListView(children: [_page],),
             ),
           ),
         ],
