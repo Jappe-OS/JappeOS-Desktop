@@ -53,9 +53,11 @@ class DeuiBlurContainer extends StatefulWidget {
   final BorderRadiusSides? radiusSides;
 
   /// Whether to use a smaller variant of border radius.
-  final bool? reducedRadius; // TODO Implement
+  final bool? reducedRadius;
 
-  const DeuiBlurContainer({Key? key, required this.child, this.gradient, this.bordered, this.width, this.height, this.radiusSides, this.reducedRadius}) : super(key: key);
+  const DeuiBlurContainer(
+      {Key? key, required this.child, this.gradient, this.bordered, this.width, this.height, this.radiusSides, this.reducedRadius})
+      : super(key: key);
 
   @override
   _DeuiBlurContainerState createState() => _DeuiBlurContainerState();
@@ -68,12 +70,14 @@ class _DeuiBlurContainerState extends State<DeuiBlurContainer> {
     int gradientSecondColorChange = 100;
     double backgroundOpacity = 0.4;
 
+    bool reducedRadius = widget.reducedRadius ?? false;
+
     BorderRadiusGeometry brg = widget.radiusSides != null
         ? BorderRadius.only(
-            topLeft: widget.radiusSides!.topLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
-            topRight: widget.radiusSides!.topRight ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
-            bottomLeft: widget.radiusSides!.bottomLeft ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
-            bottomRight: widget.radiusSides!.bottomRight ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : Radius.zero,
+            topLeft: widget.radiusSides!.topLeft ? (!reducedRadius ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : const Radius.circular(11)) : Radius.zero,
+            topRight: widget.radiusSides!.topRight ? (!reducedRadius ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : const Radius.circular(11)) : Radius.zero,
+            bottomLeft: widget.radiusSides!.bottomLeft ? (!reducedRadius ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : const Radius.circular(11)) : Radius.zero,
+            bottomRight: widget.radiusSides!.bottomRight ? (!reducedRadius ? Radius.circular(JappeOsDesktopUI.getDefaultBorderRadius()) : const Radius.circular(11)) : Radius.zero,
           )
         : const BorderRadius.all(Radius.zero);
 

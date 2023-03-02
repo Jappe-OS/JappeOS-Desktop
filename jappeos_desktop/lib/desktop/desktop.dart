@@ -67,6 +67,10 @@ class DesktopState extends State<Desktop> {
     });
   }
 
+  /// The [BuildContext] for the desktop UI, the use of
+  /// this field is meant ONLY for the desktop menu system.
+  static BuildContext? publicContext;
+
   static DesktopMenu? _dm;
   static Alignment _dmPosToAlign = Alignment.topLeft;
   static void setDesktopMenuWidget(DesktopMenu? dm) {
@@ -89,6 +93,8 @@ class DesktopState extends State<Desktop> {
 
   @override
   Widget build(BuildContext context) {
+    publicContext = context;
+
     // The window layer of the desktop UI.
     final Widget windowLayer = Positioned(
       left: 0,

@@ -74,6 +74,7 @@ class WindowState extends State<Window> {
     Widget base(Widget child) {
       if (widget.applyBlur) {
         return DeuiBlurContainer(
+          reducedRadius: true,
           gradient: true,
           bordered: !widget.isMaximized,
           width: widget.w,
@@ -83,6 +84,7 @@ class WindowState extends State<Window> {
         );
       } else {
         return DeuiSolidContainer(
+          reducedRadius: true,
           bordered: !widget.isMaximized,
           width: widget.w,
           height: widget.h,
