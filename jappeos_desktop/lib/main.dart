@@ -27,9 +27,7 @@ Future main() async {
   ShadeTheme.setThemeProperties(_Themes.dtp, _Themes.ltp);
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ShadeThemeProvider>(create: (_) => ShadeThemeProvider())
-      ],
+      providers: [ChangeNotifierProvider<ShadeThemeProvider>(create: (_) => ShadeThemeProvider())],
       child: const JappeOsDesktop(),
     ),
   );
