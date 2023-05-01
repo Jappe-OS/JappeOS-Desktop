@@ -23,7 +23,7 @@ import 'package:jappeos_desktop_ui/widgets/bases/button_base_glasshover.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/text.dart';
 import 'package:provider/provider.dart';
-import 'package:shade_theming/main.dart';
+import 'package:shade_theming/shade_theming.dart';
 
 import '../applications/settings/main.dart';
 import '../system/appSystem/applications.dart';
@@ -161,9 +161,7 @@ class DesktopState extends State<Desktop> {
               width: MediaQuery.of(context).size.width / 2,
               height: 3,
               child: MouseRegion(
-                onEnter: (event) => setState(() {
-                  dockIsShown = true;
-                }),
+                onEnter: (event) => setState(() => dockIsShown = true),
               ),
             ),
           ),
@@ -369,7 +367,7 @@ class _DesktopWidgets {
     return Icon(
       iconData,
       size: 17,
-      color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor,
+      color: SHUI_THEME_PROPERTIES(context).normalTextColor,
     );
   }
 }
