@@ -69,6 +69,8 @@ abstract class WMWindowType {
   List<Widget> getWindow();
   bool applyBlur();
   bool isResizable();
+  bool hasControlButtons();
+  bool close();
   WMWindowSize getSizeProperties();
 
   // Optional parameters to build window

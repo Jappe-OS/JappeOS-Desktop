@@ -17,27 +17,52 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/text.dart';
+import 'package:shade_ui/widgets/widgets.dart';
 
-/// This is the default type for every window.
-class NormalWindow extends WMWindowType {
+/// A simple dialog window with text.
+class DialogWindow extends WMWindowType {
   final String title;
-  final Image? icon;
-  final Widget body;
+  final String content;
+  final List<DialogWindowAction> actions;
+  int primaryAction;
 
-  final WMWindowSize size;
-  final bool blur;
+  bool _close = false;
 
-  NormalWindow(this.title, this.icon, this.size, this.blur, this.body);
+  DialogWindow(this.title, this.content, this.actions, [this.primaryAction = 0]);
 
   @override
   List<Widget> getWindow() {
+    List<Widget> actionsWidg = [];
+
+    for (DialogWindowAction dwa in actions) {
+      actionsWidg.add(ShadeButton(
+        text: dwa.name,
+        isPrimary: actions.indexOf(dwa) == primaryAction,
+        onPress: dwa.act,
+      ));
+    }
+
+    actionsWidg.add(ShadeButton(
+      text: "Close",
+      isPrimary: false,
+      onPress: () => _close = true,
+    ));
+
     return [
       Positioned(
         top: WMWindowDragAreaProperties.getDefaultH(),
         left: 0,
         bottom: 0,
         right: 0,
-        child: body,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: ShadeText(text: content)),
+            Row(
+              children: actionsWidg,
+            ),
+          ],
+        ),
       ),
       Positioned(
         top: 6,
@@ -49,12 +74,12 @@ class NormalWindow extends WMWindowType {
 
   @override
   bool applyBlur() {
-    return blur;
+    return true;
   }
 
   @override
   bool isResizable() {
-    return true;
+    return false;
   }
 
   @override
@@ -66,16 +91,23 @@ class NormalWindow extends WMWindowType {
 
   @override
   WMWindowSize getSizeProperties() {
-    return size;
+    return WMWindowSize(const Size(400, 200), const Size(400, 200));
   }
 
   @override
   bool hasControlButtons() {
-    return true;
+    return false;
   }
 
   @override
   bool close() {
-    return false;
+    return _close;
   }
+}
+
+class DialogWindowAction {
+  String name;
+  void Function()? act;
+
+  DialogWindowAction(this.name, this.act);
 }

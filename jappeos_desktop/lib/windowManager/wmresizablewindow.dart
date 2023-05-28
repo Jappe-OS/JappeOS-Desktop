@@ -16,6 +16,8 @@
 
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
@@ -29,6 +31,8 @@ class Window extends StatefulWidget {
   late List<Widget> window;
   late bool applyBlur;
   late bool isResizable;
+  late bool hasControlButtons;
+  late bool close;
   late WMWindowSize windowSizeProp;
   WMWindowDragAreaProperties? dragAreaProperties;
 
@@ -48,11 +52,24 @@ class Window extends StatefulWidget {
     window = windowType.getWindow();
     applyBlur = windowType.applyBlur();
     isResizable = windowType.isResizable();
+    hasControlButtons = windowType.hasControlButtons();
     dragAreaProperties = windowType.getDragAreaProperties();
     windowSizeProp = windowType.getSizeProperties();
 
     w = windowSizeProp.defaultSize.width;
     h = windowSizeProp.defaultSize.height;
+
+    _closeTimer();
+  }
+
+  // ignore: unused_field
+  late Timer _timer; // TODO Use something better than a timer for this; timer = laggy.
+  void _closeTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      close = windowType.close();
+      if (close) onCloseButtonClicked!();
+      _closeTimer();
+    });
   }
 
   @override
@@ -106,20 +123,25 @@ class WindowState extends State<Window> {
       Positioned(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            _getWindowControlButton(context, Icons.minimize, () {}),
-            _getWindowControlButton(context, !widget.isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
-              if (widget.isMaximized) {
-                _statefuncOnRestore();
-              } else {
-                _statefuncOnMaximize();
-              }
-            }),
-            _getWindowControlButton(context, Icons.close, () {
-              widget.onCloseButtonClicked!();
-            }),
-            const SizedBox(width: 5,),
-          ],
+          children: widget.hasControlButtons
+              ? [
+                  _getWindowControlButton(context, Icons.minimize, () {}),
+                  if (widget.isResizable)
+                    _getWindowControlButton(context, !widget.isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
+                      if (widget.isMaximized) {
+                        _statefuncOnRestore();
+                      } else {
+                        _statefuncOnMaximize();
+                      }
+                    }),
+                  _getWindowControlButton(context, Icons.close, () {
+                    widget.onCloseButtonClicked!();
+                  }),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                ]
+              : [],
         ),
       ),
     );
@@ -378,6 +400,7 @@ class WindowState extends State<Window> {
   }
 
   void _statefuncOnMaximize() {
+    if (!widget.isResizable) return;
     setState(() {
       widget.prevW = widget.w;
       widget.prevH = widget.h;
@@ -393,6 +416,7 @@ class WindowState extends State<Window> {
   }
 
   void _statefuncOnRestore() {
+    if (!widget.isResizable) return;
     setState(() {
       widget.w = widget.prevW;
       widget.h = widget.prevH;
