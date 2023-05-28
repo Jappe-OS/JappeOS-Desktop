@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import 'package:jappeos_desktop_ui/widgets/context_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:jappeos_desktop/applications/test/main.dart';
 import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/desktop/desktopMenuManager/desktop_menu_controller.dart';
 import 'package:jappeos_desktop_ui/jappeos_desktop_ui.dart';
 import 'package:jappeos_desktop_ui/widgets/bases/button_base_glasshover.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
+import 'package:jappeos_desktop_ui/widgets/context_menu.dart';
 import 'package:jappeos_desktop_ui/widgets/text.dart';
-import 'package:provider/provider.dart';
 import 'package:shade_theming/shade_theming.dart';
 
 import '../applications/settings/main.dart';
@@ -144,7 +144,9 @@ class DesktopState extends State<Desktop> {
                         _DesktopWidgets._dockItem(null, () {
                           Applications.sys$runProcess(Settings());
                         }),
-                        _DesktopWidgets._dockItem(null, () {}),
+                        _DesktopWidgets._dockItem(null, () {
+                          Applications.sys$runProcess(Test());
+                        }),
                         _DesktopWidgets._dockItem(null, () {}),
                       ],
                     ),

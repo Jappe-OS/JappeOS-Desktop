@@ -187,6 +187,7 @@ class _MyLoginPageState extends State<LoginPage> {
                               if (value!.trim().isEmpty) {
                                 return 'Password is required';
                               }
+                              return null;
                             },
                           ),
                         ),
