@@ -16,6 +16,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../wmwindow.dart';
+
 /// Size properties for windows.
 class WMWindowSize {
   final Size minimumSize;
@@ -65,6 +67,15 @@ class WMWindowDragAreaProperties {
 
 /// A type of a window has to be extended from this class to be used.
 abstract class WMWindowType {
+  bool _windowSet = false;
+  late Window _window;
+  Window get theWindow => _window;
+  void thisWindow(Window window) {
+    if (_windowSet) return;
+    _window = window;
+    _windowSet = true;
+  }
+
   // Required paprameters to build window
   List<Widget> getWindow();
   bool applyBlur();
@@ -85,13 +96,3 @@ class WMWindowWidgets {
     );
   }
 }
-
-//class DecoratedWindow extends WMWindowType {
-//  final String title;
-//  final Image icon;
-//  final WMWindowSize size;
-//  final Widget windowDecorations;
-//  final Widget body;
-//
-//  DecoratedWindow(this.title, this.icon, this.size, this.windowDecorations, this.body);
-//}

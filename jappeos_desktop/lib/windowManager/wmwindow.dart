@@ -16,8 +16,6 @@
 
 // ignore_for_file: must_be_immutable
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
@@ -28,48 +26,40 @@ import 'package:shade_theming/main.dart';
 /// This is the window [Widget] that every application can instantiate.
 class Window extends StatefulWidget {
   // Window Properties & Info
-  late List<Widget> window;
-  late bool applyBlur;
-  late bool isResizable;
-  late bool hasControlButtons;
-  late bool close;
-  late WMWindowSize windowSizeProp;
-  WMWindowDragAreaProperties? dragAreaProperties;
+  late List<Widget>            _window;
+  late bool                    _applyBlur;
+  late bool                    _isResizable;
+  late bool                    _hasControlButtons;
+  late WMWindowSize            _windowSizeProp;
+  WMWindowDragAreaProperties?  _dragAreaProperties;
 
   // Current Window States
-  double x = 0, y = 0;
-  double prevX = 0, prevY = 0;
-  double w = 0, h = 0;
-  double prevW = 0, prevH = 0;
-  bool isMaximized = false;
+  double x     = 0,   y     = 0;
+  double prevX = 0,   prevY = 0;
+  double w     = 0,   h     = 0;
+  double prevW = 0,   prevH = 0;
+  bool _isMaximized   = false;
 
-  Function(double, double)? onWindowDragged;
-  VoidCallback? onCloseButtonClicked;
+  // Window Events
+  Function(double, double)?  onWindowDragged;
+  VoidCallback?              onCloseButtonClicked;
 
+  // Type of the Window
   final WMWindowType windowType;
 
+  // Construct the Window
   Window(this.windowType) : super(key: UniqueKey()) {
-    window = windowType.getWindow();
-    applyBlur = windowType.applyBlur();
-    isResizable = windowType.isResizable();
-    hasControlButtons = windowType.hasControlButtons();
-    dragAreaProperties = windowType.getDragAreaProperties();
-    windowSizeProp = windowType.getSizeProperties();
+    _window              = windowType.getWindow();
+    _applyBlur           = windowType.applyBlur();
+    _isResizable         = windowType.isResizable();
+    _hasControlButtons   = windowType.hasControlButtons();
+    _dragAreaProperties  = windowType.getDragAreaProperties();
+    _windowSizeProp      = windowType.getSizeProperties();
 
-    w = windowSizeProp.defaultSize.width;
-    h = windowSizeProp.defaultSize.height;
+    windowType.thisWindow(this); // Set reference to this window in the window type.
 
-    _closeTimer();
-  }
-
-  // ignore: unused_field
-  late Timer _timer; // TODO Use something better than a timer for this; timer = laggy.
-  void _closeTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      close = windowType.close();
-      if (close) onCloseButtonClicked!();
-      _closeTimer();
-    });
+    w = _windowSizeProp.defaultSize.width;
+    h = _windowSizeProp.defaultSize.height;
   }
 
   @override
@@ -80,41 +70,41 @@ class WindowState extends State<Window> {
   @override
   Widget build(BuildContext context) {
     // Width and height
-    if (widget.w < widget.windowSizeProp.minimumSize.width) {
-      widget.w = widget.windowSizeProp.minimumSize.width;
-    } else if (widget.h < widget.windowSizeProp.minimumSize.height) {
-      widget.h = widget.windowSizeProp.minimumSize.height;
+    if (widget.w < widget._windowSizeProp.minimumSize.width) {
+      widget.w = widget._windowSizeProp.minimumSize.width;
+    } else if (widget.h < widget._windowSizeProp.minimumSize.height) {
+      widget.h = widget._windowSizeProp.minimumSize.height;
     }
 
     List<Widget> baseChildren = [];
 
     Widget base(Widget child) {
-      if (widget.applyBlur) {
+      if (widget._applyBlur) {
         return DeuiBlurContainer(
           reducedRadius: true,
           gradient: true,
-          bordered: !widget.isMaximized,
+          bordered: !widget._isMaximized,
           width: widget.w,
           height: widget.h,
-          radiusSides: !widget.isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
+          radiusSides: !widget._isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
           child: child,
         );
       } else {
         return DeuiSolidContainer(
           reducedRadius: true,
-          bordered: !widget.isMaximized,
+          bordered: !widget._isMaximized,
           width: widget.w,
           height: widget.h,
-          radiusSides: !widget.isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
+          radiusSides: !widget._isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
           child: child,
         );
       }
     }
 
-    baseChildren.addAll(widget.window);
+    baseChildren.addAll(widget._window);
 
     // Drag area
-    if (widget.dragAreaProperties != null) {
+    if (widget._dragAreaProperties != null) {
       baseChildren.add(_getDragArea());
     }
 
@@ -123,12 +113,12 @@ class WindowState extends State<Window> {
       Positioned(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: widget.hasControlButtons
+          children: widget._hasControlButtons
               ? [
                   _getWindowControlButton(context, Icons.minimize, () {}),
-                  if (widget.isResizable)
-                    _getWindowControlButton(context, !widget.isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
-                      if (widget.isMaximized) {
+                  if (widget._isResizable)
+                    _getWindowControlButton(context, !widget._isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
+                      if (widget._isMaximized) {
                         _statefuncOnRestore();
                       } else {
                         _statefuncOnMaximize();
@@ -147,7 +137,7 @@ class WindowState extends State<Window> {
     );
 
     // Resize areas
-    if (widget.isResizable && !widget.isMaximized) {
+    if (widget._isResizable && !widget._isMaximized) {
       baseChildren.addAll([
         Positioned(
           right: 0,
@@ -283,13 +273,13 @@ class WindowState extends State<Window> {
 
   Widget _getDragArea() {
     return Positioned(
-      left: widget.dragAreaProperties!.x,
-      top: widget.dragAreaProperties!.y,
-      width: widget.dragAreaProperties!.w == -1 ? widget.w - widget.dragAreaProperties!.x : widget.dragAreaProperties!.w,
-      height: widget.dragAreaProperties!.h == -1 ? WMWindowDragAreaProperties.getDefaultH() : widget.dragAreaProperties!.h,
+      left: widget._dragAreaProperties!.x,
+      top: widget._dragAreaProperties!.y,
+      width: widget._dragAreaProperties!.w == -1 ? widget.w - widget._dragAreaProperties!.x : widget._dragAreaProperties!.w,
+      height: widget._dragAreaProperties!.h == -1 ? WMWindowDragAreaProperties.getDefaultH() : widget._dragAreaProperties!.h,
       child: GestureDetector(
         onPanUpdate: (tapInfo) {
-          if (widget.isMaximized) {
+          if (widget._isMaximized) {
             _statefuncOnRestore();
           } else {
             widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
@@ -332,12 +322,12 @@ class WindowState extends State<Window> {
 
   // FUNCTIONS
   void _resizefuncOnHorizontalDragLeft(DragUpdateDetails details) {
-    bool maximized = widget.isMaximized;
+    bool maximized = widget._isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.w -= details.delta.dx;
-      if (widget.w < widget.windowSizeProp.minimumSize.width) {
-        widget.w = widget.windowSizeProp.minimumSize.width;
+      if (widget.w < widget._windowSizeProp.minimumSize.width) {
+        widget.w = widget._windowSizeProp.minimumSize.width;
       } else {
         widget.onWindowDragged!(details.delta.dx, 0);
       }
@@ -345,34 +335,34 @@ class WindowState extends State<Window> {
   }
 
   void _resizefuncOnHorizontalDragRight(DragUpdateDetails details) {
-    bool maximized = widget.isMaximized;
+    bool maximized = widget._isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.w += details.delta.dx;
-      if (widget.w < widget.windowSizeProp.minimumSize.width) {
-        widget.w = widget.windowSizeProp.minimumSize.width;
+      if (widget.w < widget._windowSizeProp.minimumSize.width) {
+        widget.w = widget._windowSizeProp.minimumSize.width;
       }
     });
   }
 
   void _resizefuncOnHorizontalDragBottom(DragUpdateDetails details) {
-    bool maximized = widget.isMaximized;
+    bool maximized = widget._isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.h += details.delta.dy;
-      if (widget.h < widget.windowSizeProp.minimumSize.height) {
-        widget.h = widget.windowSizeProp.minimumSize.height;
+      if (widget.h < widget._windowSizeProp.minimumSize.height) {
+        widget.h = widget._windowSizeProp.minimumSize.height;
       }
     });
   }
 
   void _resizefuncOnHorizontalDragTop(DragUpdateDetails details) {
-    bool maximized = widget.isMaximized;
+    bool maximized = widget._isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.h -= details.delta.dy;
-      if (widget.h < widget.windowSizeProp.minimumSize.height) {
-        widget.h = widget.windowSizeProp.minimumSize.height;
+      if (widget.h < widget._windowSizeProp.minimumSize.height) {
+        widget.h = widget._windowSizeProp.minimumSize.height;
       } else {
         widget.onWindowDragged!(0, details.delta.dy);
       }
@@ -400,30 +390,30 @@ class WindowState extends State<Window> {
   }
 
   void _statefuncOnMaximize() {
-    if (!widget.isResizable) return;
+    if (!widget._isResizable) return;
     setState(() {
       widget.prevW = widget.w;
       widget.prevH = widget.h;
       widget.prevX = widget.x;
       widget.prevY = widget.y;
-      widget.w = MediaQueryData.fromView(WidgetsBinding.instance.window).size.width + 2;
-      widget.h = MediaQueryData.fromView(WidgetsBinding.instance.window).size.height - 30 + 2;
+      widget.w = View.of(context).physicalSize.width + 2;
+      widget.h = View.of(context).physicalSize.height - 30 + 2;
       widget.x = -1;
       widget.y = -1;
       widget.onWindowDragged!(0, 30);
-      widget.isMaximized = true;
+      widget._isMaximized = true;
     });
   }
 
   void _statefuncOnRestore() {
-    if (!widget.isResizable) return;
+    if (!widget._isResizable) return;
     setState(() {
       widget.w = widget.prevW;
       widget.h = widget.prevH;
       widget.x = widget.prevX;
       widget.y = widget.prevY;
       widget.onWindowDragged!(0, 0);
-      widget.isMaximized = false;
+      widget._isMaximized = false;
     });
   }
 }

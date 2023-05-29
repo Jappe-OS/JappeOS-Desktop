@@ -17,15 +17,15 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
-import 'wmresizablewindow.dart';
+import 'wmwindow.dart';
 
 /// This class can be used to spawn a new window.
 class WmController {
   WmController(this._onUpdate);
 
   // Resizable window.
-  final List<Window> _resizablewindows = List.empty(growable: true);
-  List<Window> get resizablewindows => _resizablewindows;
+  final List<Window> _windows = List.empty(growable: true);
+  List<Window> get windows => _windows;
 
   final VoidCallback _onUpdate;
 
@@ -36,33 +36,33 @@ class WmController {
   }
 
   void _createNewWindow(WMWindowType type) {
-    Window resizableWindow = Window(type);
+    Window window = Window(type);
 
     // Set initial position.
     Random rng = Random();
-    resizableWindow.x = rng.nextDouble() * 500;
-    resizableWindow.y = rng.nextDouble() * 500;
+    window.x = rng.nextDouble() * 500;
+    window.y = rng.nextDouble() * 500;
 
     // Init onWindowDragged.
-    resizableWindow.onWindowDragged = (dx, dy) {
-      resizableWindow.x += dx;
-      resizableWindow.y += dy;
+    window.onWindowDragged = (dx, dy) {
+      window.x += dx;
+      window.y += dy;
 
       // Put on top of stack.
-      _resizablewindows.remove(resizableWindow);
-      _resizablewindows.add(resizableWindow);
+      _windows.remove(window);
+      _windows.add(window);
 
       _onUpdate();
     };
 
     // Init onCloseButtonClicked.
-    resizableWindow.onCloseButtonClicked = () {
-      _resizablewindows.remove(resizableWindow);
+    window.onCloseButtonClicked = () {
+      _windows.remove(window);
       _onUpdate();
     };
 
     // Add Window to List.
-    _resizablewindows.add(resizableWindow);
+    _windows.add(window);
 
     // Update Widgets after adding the new window.
     _onUpdate();
