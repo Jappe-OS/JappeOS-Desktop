@@ -26,10 +26,20 @@ import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart
 class Test extends Application implements IApplication {
   Test() : super("Test App", "testapp", null);
 
+  late NormalWindow nw;
+
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Test App", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
-    DesktopState.getWmController()?.wm$spawnGuiWindow(DialogWindow("Dialog", "Dialog content.", [DialogWindowAction("Action", () { })])); 
+    nw = NormalWindow("Test App", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body());
+
+    DesktopState.getWmController()?.wm$spawnGuiWindow(nw);
+    DesktopState.getWmController()?.wm$spawnGuiWindow(DialogWindow(
+      "Dialog",
+      "Dialog content.",
+      [DialogWindowAction("Action", () {})],
+      () {},
+      nw.theWindow
+    ));
   }
 
   @override

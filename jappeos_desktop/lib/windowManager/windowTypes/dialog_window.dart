@@ -19,16 +19,40 @@ import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart
 import 'package:jappeos_desktop_ui/widgets/text.dart';
 import 'package:shade_ui/widgets/widgets.dart';
 
+import '../wmwindow.dart';
+
+// TODO Fix window position event not working!
 /// A simple dialog window with text.
 class DialogWindow extends WMWindowType {
   final String title;
   final String content;
   final List<DialogWindowAction> actions;
-  int primaryAction;
+  final void Function() dialogCloseCallback;
+  final Window? parent;
+  final int primaryAction;
 
-  bool _close = false;
+  DialogWindow(this.title, this.content, this.actions, this.dialogCloseCallback, [this.parent, this.primaryAction = 0]) {
+    // Wait till window set!
+    Future.doWhile(() async {
+      if (windowSet) {
+        parent?.onWindowDraggedEvent.subscribe((args) => _parentDragged(args));
+        theWindow.onWindowDraggedEvent.subscribe((args) => _thisDragged(args));
+        return false;
+      }
+      return true;
+    });
+  }
 
-  DialogWindow(this.title, this.content, this.actions, [this.primaryAction = 0]);
+  void _parentDragged(WindowDragEventArgs? wdea) {
+    parent?.cancelSendToTop = true;
+    theWindow.setPos(parent!.getPos().dx + wdea!.dx, parent!.getPos().dy + wdea.dy + 35);
+    //parent?.setPos(parent!.getPos().dx, parent!.getPos().dy);
+  }
+
+  void _thisDragged(WindowDragEventArgs? wdea) {
+    parent?.setPos(theWindow.getPos().dx + wdea!.dx, theWindow.getPos().dy + wdea.dy - 35);
+    //theWindow.setPos(theWindow.getPos().dx, theWindow.getPos().dy);
+  }
 
   @override
   List<Widget> getWindow() {
@@ -40,27 +64,34 @@ class DialogWindow extends WMWindowType {
         isPrimary: actions.indexOf(dwa) == primaryAction,
         onPress: dwa.act,
       ));
+      actionsWidg.add(const SizedBox(
+        width: 5,
+      ));
     }
 
     actionsWidg.add(ShadeButton(
       text: "Close",
       isPrimary: false,
-      onPress: () => _close = true,
+      onPress: () {
+        dialogCloseCallback();
+        theWindow.onCloseButtonClicked!();
+      },
     ));
 
     return [
       Positioned(
-        top: WMWindowDragAreaProperties.getDefaultH(),
-        left: 0,
-        bottom: 0,
-        right: 0,
+        top: /*WMWindowDragAreaProperties.getDefaultH() +*/ 1,
+        left: 10,
+        bottom: 10,
+        right: 10,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: ShadeText(text: content)),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: actionsWidg,
             ),
+            Expanded(child: ShadeText(text: content)),
           ],
         ),
       ),
@@ -84,7 +115,7 @@ class DialogWindow extends WMWindowType {
 
   @override
   WMWindowDragAreaProperties? getDragAreaProperties() {
-    WMWindowDragAreaProperties a = WMWindowDragAreaProperties()..setDefault();
+    WMWindowDragAreaProperties a = WMWindowDragAreaProperties()..setFilled();
 
     return a;
   }
@@ -97,11 +128,6 @@ class DialogWindow extends WMWindowType {
   @override
   bool hasControlButtons() {
     return false;
-  }
-
-  @override
-  bool close() {
-    return _close;
   }
 }
 
