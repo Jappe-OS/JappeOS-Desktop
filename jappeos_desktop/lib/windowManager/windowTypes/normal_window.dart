@@ -73,9 +73,4 @@ class NormalWindow extends WMWindowType {
   bool hasControlButtons() {
     return true;
   }
-
-  @override
-  bool close() {
-    return false;
-  }
 }
