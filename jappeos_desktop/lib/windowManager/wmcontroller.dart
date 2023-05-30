@@ -40,13 +40,14 @@ class WmController {
 
     // Set initial position.
     Random rng = Random();
-    window.x = rng.nextDouble() * 500;
-    window.y = rng.nextDouble() * 500;
+    window.setPos(rng.nextDouble() * 500, rng.nextDouble() * 500);
 
-    // Init onWindowDragged.
-    window.onWindowDragged = (dx, dy) {
-      window.x += dx;
-      window.y += dy;
+    // Init onSendToTop.
+    window.onSendToTop = () {
+      if (window.cancelSendToTop) {
+        window.cancelSendToTop = false;
+        return;
+      }
 
       // Put on top of stack.
       _windows.remove(window);
@@ -55,8 +56,19 @@ class WmController {
       _onUpdate();
     };
 
+    // Init onWindowDragged.
+    window.onWindowDragged = (dx, dy) {
+      window.setPos(window.getPos().dx + dx, window.getPos().dy + dy);
+      window.onWindowDraggedEvent.broadcast(WindowDragEventArgs(dx, dy)); // <- TODO Fix window position event not working!
+
+      window.onSendToTop!();
+
+      _onUpdate();
+    };
+
     // Init onCloseButtonClicked.
     window.onCloseButtonClicked = () {
+      window.onWindowClosedEvent.broadcast();
       _windows.remove(window);
       _onUpdate();
     };

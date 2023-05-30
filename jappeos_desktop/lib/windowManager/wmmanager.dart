@@ -35,8 +35,8 @@ class _WmManagerState extends State<WmManager> {
     return Stack(
         children: widget.wmController!.windows.map((e) {
       return Positioned(
-        left: e.x,
-        top: e.y,
+        left: e.getPos().dx,
+        top: e.getPos().dy,
         key: e.key,
         child: e,
       );
