@@ -38,12 +38,20 @@ class WMWindowDragAreaProperties {
     this.h = h;
   }
 
-  /// Set the default dragging are for the window.
+  /// Set the default dragging area for the window.
   void setDefault() {
     x = getDefaultX();
     y = getDefaultY();
     w = getDefaultW();
     h = getDefaultH();
+  }
+
+  /// Set the full dragging area for the window. Fills up the whole window!
+  void setFilled() {
+    x = getDefaultX();
+    y = getDefaultY();
+    w = -1;
+    h = -1.1;
   }
 
   static double getDefaultX() {
@@ -68,9 +76,10 @@ class WMWindowDragAreaProperties {
 /// A type of a window has to be extended from this class to be used.
 abstract class WMWindowType {
   bool _windowSet = false;
+  bool get windowSet => _windowSet;
   late Window _window;
   Window get theWindow => _window;
-  void thisWindow(Window window) {
+  void setThisWindow(Window window) {
     if (_windowSet) return;
     _window = window;
     _windowSet = true;
@@ -81,7 +90,6 @@ abstract class WMWindowType {
   bool applyBlur();
   bool isResizable();
   bool hasControlButtons();
-  bool close();
   WMWindowSize getSizeProperties();
 
   // Optional parameters to build window
