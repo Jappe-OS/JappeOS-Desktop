@@ -14,59 +14,88 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api, curly_braces_in_flow_control_structures
 
+import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/solid_container.dart';
-import 'package:provider/provider.dart';
-import 'package:shade_theming/main.dart';
+import 'package:shade_theming/shade_theming.dart';
 
 /// This is the window [Widget] that every application can instantiate.
 class Window extends StatefulWidget {
+  @override
+  _WindowState createState() => _WindowState();
+
+  // Accessing _WindowState from Window: Global key to access the state
+  static GlobalKey<_WindowState> myWidgetStateKey = GlobalKey<_WindowState>();
+  _WindowState? state = myWidgetStateKey.currentState;
+
   // Window Properties & Info
-  late List<Widget>            _window;
-  late bool                    _applyBlur;
-  late bool                    _isResizable;
-  late bool                    _hasControlButtons;
-  late WMWindowSize            _windowSizeProp;
-  WMWindowDragAreaProperties?  _dragAreaProperties;
+  late List<Widget> _window;
+  late bool _applyBlur;
+  late bool _isResizable;
+  late bool _hasControlButtons;
+  late WMWindowSize _windowSizeProp;
+  WMWindowDragAreaProperties? _dragAreaProperties;
 
   // Current Window States
-  double x     = 0,   y     = 0;
-  double prevX = 0,   prevY = 0;
-  double w     = 0,   h     = 0;
-  double prevW = 0,   prevH = 0;
-  bool _isMaximized   = false;
+  void setPos(double? x, y) {
+    if (x != null) _x = x;
+    if (y != null) _y = y;
+  }
+
+  Offset getPos() => Offset(_x, _y);
+  double _x = 0, _y = 0;
+  double prevX = 0, prevY = 0;
+  double w = 0, h = 0;
+  double prevW = 0, prevH = 0;
+  //
+  bool _isMaximized = false;
+
+  // Window Functions
+  Function(double, double)? onWindowDragged;
+  VoidCallback? onCloseButtonClicked;
+  //
+  late bool cancelSendToTop = false;
+  VoidCallback? onSendToTop;
+  //
+  void setMaximized(bool b) => state!.p_setMaximized(b);
 
   // Window Events
-  Function(double, double)?  onWindowDragged;
-  VoidCallback?              onCloseButtonClicked;
+  var onWindowDraggedEvent = Event<WindowDragEventArgs>();
+  var onWindowClosedEvent = Event();
 
   // Type of the Window
   final WMWindowType windowType;
 
   // Construct the Window
   Window(this.windowType) : super(key: UniqueKey()) {
-    _window              = windowType.getWindow();
-    _applyBlur           = windowType.applyBlur();
-    _isResizable         = windowType.isResizable();
-    _hasControlButtons   = windowType.hasControlButtons();
-    _dragAreaProperties  = windowType.getDragAreaProperties();
-    _windowSizeProp      = windowType.getSizeProperties();
+    _window = windowType.getWindow();
+    _applyBlur = windowType.applyBlur();
+    _isResizable = windowType.isResizable();
+    _hasControlButtons = windowType.hasControlButtons();
+    _dragAreaProperties = windowType.getDragAreaProperties();
+    _windowSizeProp = windowType.getSizeProperties();
 
-    windowType.thisWindow(this); // Set reference to this window in the window type.
+    windowType.setThisWindow(this); // Set reference to this window in the window type.
 
     w = _windowSizeProp.defaultSize.width;
     h = _windowSizeProp.defaultSize.height;
   }
-
-  @override
-  WindowState createState() => WindowState();
 }
 
-class WindowState extends State<Window> {
+/// State for [Window], there should never be any need to access this class straight.
+class _WindowState extends State<Window> {
+  // ignore: non_constant_identifier_names
+  void p_setMaximized(bool b) {
+    if (b)
+      _statefuncOnMaximize();
+    else
+      _statefuncOnRestore();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Width and height
@@ -76,10 +105,13 @@ class WindowState extends State<Window> {
       widget.h = widget._windowSizeProp.minimumSize.height;
     }
 
+    // Children of the base window widget
     List<Widget> baseChildren = [];
 
+    // The window base widget, anything can be added on top later on
     Widget base(Widget child) {
       if (widget._applyBlur) {
+        // Blurred window background
         return DeuiBlurContainer(
           reducedRadius: true,
           gradient: true,
@@ -90,6 +122,7 @@ class WindowState extends State<Window> {
           child: child,
         );
       } else {
+        // Solid window background
         return DeuiSolidContainer(
           reducedRadius: true,
           bordered: !widget._isMaximized,
@@ -101,6 +134,7 @@ class WindowState extends State<Window> {
       }
     }
 
+    // Add all window content
     baseChildren.addAll(widget._window);
 
     // Drag area
@@ -139,6 +173,7 @@ class WindowState extends State<Window> {
     // Resize areas
     if (widget._isResizable && !widget._isMaximized) {
       baseChildren.addAll([
+        // Right
         Positioned(
           right: 0,
           top: 0,
@@ -154,6 +189,7 @@ class WindowState extends State<Window> {
             ),
           ),
         ),
+        // Left
         Positioned(
           left: 0,
           top: 0,
@@ -169,6 +205,7 @@ class WindowState extends State<Window> {
             ),
           ),
         ),
+        // Top
         Positioned(
           left: 0,
           top: 0,
@@ -184,6 +221,7 @@ class WindowState extends State<Window> {
             ),
           ),
         ),
+        // Bottom
         Positioned(
           left: 0,
           bottom: 0,
@@ -199,6 +237,7 @@ class WindowState extends State<Window> {
             ),
           ),
         ),
+        // BottomRight
         Positioned(
           bottom: 0,
           right: 0,
@@ -214,6 +253,7 @@ class WindowState extends State<Window> {
             ),
           ),
         ),
+        // BottomLeft
         Positioned(
           bottom: 0,
           left: 0,
@@ -229,6 +269,7 @@ class WindowState extends State<Window> {
             ),
           ),
         ),
+        // TopRight
         Positioned(
           top: 0,
           right: 0,
@@ -244,6 +285,7 @@ class WindowState extends State<Window> {
             ),
           ),
         ),
+        // TopLeft
         Positioned(
           left: 0,
           top: 0,
@@ -262,6 +304,7 @@ class WindowState extends State<Window> {
       ]);
     }
 
+    // Last, return the window widget
     return SizedBox(
       child: base(
         Stack(
@@ -271,31 +314,50 @@ class WindowState extends State<Window> {
     );
   }
 
+  /// Get the dragging area of the window, uses the specified settings
   Widget _getDragArea() {
+    // Do the height calculations based on the drag area height setting
+    double finalHeight;
+    if (widget._dragAreaProperties!.h == -1) {
+      finalHeight = WMWindowDragAreaProperties.getDefaultH();
+    } else if (widget._dragAreaProperties!.h == -1.1) {
+      finalHeight = widget.h - widget._dragAreaProperties!.y;
+    } else {
+      finalHeight = widget._dragAreaProperties!.h;
+    }
+    // Return the drag area widget
     return Positioned(
       left: widget._dragAreaProperties!.x,
       top: widget._dragAreaProperties!.y,
       width: widget._dragAreaProperties!.w == -1 ? widget.w - widget._dragAreaProperties!.x : widget._dragAreaProperties!.w,
-      height: widget._dragAreaProperties!.h == -1 ? WMWindowDragAreaProperties.getDefaultH() : widget._dragAreaProperties!.h,
-      child: GestureDetector(
-        onPanUpdate: (tapInfo) {
+      height: finalHeight,
+
+      // Use listener to be able to click buttons through the dragging area!
+      child: Listener(
+        behavior: HitTestBehavior.translucent, // <<-
+
+        // When the window is dragged
+        onPointerMove: (tapInfo) {
           if (widget._isMaximized) {
             _statefuncOnRestore();
           } else {
             widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
 
-            if (widget.y < 5) {
-              widget.y = 5;
+            if (widget._y < 5) {
+              widget._y = 5;
             }
           }
         },
-        onTap: () {
+
+        // When the titlebar is pressed
+        onPointerDown: (p) {
           widget.onWindowDragged!(0, 0);
         },
       ),
     );
   }
 
+  /// The control button widget for the window frame
   Widget _getWindowControlButton(BuildContext context, IconData icon, Function()? onPress) {
     return Container(
       width: 33,
@@ -311,7 +373,7 @@ class WindowState extends State<Window> {
             onTap: onPress,
             child: Icon(
               icon,
-              color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor,
+              color: SHUI_THEME_PROPERTIES(context).normalTextColor,
               size: 20,
             ),
           ),
@@ -389,31 +451,47 @@ class WindowState extends State<Window> {
     _resizefuncOnHorizontalDragTop(details);
   }
 
+  /// Called to maximize the window.
   void _statefuncOnMaximize() {
     if (!widget._isResizable) return;
     setState(() {
       widget.prevW = widget.w;
       widget.prevH = widget.h;
-      widget.prevX = widget.x;
-      widget.prevY = widget.y;
+      widget.prevX = widget._x;
+      widget.prevY = widget._y;
       widget.w = View.of(context).physicalSize.width + 2;
       widget.h = View.of(context).physicalSize.height - 30 + 2;
-      widget.x = -1;
-      widget.y = -1;
+      widget._x = -1;
+      widget._y = -1;
       widget.onWindowDragged!(0, 30);
       widget._isMaximized = true;
     });
   }
 
+  /// Called to restore the window from maximized mode.
   void _statefuncOnRestore() {
     if (!widget._isResizable) return;
     setState(() {
       widget.w = widget.prevW;
       widget.h = widget.prevH;
-      widget.x = widget.prevX;
-      widget.y = widget.prevY;
+      widget._x = widget.prevX;
+      widget._y = widget.prevY;
       widget.onWindowDragged!(0, 0);
       widget._isMaximized = false;
     });
   }
+}
+
+/// Event arguments for window dragging, contains:
+///
+/// - Delta X
+/// - Delta Y
+class WindowDragEventArgs extends EventArgs {
+  WindowDragEventArgs(this.dx, this.dy);
+
+  /// Delta X
+  final double dx;
+
+  /// Delta Y
+  final double dy;
 }
