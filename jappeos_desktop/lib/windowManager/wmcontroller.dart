@@ -38,10 +38,6 @@ class WmController {
   void _createNewWindow(WMWindowType type) {
     Window window = Window(type);
 
-    // Set initial position.
-    Random rng = Random();
-    window.setPos(rng.nextDouble() * 500, rng.nextDouble() * 500);
-
     // Init onSendToTop.
     window.onSendToTop = () {
       if (window.cancelSendToTop) {
@@ -53,13 +49,17 @@ class WmController {
       _windows.remove(window);
       _windows.add(window);
 
+      window.isActive = true;
+      int index = _windows.length - 2;
+      if (index >= 0 && index < _windows.length) _windows[index].isActive = false;
+
       _onUpdate();
     };
 
     // Init onWindowDragged.
     window.onWindowDragged = (dx, dy) {
       window.setPos(window.getPos().dx + dx, window.getPos().dy + dy);
-      window.onWindowDraggedEvent.broadcast(WindowDragEventArgs(dx, dy)); // <- TODO Fix window position event not working!
+      window.onWindowDraggedEvent.broadcast(WindowDragEventArgs(dx, dy));
 
       window.onSendToTop!();
 
@@ -73,8 +73,13 @@ class WmController {
       _onUpdate();
     };
 
+    // Set initial position.
+    Random rng = Random();
+    window.setPos(rng.nextDouble() * 500, rng.nextDouble() * 500);
+
     // Add Window to List.
     _windows.add(window);
+    window.onSendToTop!();
 
     // Update Widgets after adding the new window.
     _onUpdate();

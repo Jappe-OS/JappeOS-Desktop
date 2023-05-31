@@ -16,6 +16,8 @@
 
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api, curly_braces_in_flow_control_structures
 
+import 'dart:async';
+
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
@@ -27,10 +29,6 @@ import 'package:shade_theming/shade_theming.dart';
 class Window extends StatefulWidget {
   @override
   _WindowState createState() => _WindowState();
-
-  // Accessing _WindowState from Window: Global key to access the state
-  static GlobalKey<_WindowState> myWidgetStateKey = GlobalKey<_WindowState>();
-  _WindowState? state = myWidgetStateKey.currentState;
 
   // Window Properties & Info
   late List<Widget> _window;
@@ -44,6 +42,8 @@ class Window extends StatefulWidget {
   void setPos(double? x, y) {
     if (x != null) _x = x;
     if (y != null) _y = y;
+    scheduleLate(WindowFunction.restore);
+    //onWindowDragged!(0, 0); // Restore
   }
 
   Offset getPos() => Offset(_x, _y);
@@ -52,16 +52,20 @@ class Window extends StatefulWidget {
   double w = 0, h = 0;
   double prevW = 0, prevH = 0;
   //
-  bool _isMaximized = false;
+  bool isMaximized = false;
+  bool isActive = false;
 
   // Window Functions
   Function(double, double)? onWindowDragged;
   VoidCallback? onCloseButtonClicked;
-  //
+
   late bool cancelSendToTop = false;
   VoidCallback? onSendToTop;
-  //
-  void setMaximized(bool b) => state!.p_setMaximized(b);
+
+  final List<WindowFunction> _scheduled = [];
+  void scheduleLate(WindowFunction func) {
+    _scheduled.add(func);
+  }
 
   // Window Events
   var onWindowDraggedEvent = Event<WindowDragEventArgs>();
@@ -88,12 +92,36 @@ class Window extends StatefulWidget {
 
 /// State for [Window], there should never be any need to access this class straight.
 class _WindowState extends State<Window> {
-  // ignore: non_constant_identifier_names
-  void p_setMaximized(bool b) {
-    if (b)
-      _statefuncOnMaximize();
-    else
-      _statefuncOnRestore();
+  Timer? _scheduleLateTimer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scheduleLateTimer = Timer.periodic(const Duration(milliseconds: 200), (Timer timer) {
+      for (WindowFunction wf in widget._scheduled) {
+        switch (wf) {
+          case WindowFunction.maximize:
+            {
+              _statefuncOnMaximize();
+              break;
+            }
+          case WindowFunction.restore:
+            {
+              _statefuncOnRestore();
+              break;
+            }
+        }
+        widget._scheduled.remove(wf);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scheduleLateTimer?.cancel();
+    _scheduleLateTimer = null;
+    super.dispose();
   }
 
   @override
@@ -115,20 +143,20 @@ class _WindowState extends State<Window> {
         return DeuiBlurContainer(
           reducedRadius: true,
           gradient: true,
-          bordered: !widget._isMaximized,
+          bordered: !widget.isMaximized,
           width: widget.w,
           height: widget.h,
-          radiusSides: !widget._isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
+          radiusSides: !widget.isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
           child: child,
         );
       } else {
         // Solid window background
         return DeuiSolidContainer(
           reducedRadius: true,
-          bordered: !widget._isMaximized,
+          bordered: !widget.isMaximized,
           width: widget.w,
           height: widget.h,
-          radiusSides: !widget._isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
+          radiusSides: !widget.isMaximized ? BorderRadiusSides(true, true, true, true) : BorderRadiusSides(false, false, false, false),
           child: child,
         );
       }
@@ -151,8 +179,8 @@ class _WindowState extends State<Window> {
               ? [
                   _getWindowControlButton(context, Icons.minimize, () {}),
                   if (widget._isResizable)
-                    _getWindowControlButton(context, !widget._isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
-                      if (widget._isMaximized) {
+                    _getWindowControlButton(context, !widget.isMaximized ? Icons.crop_square : Icons.fullscreen_exit, () {
+                      if (widget.isMaximized) {
                         _statefuncOnRestore();
                       } else {
                         _statefuncOnMaximize();
@@ -171,7 +199,7 @@ class _WindowState extends State<Window> {
     );
 
     // Resize areas
-    if (widget._isResizable && !widget._isMaximized) {
+    if (widget._isResizable && !widget.isMaximized) {
       baseChildren.addAll([
         // Right
         Positioned(
@@ -338,7 +366,7 @@ class _WindowState extends State<Window> {
 
         // When the window is dragged
         onPointerMove: (tapInfo) {
-          if (widget._isMaximized) {
+          if (widget.isMaximized) {
             _statefuncOnRestore();
           } else {
             widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
@@ -384,7 +412,7 @@ class _WindowState extends State<Window> {
 
   // FUNCTIONS
   void _resizefuncOnHorizontalDragLeft(DragUpdateDetails details) {
-    bool maximized = widget._isMaximized;
+    bool maximized = widget.isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.w -= details.delta.dx;
@@ -397,29 +425,31 @@ class _WindowState extends State<Window> {
   }
 
   void _resizefuncOnHorizontalDragRight(DragUpdateDetails details) {
-    bool maximized = widget._isMaximized;
+    bool maximized = widget.isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.w += details.delta.dx;
       if (widget.w < widget._windowSizeProp.minimumSize.width) {
         widget.w = widget._windowSizeProp.minimumSize.width;
       }
+      widget.onWindowDragged!(0, 0);
     });
   }
 
   void _resizefuncOnHorizontalDragBottom(DragUpdateDetails details) {
-    bool maximized = widget._isMaximized;
+    bool maximized = widget.isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.h += details.delta.dy;
       if (widget.h < widget._windowSizeProp.minimumSize.height) {
         widget.h = widget._windowSizeProp.minimumSize.height;
       }
+      widget.onWindowDragged!(0, 0);
     });
   }
 
   void _resizefuncOnHorizontalDragTop(DragUpdateDetails details) {
-    bool maximized = widget._isMaximized;
+    bool maximized = widget.isMaximized;
     setState(() {
       if (maximized) _statefuncOnRestore();
       widget.h -= details.delta.dy;
@@ -464,7 +494,7 @@ class _WindowState extends State<Window> {
       widget._x = -1;
       widget._y = -1;
       widget.onWindowDragged!(0, 30);
-      widget._isMaximized = true;
+      widget.isMaximized = true;
     });
   }
 
@@ -477,7 +507,7 @@ class _WindowState extends State<Window> {
       widget._x = widget.prevX;
       widget._y = widget.prevY;
       widget.onWindowDragged!(0, 0);
-      widget._isMaximized = false;
+      widget.isMaximized = false;
     });
   }
 }
@@ -494,4 +524,13 @@ class WindowDragEventArgs extends EventArgs {
 
   /// Delta Y
   final double dy;
+}
+
+/// A window function that can be externally scheduled to be called on the [Window].
+enum WindowFunction {
+  /// Maximizes the window.
+  maximize,
+
+  /// Restores the window from maximized mode.
+  restore
 }

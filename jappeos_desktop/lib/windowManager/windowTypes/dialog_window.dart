@@ -21,7 +21,6 @@ import 'package:shade_ui/widgets/widgets.dart';
 
 import '../wmwindow.dart';
 
-// TODO Fix window position event not working!
 /// A simple dialog window with text.
 class DialogWindow extends WMWindowType {
   final String title;
@@ -37,6 +36,8 @@ class DialogWindow extends WMWindowType {
       if (windowSet) {
         parent?.onWindowDraggedEvent.subscribe((args) => _parentDragged(args));
         theWindow.onWindowDraggedEvent.subscribe((args) => _thisDragged(args));
+
+        _parentDragged(WindowDragEventArgs(0, 0));
         return false;
       }
       return true;
@@ -45,12 +46,12 @@ class DialogWindow extends WMWindowType {
 
   void _parentDragged(WindowDragEventArgs? wdea) {
     parent?.cancelSendToTop = true;
-    theWindow.setPos(parent!.getPos().dx + wdea!.dx, parent!.getPos().dy + wdea.dy + 35);
+    theWindow.setPos((parent!.getPos().dx + wdea!.dx) + parent!.w / 2 - 200, parent!.getPos().dy + wdea.dy + 35);
     //parent?.setPos(parent!.getPos().dx, parent!.getPos().dy);
   }
 
   void _thisDragged(WindowDragEventArgs? wdea) {
-    parent?.setPos(theWindow.getPos().dx + wdea!.dx, theWindow.getPos().dy + wdea.dy - 35);
+    parent?.setPos((theWindow.getPos().dx + wdea!.dx) - parent!.w / 2 + 200, theWindow.getPos().dy + wdea.dy - 35);
     //theWindow.setPos(theWindow.getPos().dx, theWindow.getPos().dy);
   }
 
