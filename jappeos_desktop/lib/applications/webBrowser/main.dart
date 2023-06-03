@@ -15,30 +15,32 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class WebBrowserMain extends StatefulWidget {
-  WebBrowserMain({Key? key, required this.title}) : super(key: key);
+  const WebBrowserMain({Key? key, /*required this.title*/}) : super(key: key);
 
-  final String title;
-  static final String wm$windowData_Title = "";
-  static final Widget wm$windowData_CustomBar = new Container(
-    height: 30,
-    constraints: BoxConstraints.expand(),
-    margin: EdgeInsets.only(right: 100),
-    child: Stack(
-      children: [
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {}
-            )
-          ],
-        )
-      ],
-    ),
-  );
+  //final String title;
+  //static const String wm$windowData_Title = "";
+  //static final Widget wm$windowData_CustomBar = new Container(
+  //  height: 30,
+  //  constraints: const BoxConstraints.expand(),
+  //  margin: const EdgeInsets.only(right: 100),
+  //  child: Stack(
+  //    children: [
+  //      Row(
+  //        children: [
+  //          IconButton(
+  //            icon: const Icon(Icons.arrow_back),
+  //            onPressed: () {}
+  //          )
+  //        ],
+  //      )
+  //    ],
+  //  ),
+  //);
 
   @override
   _WebBrowserMainState createState() => _WebBrowserMainState();
@@ -47,7 +49,7 @@ class WebBrowserMain extends StatefulWidget {
 class _WebBrowserMainState extends State<WebBrowserMain> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.transparent,
     );
   }

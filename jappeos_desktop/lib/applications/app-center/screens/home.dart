@@ -15,13 +15,17 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(AppCenterHome());
+  runApp(const AppCenterHome());
 }
 
 class AppCenterHome extends StatelessWidget {
+  const AppCenterHome({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,13 +35,13 @@ class AppCenterHome extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(title: 'App center'),
+      home: const HomeScreen(title: 'App center'),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key, required this.title}) : super(key: key);
+  const HomeScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -49,158 +53,156 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Stack(
-          children: [/*
-            Container( // Custom appBar
-              height: 50,
-              color: Colors.green,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 10,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)
-                            ),
-                            padding: EdgeInsets.all(0),
-                            onPressed: () {
+    return const Scaffold(
+      body: Stack(
+        children: [/*
+          Container( // Custom appBar
+            height: 50,
+            color: Colors.green,
+            child: Stack(
+              children: [
+                Positioned(
+                  left: 10,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)
+                          ),
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
 
-                            },
-                            child: Icon(Icons.menu, color: Colors.white,),
+                          },
+                          child: Icon(Icons.menu, color: Colors.white,),
+                        ),
+                      ),
+                      Container(width: 10,),
+                      Container(
+                        child: Text(
+                          'App center',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
                           ),
                         ),
-                        Container(width: 10,),
-                        Container(
-                          child: Text(
-                            'App center',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                
+                      ),
+                    ],
                   ),
-                  Positioned(
-                    top: 10,
-                    left: 200,
-                    right: 200,
-                    height: 30,
-                    child: Container(
-                      child: FlatButton(
-                        hoverColor: Colors.black.withOpacity(0.0),
-                        onPressed: () {
+              
+                ),
+                Positioned(
+                  top: 10,
+                  left: 200,
+                  right: 200,
+                  height: 30,
+                  child: Container(
+                    child: FlatButton(
+                      hoverColor: Colors.black.withOpacity(0.0),
+                      onPressed: () {
 
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)
-                        ),
-                       child: Stack(
-                         children: [
-                            Positioned(
-                              left: 0,
-                              height: 30,
-                              width: 30,
-                              child: Icon(Icons.search, color: Colors.white,),
-                            ),
-                            Positioned(
-                              top: 5,
-                              left: 60,
-                              right: 40,
-                              height: 30,
-                              child: Text(
-                                'Search for apps, games, extensions, and more!',
-                                style: TextStyle(
-                                  color: Colors.white54,
-                                  fontSize: 17,
-                                ),
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)
+                      ),
+                     child: Stack(
+                       children: [
+                          Positioned(
+                            left: 0,
+                            height: 30,
+                            width: 30,
+                            child: Icon(Icons.search, color: Colors.white,),
+                          ),
+                          Positioned(
+                            top: 5,
+                            left: 60,
+                            right: 40,
+                            height: 30,
+                            child: Text(
+                              'Search for apps, games, extensions, and more!',
+                              style: TextStyle(
+                                color: Colors.white54,
+                                fontSize: 17,
                               ),
                             ),
-                            Positioned(
-                              right: 0,
-                              height: 30,
-                              width: 30,
-                              child: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
-                            ),
-                          ],
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.green[800],
+                          ),
+                          Positioned(
+                            right: 0,
+                            height: 30,
+                            width: 30,
+                            child: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
+                          ),
+                        ],
                       ),
                     ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.green[800],
+                    ),
                   ),
-                  Positioned(
-                    right: 10,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 180,
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)
-                            ),
-                            padding: EdgeInsets.all(0),
-                            onPressed: () {
+                ),
+                Positioned(
+                  right: 10,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 180,
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)
+                          ),
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
 
-                            },
-                            child: Container(
-                              width: 180,
-                              height: 35,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    width: 40,
-                                    right: 0,
-                                    child: Icon(Icons.account_circle, color: Colors.white, size: 35,),
-                                  ),
-                                  Positioned(
-                                    left: 10,
-                                    top: 7,
-                                    right: 45,
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                      ),
+                          },
+                          child: Container(
+                            width: 180,
+                            height: 35,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  width: 40,
+                                  right: 0,
+                                  child: Icon(Icons.account_circle, color: Colors.white, size: 35,),
+                                ),
+                                Positioned(
+                                  left: 10,
+                                  top: 7,
+                                  right: 45,
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          Positioned( // Tab bar
+            top: 50,
+            left: 0,
+            right: 0,
+            height: 30,
+            child: Container(
+              color: Colors.green,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+
               ),
             ),
-            Positioned( // Tab bar
-              top: 50,
-              left: 0,
-              right: 0,
-              height: 30,
-              child: Container(
-                color: Colors.green,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-
-                ),
-              ),
-            ),*/
-          ],
-        ),
+          ),*/
+        ],
       ),
     );
   }

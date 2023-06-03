@@ -17,33 +17,22 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 
-class Terminal extends Application implements IApplication {
+class Terminal extends Application {
   Terminal() : super("Terminal", "terminal", null);
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Terminal", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
-  }
-
-  @override
-  Widget body() {
-    return _Content();
-  }
-
-  @override
-  Widget? cwd() {
-    return null;
+    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Terminal", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content()));
   }
 }
 
 class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       //body: UITabsAdvancedTabSystem(
       //  tab: Container(),
       //),

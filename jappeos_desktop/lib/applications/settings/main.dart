@@ -17,7 +17,6 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 import 'package:provider/provider.dart';
@@ -26,18 +25,13 @@ import 'package:shade_ui/widgets/widgets.dart';
 
 import 'settings_page_widgets.dart';
 
-class Settings extends Application implements IApplication {
+class Settings extends Application {
   Settings() : super("Settings", "settings", null);
 
   @override
   void app$launch() {
     DesktopState.getWmController()
-        ?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
-  }
-
-  @override
-  Widget body() {
-    return _Content();
+        ?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content()));
   }
 
   static double sidebarWidth = 300;
@@ -189,17 +183,6 @@ class Settings extends Application implements IApplication {
     );
   }*/
 
-  @override
-  Widget? cwd() {
-    //return Align(
-    //  alignment: Alignment.centerLeft,
-    //  child: JAppMainSearchBox(
-    //    jbgtext: "Search...",
-    //    width: sidebarWidth - 14,
-    //  ),
-    //);
-    return null;
-  }
 }
 
 class _Content extends StatefulWidget {

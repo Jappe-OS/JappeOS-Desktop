@@ -17,7 +17,6 @@
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 import 'package:shade_ui/widgets/widgets.dart';
@@ -25,22 +24,12 @@ import 'package:shade_ui/widgets/widgets.dart';
 import '../../windowManager/windowTypes/normal_window.dart';
 import '../../windowManager/windowTypes/wm_window_general.dart';
 
-class WidgetTesting extends Application implements IApplication {
+class WidgetTesting extends Application {
   WidgetTesting() : super("WidgetTesting", "widget-testing", null);
 
   @override
   void app$launch() {
-    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Widget Testing", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body()));
-  }
-
-  @override
-  Widget body() {
-    return _Content();
-  }
-
-  @override
-  Widget? cwd() {
-    return null;
+    DesktopState.getWmController()?.wm$spawnGuiWindow(NormalWindow("Widget Testing", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content()));
   }
 }
 

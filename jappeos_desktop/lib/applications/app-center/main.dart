@@ -34,7 +34,7 @@ class AppCenter extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(title: 'App center',),
+      home: const HomeScreen(title: 'App center',),
     );
   }
 }

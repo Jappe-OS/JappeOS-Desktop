@@ -18,19 +18,18 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/desktop/desktop.dart';
 import 'package:jappeos_desktop/system/appSystem/application.dart';
-import 'package:jappeos_desktop/system/appSystem/iApplication.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/dialog_window.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
 import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
 
-class Test extends Application implements IApplication {
+class Test extends Application {
   Test() : super("Test App", "testapp", null);
 
   late NormalWindow nw;
 
   @override
   void app$launch() {
-    nw = NormalWindow("Test App", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, body());
+    nw = NormalWindow("Test App", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, const _Content());
 
     DesktopState.getWmController()?.wm$spawnGuiWindow(nw);
     DesktopState.getWmController()?.wm$spawnGuiWindow(DialogWindow(
@@ -40,16 +39,6 @@ class Test extends Application implements IApplication {
       () {},
       nw.theWindow
     ));
-  }
-
-  @override
-  Widget body() {
-    return const _Content();
-  }
-
-  @override
-  Widget? cwd() {
-    return null;
   }
 }
 
@@ -114,7 +103,7 @@ class CubePainter extends CustomPainter {
 
     final x1 = point.dx - center.dx;
     final y1 = point.dy - center.dy;
-    final z1 = 0.0;
+    const z1 = 0.0;
 
     final x2 = cosPhi * x1 + sinPhi * z1;
     final y2 = y1;
@@ -142,9 +131,9 @@ class CubePainter extends CustomPainter {
   void drawCube(Canvas canvas) {
     final cube = [
       // front face
-      [Offset(-100, -100), Offset(100, -100), Offset(100, 100), Offset(-100, 100)],
+      [const Offset(-100, -100), const Offset(100, -100), const Offset(100, 100), const Offset(-100, 100)],
       // back face
-      [Offset(-100, -100), Offset(100, -100), Offset(100, 100), Offset(-100, 100)],
+      [const Offset(-100, -100), const Offset(100, -100), const Offset(100, 100), const Offset(-100, 100)],
     ];
 
     canvas.drawPath(

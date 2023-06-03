@@ -1,19 +1,18 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
 //  Copyright (C) 2022  Jappe02
-//  
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
 //  published by the Free Software Foundation, either version 3 of the
 //  License, or (at your option) any later version.
-//  
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Affero General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 
 import 'package:jappeos_desktop/system/appSystem/application.dart';
 import 'package:jappeos_desktop/system/logger/log_type.dart';
@@ -33,17 +32,17 @@ class Applications {
     if (!_jappeOSprocessList.contains(application)) {
       application.app$launch();
       _jappeOSprocessList.add(application);
-      _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.info, true, "Starting process application:${application.s_id}.");
+      _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.info, true, "Starting process application:${application.id}.");
     } else {
       _logger.jappeOsLogger$sendLog(
-          JappeOsLoggerMsgType.warn, true, "Tried to launch process application:${application.s_id}. But it was already running.");
+          JappeOsLoggerMsgType.warn, true, "Tried to launch process application:${application.id}. But it was already running.");
     }
   }
 
   static void sys$killProcess(Application application) {
     application.app$kill();
     _jappeOSprocessList.remove(application);
-    _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.info, true, "Killing process application:${application.s_id}.");
+    _logger.jappeOsLogger$sendLog(JappeOsLoggerMsgType.info, true, "Killing process application:${application.id}.");
   }
 
   static Application sys$getProcess(Application application) {
