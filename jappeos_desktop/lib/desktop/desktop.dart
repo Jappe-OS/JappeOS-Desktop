@@ -15,6 +15,9 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jappeos_desktop/applications/appMaker/main.dart';
+import 'package:jappeos_desktop/applications/terminal/main.dart';
 import 'package:jappeos_desktop/applications/test/main.dart';
 import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/desktop/desktopMenuManager/desktop_menu_controller.dart';
@@ -141,13 +144,18 @@ class DesktopState extends State<Desktop> {
                         _DesktopWidgets._dockItem(null, () {
                           Applications.sys$runProcess(WidgetTesting());
                         }),
-                        _DesktopWidgets._dockItem(null, () {
+                        _DesktopWidgets._dockItem("resources/images/_icontheme/Default/apps/system-settings.svg", () {
                           Applications.sys$runProcess(Settings());
                         }),
                         _DesktopWidgets._dockItem(null, () {
                           Applications.sys$runProcess(Test());
                         }),
-                        _DesktopWidgets._dockItem(null, () {}),
+                        _DesktopWidgets._dockItem("resources/images/_icontheme/Default/apps/development-appmaker.svg", () {
+                          Applications.sys$runProcess(AppMaker());
+                        }),
+                        _DesktopWidgets._dockItem("resources/images/_icontheme/Default/apps/utilities-terminal.svg", () {
+                          Applications.sys$runProcess(Terminal());
+                        }),
                       ],
                     ),
                   ),
@@ -330,7 +338,7 @@ class DesktopState extends State<Desktop> {
 /// A class that contains all the desktop widgets like the TopBar buttons, Dock items, etc.
 class _DesktopWidgets {
   /// The item element(s) that will be shown in the dock.
-  static Widget _dockItem(ImageProvider? img, Function() onPressed) {
+  static Widget _dockItem(String? img, Function() onPressed) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: DeuiButtonBaseGlasshover(
@@ -342,9 +350,7 @@ class _DesktopWidgets {
         backgroundColorTransp: false,
         onPress: onPressed,
         child: img != null
-            ? Image(
-                image: img,
-              )
+            ? SvgPicture.asset(img)
             : const Placeholder(),
       ),
     );
