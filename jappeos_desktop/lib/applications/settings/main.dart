@@ -35,154 +35,6 @@ class Settings extends Application {
   }
 
   static double sidebarWidth = 300;
-
-  // OLD
-  /*Widget body() {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            margin: EdgeInsets.only(
-              top: 0,
-              left: 332,
-            ),
-            color: Colors.transparent,
-            child: ListView(
-              padding: EdgeInsets.all(15),
-              children: [
-                JSettingsTileTitle(
-                  jtitle: 'Connect to wifi',
-                  jenditem: Container(),
-                ),
-                JSettingsTile(
-                  // setting tile
-                  //jheight: 100,
-                  jitems: Column(
-                    // setting tile content
-                    children: [
-                      Container(
-                        height: 20,
-                        child: Text(
-                          'nothing here yet',
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              margin: EdgeInsets.only(left: 330, top: 10, bottom: 10),
-              width: 1,
-              color: Colors.white.withOpacity(0.1),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              //margin: EdgeInsets.only(top: 55,),
-              padding: EdgeInsets.only(
-                top: 10,
-              ),
-              width: 330, // 300 + 10 + 10 + 10
-              height: double.infinity,
-              color: Colors.transparent,
-              child: ListView(children: [
-                SettingsSidebarButton(
-                  jicon: Icons.wifi,
-                  jtext: 'Wifi',
-                  jstartopacity: 1,
-                  jhighlight: DesktopCfg.get
-                          .getJappeosThemeColor(JappeOsColor.DEFAULT) ??
-                      Colors.white,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.bluetooth,
-                  jtext: 'Bluetooth',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.edit,
-                  jtext: 'Appearance',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.notifications,
-                  jtext: 'Notifications',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.system_update,
-                  jtext: 'Updates',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.language,
-                  jtext: 'Regions & Language',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.account_circle,
-                  jtext: 'Accounts',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.security,
-                  jtext: 'Security',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.surround_sound,
-                  jtext: 'Sound',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.power_settings_new,
-                  jtext: 'Power',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-                SettingsSidebarButton(
-                  jicon: Icons.info,
-                  jtext: 'About',
-                  jstartopacity: 0,
-                  jhighlight:
-                      DesktopCfg.get.dsktp_TEXT_COLOR_LIGHT,
-                ),
-              ]),
-            ),
-          ),
-        ],
-      ),
-    );
-  }*/
-
 }
 
 class _Content extends StatefulWidget {
@@ -260,51 +112,166 @@ class _ContentState extends State<_Content> {
               padding: const EdgeInsets.all(5),
               children: [
                 sidebarItem(0, "Wi-Fi", Icons.wifi, [
-                  SettingsPageItem(title: "Connect to the Internet", content: [
-                    SettingsPageSetting(name: 'Select Wi-Fi network', controls: [ShadeButton(text: "Hello!", onPress: () {},)],),
-                  ],),
+                  SettingsPageItem(
+                    title: "Connect to the Internet",
+                    content: [
+                      SettingsPageSetting(
+                        name: 'Select Wi-Fi network',
+                        controls: [
+                          ShadeButton(
+                            text: "Hello!",
+                            onPress: () {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ]),
                 sidebarItem(1, "Bluetooth", Icons.bluetooth, []),
                 sidebarItem(2, "Appearance", Icons.edit, [
-                  SettingsPageItem(title: "Desktop Wallpaper", content: [
-                    SettingsPageSetting(name: 'Select a wallpaper', controls: [ShadeButton(icon: Icons.folder, onPress: () {},)],),
-                  ],),
-                  SettingsPageItem(title: "Theme", content: [
-                    SettingsPageSetting(name: 'Enable dark theme', controls: [ShadeSwitch(
-                      value: context.watch<ShadeThemeProvider>().getTheme() != 0,
-                      onChanged: (value) {
-                        setState(() {
-                          Provider.of<ShadeThemeProvider>(context, listen: false).setTheme(value == true ? 1 : 0);
-                        });
-                      },
-                    )],),
-                    SettingsPageSetting(name: 'Accent color', controls: [
-                      ShadeButton(icon: Icons.colorize, onPress: () {},)
-                    ],),
-                  ],),
-                  SettingsPageItem(title: "Performance", content: [
-                    SettingsPageSetting(name: 'Disable blur', controls: [ShadeSwitch(value: false, onChanged: (p0) {
-                      
-                    },)],),
-                  ],),
+                  SettingsPageItem(
+                    title: "Desktop Wallpaper",
+                    content: [
+                      SettingsPageSetting(
+                        name: 'Select a wallpaper',
+                        controls: [
+                          ShadeButton(
+                            icon: Icons.folder,
+                            onPress: () {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  SettingsPageItem(
+                    title: "Theme",
+                    content: [
+                      SettingsPageSetting(
+                        name: 'Enable dark theme',
+                        controls: [
+                          ShadeSwitch(
+                            value: context.watch<ShadeThemeProvider>().getTheme() != 0,
+                            onChanged: (value) {
+                              setState(() {
+                                Provider.of<ShadeThemeProvider>(context, listen: false).setTheme(value == true ? 1 : 0);
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                      SettingsPageSetting(
+                        name: 'Accent color',
+                        controls: [
+                          ShadeButton(
+                            icon: Icons.colorize,
+                            onPress: () {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  SettingsPageItem(
+                    title: "Performance",
+                    content: [
+                      SettingsPageSetting(
+                        name: 'Blur settings',
+                        controls: [
+                          ShadeButtonBar([
+                            ShadeButtonBarItem(text: "All Windows", action: () {}),
+                            ShadeButtonBarItem(text: "Focused Only", action: () {}),
+                            ShadeButtonBarItem(text: "No Blur", action: () {}),
+                          ], 1)
+                        ],
+                      ),
+                      SettingsPageSetting(
+                        name: 'Transparency settings',
+                        controls: [
+                          ShadeButtonBar([
+                            ShadeButtonBarItem(text: "Same as 'Blur settings'", action: () {}),
+                            ShadeButtonBarItem(text: "All Windows", action: () {}),
+                            ShadeButtonBarItem(text: "Focused Only", action: () {}),
+                            ShadeButtonBarItem(text: "Disabled", action: () {}),
+                          ])
+                        ],
+                      ),
+                      SettingsPageSetting(
+                        name: 'Reduced framerates on unfocused windows',
+                        controls: [
+                          ShadeSwitch(
+                            value: true,
+                            onChanged: (p0) {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ]),
                 sidebarItem(3, "Notifications", Icons.notifications, [
-                  SettingsPageItem(title: "Do not Disturb", content: [
-                    SettingsPageSetting(name: 'Enable Do-not-Disturb mode', controls: [ShadeSwitch(value: false, onChanged: (p0) {
-                      
-                    },)],),
-                    SettingsPageSetting(name: 'Auto-disable Do-not-Disturb mode after', controls: [ShadeSwitch(value: false, onChanged: (p0) {
-                      
-                    },), ShadeButton(text: "Coming Soon", onPress: () {},)],),
-                  ],),
+                  SettingsPageItem(
+                    title: "Do not Disturb",
+                    content: [
+                      SettingsPageSetting(
+                        name: 'Enable Do-not-Disturb mode',
+                        controls: [
+                          ShadeSwitch(
+                            value: false,
+                            onChanged: (p0) {},
+                          )
+                        ],
+                      ),
+                      SettingsPageSetting(
+                        name: 'Auto-disable Do-not-Disturb mode after',
+                        controls: [
+                          ShadeSwitch(
+                            value: false,
+                            onChanged: (p0) {},
+                          ),
+                          ShadeButton(
+                            text: "Coming Soon",
+                            onPress: () {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ]),
                 sidebarItem(4, "Updates", Icons.update, []),
                 sidebarItem(5, "Region & Language", Icons.language, []),
                 sidebarItem(6, "Accounts", Icons.account_circle, []),
                 sidebarItem(7, "Security", Icons.security, []),
-                sidebarItem(8, "Sound", Icons.speaker, []),
+                sidebarItem(8, "Sound", Icons.speaker, [
+                  SettingsPageItem(
+                    title: "Output",
+                    content: [
+                      SettingsPageSetting(
+                        name: 'Master volume',
+                        controls: [
+                          ShadeSlider(
+                            value: 0.01,
+                            onChanged: (p0) {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ]),
                 sidebarItem(9, "Power", Icons.power, []),
-                sidebarItem(10, "About", Icons.info, []),
+                sidebarItem(10, "About", Icons.info, [
+                  SettingsPageItem(
+                    title: "System '{sysname}'",
+                    content: [
+                      SettingsPageSetting(
+                        name: 'Info',
+                        controls: [
+                          ShadeSlider(
+                            value: 0.01,
+                            onChanged: (p0) {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ]),
               ],
             ),
           ),
@@ -327,7 +294,9 @@ class _ContentState extends State<_Content> {
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(5)),
                 color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor1,
               ),
-              child: ListView(children: [_page],),
+              child: ListView(
+                children: [_page],
+              ),
             ),
           ),
         ],
