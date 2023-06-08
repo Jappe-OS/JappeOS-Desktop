@@ -42,7 +42,7 @@ class Window extends StatefulWidget {
   void setPos(double? x, y) {
     if (x != null) _x = x;
     if (y != null) _y = y;
-    scheduleLate(WindowFunction.restore);
+    if (isMaximized) scheduleLate(WindowFunction.restore);
     //onWindowDragged!(0, 0); // Restore
   }
 
@@ -63,6 +63,7 @@ class Window extends StatefulWidget {
   VoidCallback? onSendToTop;
 
   final List<WindowFunction> _scheduled = [];
+  final List<WindowFunction> _scheduledIterable = [];
   void scheduleLate(WindowFunction func) {
     _scheduled.add(func);
   }
@@ -99,7 +100,15 @@ class _WindowState extends State<Window> {
     super.initState();
 
     _scheduleLateTimer = Timer.periodic(const Duration(milliseconds: 200), (Timer timer) {
-      for (WindowFunction wf in widget._scheduled) {
+      if (widget._scheduled.isEmpty) return;
+
+      widget._scheduledIterable
+        ..clear()
+        ..addAll(widget._scheduled);
+
+      for (int i = 0; i < widget._scheduledIterable.length; i++) {
+        var wf = widget._scheduledIterable[i];
+
         switch (wf) {
           case WindowFunction.maximize:
             {
@@ -142,7 +151,7 @@ class _WindowState extends State<Window> {
         // Blurred window background
         return DeuiBlurContainer(
           reducedRadius: true,
-          gradient: true,
+          gradient: false,
           bordered: !widget.isMaximized,
           width: widget.w,
           height: widget.h,
@@ -342,6 +351,10 @@ class _WindowState extends State<Window> {
     );
   }
 
+  Offset? _dragOffset;
+  bool _dragBool = false;
+  bool _freeDrag = false;
+
   /// Get the dragging area of the window, uses the specified settings
   Widget _getDragArea() {
     // Do the height calculations based on the drag area height setting
@@ -353,6 +366,7 @@ class _WindowState extends State<Window> {
     } else {
       finalHeight = widget._dragAreaProperties!.h;
     }
+
     // Return the drag area widget
     return Positioned(
       left: widget._dragAreaProperties!.x,
@@ -365,11 +379,21 @@ class _WindowState extends State<Window> {
         behavior: HitTestBehavior.translucent, // <<-
 
         // When the window is dragged
-        onPointerMove: (tapInfo) {
+        onPointerMove: (p) {
+          _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+          if ((_dragOffset!.dx.abs() < 10 && _dragOffset!.dy.abs() < 10) && !_freeDrag) {
+            _dragBool = true;
+            return;
+          }
+
+          _freeDrag = true;
+
           if (widget.isMaximized) {
             _statefuncOnRestore();
           } else {
-            widget.onWindowDragged!(tapInfo.delta.dx, tapInfo.delta.dy);
+            widget.onWindowDragged!(p.delta.dx + (_dragBool ? _dragOffset!.dx : 0), p.delta.dy + (_dragBool ? _dragOffset!.dy : 0));
+            _dragBool = false;
 
             if (widget._y < 5) {
               widget._y = 5;
@@ -379,7 +403,14 @@ class _WindowState extends State<Window> {
 
         // When the titlebar is pressed
         onPointerDown: (p) {
-          widget.onWindowDragged!(0, 0);
+          _dragOffset = Offset.zero;
+          _freeDrag = false;
+          if (!widget.isMaximized) widget.onWindowDragged!(0, 0);
+        },
+
+        onPointerUp: (p) {
+          _dragOffset = null;
+          _freeDrag = false;
         },
       ),
     );
