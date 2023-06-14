@@ -15,9 +15,9 @@
     },
     {
       "name": "args",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.4.1",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.19"
     },
     {
       "name": "async",
@@ -111,7 +111,7 @@
     },
     {
       "name": "flutter_code_editor",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_code_editor-0.2.23",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_code_editor-0.2.24",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -135,7 +135,7 @@
     },
     {
       "name": "flutter_svg",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_svg-2.0.6",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_svg-2.0.7",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -201,7 +201,7 @@
     },
     {
       "name": "jappeos_desktop_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/JappeOS-DesktopUI-74d4113a32b9e0698833582281a02598b76d9c32/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/JappeOS-DesktopUI-f534ef725f56a947ee69227b40bdd9d8e8d9e5d4/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -339,7 +339,7 @@
     },
     {
       "name": "shade_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-07553268d56da8821c36a3630308c1d9fbd8b49e/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-97cffa25962d6fdd9438fdcba2d8695fd78b39f2/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -435,9 +435,9 @@
     },
     {
       "name": "tuple",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/tuple-2.0.1",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/tuple-2.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.17"
     },
     {
       "name": "typed_data",
@@ -495,19 +495,19 @@
     },
     {
       "name": "vector_graphics",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics-1.1.6",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics-1.1.7",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_codec",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_codec-1.1.6",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_codec-1.1.7",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_compiler",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_compiler-1.1.6",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_compiler-1.1.7",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -519,7 +519,7 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-11.6.0",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-11.7.1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -560,7 +560,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-06-08T17:43:30.866889Z",
+  "generated": "2023-06-13T15:25:55.630537Z",
   "generator": "pub",
   "generatorVersion": "3.1.0-81.0.dev"
 }

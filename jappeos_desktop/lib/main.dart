@@ -14,13 +14,15 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shade_theming/shade_theming.dart';
 
-import 'desktop/desktop.dart';
+import 'base/base.dart';
+
+const MOBILE_MODE = false;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,7 @@ Future main() async {
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider<ShadeThemeProvider>(create: (_) => ShadeThemeProvider())],
-      child: const JappeOsDesktop(),
+      child: const _JappeOsDesktop(),
     ),
   );
 }
@@ -36,8 +38,8 @@ Future main() async {
 /// This is the main class of the JappeOS Desktop, you may not access it.
 ///
 /// (2020 - 2022)
-class JappeOsDesktop extends StatelessWidget {
-  const JappeOsDesktop({Key? key}) : super(key: key);
+class _JappeOsDesktop extends StatelessWidget {
+  const _JappeOsDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
