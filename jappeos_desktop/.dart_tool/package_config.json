@@ -557,10 +557,10 @@
       "name": "jappeos_desktop",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-06-13T15:25:55.630537Z",
+  "generated": "2023-06-24T11:18:44.463761Z",
   "generator": "pub",
   "generatorVersion": "3.1.0-81.0.dev"
 }
