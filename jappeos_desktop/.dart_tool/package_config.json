@@ -201,7 +201,7 @@
     },
     {
       "name": "jappeos_desktop_ui",
-      "rootUri": "file:///home/jappe/.pub-cache/git/JappeOS-DesktopUI-fbc3398dd3ef03a38d9a7d2942de28d72f2489e9/",
+      "rootUri": "file:///home/jappe/.pub-cache/git/JappeOS-DesktopUI-2219b260ac843a46cf754190a49a7b4063ee38f5/",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -560,7 +560,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-06-24T14:15:03.502119Z",
+  "generated": "2023-06-25T19:18:44.098192Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }
