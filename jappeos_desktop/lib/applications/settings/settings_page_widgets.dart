@@ -67,7 +67,7 @@ class _SettingsPageItemState extends State<SettingsPageItem> {
       decoration: BoxDecoration(
         color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor2,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().borderColor),
+        //border: Border.all(color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().borderColor),
       ),
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(top: 20,),

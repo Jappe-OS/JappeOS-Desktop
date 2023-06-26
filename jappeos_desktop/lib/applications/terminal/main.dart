@@ -18,10 +18,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:jappeos_desktop/base/desktop.dart';
 import 'package:jappeos_desktop/application.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
+import 'package:jappeos_desktop/base/base.dart';
+import 'package:jappeos_desktop/window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shade_theming/shade_theming.dart';
 import 'package:shade_ui/widgets/widgets.dart';

@@ -17,12 +17,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:highlight/languages/dart.dart';
-import 'package:jappeos_desktop/base/desktop.dart';
 import 'package:jappeos_desktop/application.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
+import 'package:jappeos_desktop/base/base.dart';
 import 'package:shade_theming/shade_theming.dart';
 import 'package:shade_ui/widgets/widgets.dart';
+
+import '../../window_manager/window_manager.dart';
 
 class AppMaker extends Application {
   AppMaker() : super("App Maker", "app-maker", null);

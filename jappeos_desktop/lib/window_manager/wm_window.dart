@@ -146,7 +146,6 @@ class _WindowState extends State<Window> {
       if (widget._applyBlur) {
         // Blurred window background
         return DeuiBlurContainer(
-          reducedRadius: true,
           gradient: false,
           bordered: !widget.isMaximized,
           width: widget.w,
@@ -157,7 +156,6 @@ class _WindowState extends State<Window> {
       } else {
         // Solid window background
         return DeuiSolidContainer(
-          reducedRadius: true,
           bordered: !widget.isMaximized,
           width: widget.w,
           height: widget.h,

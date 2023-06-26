@@ -27,7 +27,7 @@ class _DesktopThemeProperties {
   static bool renderGUI = true;
 
   /// The wallpaper of the desktop background.
-  static String wallpaperAssetDir = "resources/images/desktop/backgrounds/wallpaper4.jpg";
+  static String wallpaperAssetDir = "resources/images/desktop/backgrounds/wallpaper2.jpg";
 }
 
 /// The stateful widget for the base desktop UI.

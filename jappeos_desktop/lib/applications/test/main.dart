@@ -16,11 +16,9 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/base/desktop.dart';
 import 'package:jappeos_desktop/application.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/dialog_window.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
+import 'package:jappeos_desktop/base/base.dart';
+import 'package:jappeos_desktop/window_manager/window_manager.dart';
 
 class Test extends Application {
   Test() : super("Test App", "testapp", null);

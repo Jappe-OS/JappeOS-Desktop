@@ -15,12 +15,11 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/base/desktop.dart';
+import 'package:jappeos_desktop/base/base.dart';
 import 'package:jappeos_desktop/application.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/normal_window.dart';
-import 'package:jappeos_desktop/windowManager/windowTypes/wm_window_general.dart';
+import 'package:jappeos_desktop/window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:shade_theming/main.dart';
+import 'package:shade_theming/shade_theming.dart';
 import 'package:shade_ui/widgets/widgets.dart';
 
 import 'settings_page_widgets.dart';
@@ -31,7 +30,7 @@ class Settings extends Application {
   @override
   void app$launch() {
     DesktopState.getWmController()
-        ?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content()));
+        ?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content(), [const SizedBox(width: 300, child: ShadeTextfield(hintText: 'Search',),)]));
   }
 
   static double sidebarWidth = 300;
@@ -48,7 +47,7 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    final BorderRadius br = BorderRadius.circular(8);
+    final BorderRadius br = BorderRadius.circular(30);
 
     Widget sidebarItem(int index, String text, IconData icon, List<SettingsPageItem> items) {
       return Container(
@@ -56,7 +55,7 @@ class _ContentState extends State<_Content> {
         margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
           borderRadius: br,
-          color: _selectedPage == index ? context.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor.withOpacity(0.6) : null,
+          color: null,
         ),
         child: Material(
           color: Colors.transparent,
@@ -78,7 +77,7 @@ class _ContentState extends State<_Content> {
                   children: [
                     Icon(
                       icon,
-                      color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor.withOpacity(0.8),
+                      color: _selectedPage == index ? SHUI_THEME_PROPERTIES(context).accentColor : SHUI_THEME_PROPERTIES(context).normalTextColor.withOpacity(0.8),
                     ),
                     const SizedBox(
                       width: 7,
@@ -86,7 +85,7 @@ class _ContentState extends State<_Content> {
                     Text(
                       text,
                       style: TextStyle(
-                        color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().normalTextColor.withOpacity(0.8),
+                        color: _selectedPage == index ? SHUI_THEME_PROPERTIES(context).accentColor : SHUI_THEME_PROPERTIES(context).normalTextColor.withOpacity(0.8),
                         fontSize: 15,
                       ),
                     ),
@@ -226,6 +225,7 @@ class _ContentState extends State<_Content> {
                             value: false,
                             onChanged: (p0) {},
                           ),
+                          const SizedBox(width: 100, child: ShadeTextfield(hintText: "Time",),),
                           ShadeButton(
                             text: "Coming Soon",
                             onPress: () {},

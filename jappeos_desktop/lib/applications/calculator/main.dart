@@ -17,14 +17,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/base/desktop.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:shade_theming/shade_theming.dart';
 import 'package:shade_ui/utils.dart';
 import 'package:shade_ui/widgets/widgets.dart';
 
-import '../../jappeos_desktop/lib/windowManager/windowTypes/normal_window.dart';
-import '../../jappeos_desktop/lib/windowManager/windowTypes/wm_window_general.dart';
+import '../../base/base.dart';
+import '../../window_manager/window_manager.dart';
 
 class Calculator extends Application {
   Calculator() : super("Calculator", "calculator", null);

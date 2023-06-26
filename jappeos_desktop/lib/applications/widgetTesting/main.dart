@@ -15,14 +15,13 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop/base/desktop.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:provider/provider.dart';
 import 'package:shade_theming/main.dart';
 import 'package:shade_ui/widgets/widgets.dart';
 
-import '../../jappeos_desktop/lib/windowManager/windowTypes/normal_window.dart';
-import '../../jappeos_desktop/lib/windowManager/windowTypes/wm_window_general.dart';
+import '../../base/base.dart';
+import '../../window_manager/window_manager.dart';
 
 class WidgetTesting extends Application {
   WidgetTesting() : super("WidgetTesting", "widget-testing", null);

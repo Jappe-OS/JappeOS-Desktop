@@ -261,7 +261,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "2219b260ac843a46cf754190a49a7b4063ee38f5"
+      resolved-ref: e131da43083a56ece90d467fb3e42ed624c48d76
       url: "https://github.com/Jappe-OS/JappeOS-DesktopUI.git"
     source: git
     version: "1.0.0+1"
@@ -447,7 +447,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "97cffa25962d6fdd9438fdcba2d8695fd78b39f2"
+      resolved-ref: "76b0978b5ca786ee0dca2270a750aef3ead719f5"
       url: "https://github.com/Jappe-OS/ShadeUI.git"
     source: git
     version: "1.0.0+1"

@@ -45,6 +45,7 @@ class NormalWindow extends WMWindowType {
           right: 0,
           height: tbarHeight,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: decorations ?? [],
           ),

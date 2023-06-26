@@ -16,7 +16,7 @@
 
 
 import 'package:flutter/material.dart';
-import '../../../../applications/app-center/screens/home.dart';
+import '../../../../../../applications/app-center/screens/home.dart';
 
 void main() {
   runApp(const AppCenter());
