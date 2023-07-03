@@ -17,9 +17,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shade_theming/main.dart';
-import 'package:shade_ui/widgets/widgets.dart';
 
 class SettingsPage extends StatefulWidget {
   final String title;
@@ -39,9 +36,9 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ShadeText(
-            text: widget.title,
-            style: ShadeTextStyle.title,
+          Text(
+            widget.title,
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           ...widget.content,
         ],
@@ -65,18 +62,17 @@ class _SettingsPageItemState extends State<SettingsPageItem> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().backgroundColor2,
+        color: Theme.of(context).colorScheme.onBackground,
         borderRadius: BorderRadius.circular(10),
-        //border: Border.all(color: context.watch<ShadeThemeProvider>().getCurrentThemeProperties().borderColor),
       ),
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(top: 20,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ShadeText(
-            text: widget.title,
-            style: ShadeTextStyle.title1,
+          Text(
+            widget.title,
+            style: Theme.of(context).textTheme.displaySmall,
           ),
           ...widget.content,
         ],
@@ -105,7 +101,7 @@ class _SettingsPageSettingState extends State<SettingsPageSetting> {
           Positioned(
             top: 4,
             left: 0,
-            child: ShadeText(text: widget.name, style: ShadeTextStyle.big,),
+            child: Text(widget.name, style: Theme.of(context).textTheme.headlineSmall,),
           ),
           Positioned(
             right: 0,

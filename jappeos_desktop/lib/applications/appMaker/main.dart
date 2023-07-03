@@ -19,9 +19,7 @@ import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:highlight/languages/dart.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:jappeos_desktop/base/base.dart';
-import 'package:shade_theming/shade_theming.dart';
-import 'package:shade_ui/widgets/widgets.dart';
-
+import 'package:shade_ui/widgets/shade_menu_strip.dart';
 import '../../window_manager/window_manager.dart';
 
 class AppMaker extends Application {
@@ -38,21 +36,32 @@ class AppMaker extends Application {
 
     DesktopState.getWmController()?.wm$spawnGuiWindow(
         NormalWindow("Untitled* - App Maker", null, WMWindowSize(const Size(550, 300), const Size(550, 450)), false, contentWidg, [
-      ShadeButtonBar([
-        ShadeButtonBarItem(
-            text: "Widget Editor",
-            action: () {
-              viewportShowCode(false);
-              setPage(0);
-            }),
-        ShadeButtonBarItem(
-            text: "Code Editor",
-            action: () {
-              viewportShowCode(true);
-              setPage(0);
-            }),
-        ShadeButtonBarItem(text: "Project", action: () => setPage(1)),
-      ], 2),
+      SegmentedButton<int>(
+        segments: const <ButtonSegment<int>>[
+          ButtonSegment<int>(value: 0, label: Text('Widget Editor'), icon: Icon(Icons.calendar_view_day)),
+          ButtonSegment<int>(value: 1, label: Text('Code Editor'), icon: Icon(Icons.calendar_view_week)),
+          ButtonSegment<int>(value: 2, label: Text('Project'), icon: Icon(Icons.calendar_view_month)),
+        ],
+        selected: const <int>{2},
+        onSelectionChanged: (Set<int> newSelection) {
+          switch (newSelection.first) {
+            case 0:
+              {
+                viewportShowCode(false);
+                setPage(0);
+              }
+            case 1:
+              {
+                viewportShowCode(true);
+                setPage(0);
+              }
+            case 2:
+              {
+                setPage(1);
+              }
+          }
+        },
+      ),
     ]));
   }
 }
@@ -124,8 +133,9 @@ class _ContentState extends State<_Content> {
                 width: 500,
                 height: 300,
                 color: Colors.blue,
-                child: const ShadeButton(
-                  text: "Hello!",
+                child: OutlinedButton(
+                  child: const Text("Hello!"),
+                  onPressed: () {},
                 ),
               ),
             ),
@@ -177,7 +187,7 @@ class _ContentState extends State<_Content> {
               size: Size(250, 0),
               zero: 2,
               align: _FreeWindowAlignment.topRight,
-              child: [ShadeText(text: "TODO: Read widget properties or set them manually for each widget based on their types.")],
+              child: [Text("TODO: Read widget properties or set them manually for each widget based on their types.")],
             ),
             Positioned(
               top: 0,
@@ -189,13 +199,13 @@ class _ContentState extends State<_Content> {
                   Expanded(child: viewport()),
                   Container(
                     height: 1,
-                    color: SHUI_THEME_PROPERTIES(context).borderColor,
+                    color: Theme.of(context).dividerColor,
                   ),
                   Row(
                     children: [
-                      Expanded(child: ShadeText(text: _showCode ? "[Code Editor]" : "[Widget Editor]")),
-                      if (_showCode) const ShadeText(text: "Zoom: "),
-                      if (_showCode) ShadeSlider(value: _codeZoomLevel, onChanged: (val) => setState(() => _codeZoomLevel = val)),
+                      Expanded(child: Text(_showCode ? "[Code Editor]" : "[Widget Editor]")),
+                      if (_showCode) const Text("Zoom: "),
+                      if (_showCode) Slider(value: _codeZoomLevel, onChanged: (val) => setState(() => _codeZoomLevel = val)),
                     ],
                   )
                 ],
@@ -210,58 +220,50 @@ class _ContentState extends State<_Content> {
   Widget projectSettingsPage() {
     return Column(
       children: [
-        const ShadeText(
-          style: ShadeTextStyle.title1,
-          text: "Pubspec",
+        Text(
+          "Pubspec",
+          style: Theme.of(context).textTheme.displayLarge,
         ),
         Row(
           children: [
-            ShadeButton(
-              text: "Edit As Text",
-              icon: Icons.edit,
-              onPress: () {},
-            ),
-            ShadeButton(
-              text: "Get Packages",
-              icon: Icons.get_app,
-              onPress: () {},
-            ),
-            ShadeButton(
-              text: "Upgrade Packages",
-              icon: Icons.upgrade,
-              onPress: () {},
-            )
+            IconButton(onPressed: () {}, icon: const Icon(Icons.edit), tooltip: "Edit As Text"),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.get_app), tooltip: "Get Packages"),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.upgrade), tooltip: "Upgrade Packages"),
           ],
         ),
         const Row(
-          children: [ShadeText(text: "Name: "), SizedBox(width: 300, child: ShadeTextfield())],
+          children: [Text("Name: "), SizedBox(width: 300, child: TextField())],
         ),
         const Row(
-          children: [ShadeText(text: "Description: "), SizedBox(width: 300, child: ShadeTextfield())],
+          children: [Text("Description: "), SizedBox(width: 300, child: TextField())],
         ),
         const Row(
-          children: [ShadeText(text: "Version: "), SizedBox(width: 300, child: ShadeTextfield())],
+          children: [Text("Version: "), SizedBox(width: 300, child: TextField())],
         ),
         const Row(
-          children: [ShadeText(text: "Dependencies: ")],
+          children: [Text("Dependencies: ")],
         ),
         Row(
           children: [
             const SizedBox(width: 50),
-            ShadeButtonBar([
-              ShadeButtonBarItem(text: "Pub"),
-              ShadeButtonBarItem(text: "Git"),
-            ]),
+            SegmentedButton<int>(
+              segments: const <ButtonSegment<int>>[
+                ButtonSegment<int>(value: 0, label: Text('Pub')),
+                ButtonSegment<int>(value: 1, label: Text('Git')),
+              ],
+              selected: const <int>{0},
+              onSelectionChanged: (Set<int> newSelection) {},
+            ),
             const SizedBox(
                 width: 200,
-                child: ShadeTextfield(
-                  hintText: "Name",
+                child: TextField(
+                  decoration: InputDecoration(label: Text("Name")),
                 )),
             const SizedBox(
                 width: 200,
-                child: ShadeTextfield(
-                  hintText: "Version",
-                ))
+                child: TextField(
+                  decoration: InputDecoration(label: Text("Version")),
+                )),
           ],
         )
       ],
@@ -306,13 +308,13 @@ class _FreeWindowState extends State<_FreeWindow> {
       height: widget.zero == 0 || widget.zero == 2 ? null : widget.size.height,
       child: Container(
         decoration: BoxDecoration(
-            color: SHUI_THEME_PROPERTIES(context).backgroundColor1, border: Border.all(color: SHUI_THEME_PROPERTIES(context).borderColor, width: 1)),
+            color: Theme.of(context).colorScheme.background, border: Border.all(color: Theme.of(context).dividerColor, width: 1)),
         child: Column(
           children: [
-            ShadeText(text: widget.title),
+            Text(widget.title),
             Container(
               height: 1,
-              color: SHUI_THEME_PROPERTIES(context).borderColor,
+              color: Theme.of(context).dividerColor,
             ),
             ...widget.child,
           ],

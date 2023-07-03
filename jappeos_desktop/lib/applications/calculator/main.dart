@@ -18,9 +18,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/application.dart';
-import 'package:shade_theming/shade_theming.dart';
-import 'package:shade_ui/utils.dart';
-import 'package:shade_ui/widgets/widgets.dart';
 
 import '../../base/base.dart';
 import '../../window_manager/window_manager.dart';
@@ -35,14 +32,18 @@ class Calculator extends Application {
   }
 }
 
+// ignore: must_be_immutable
 class _Content extends StatelessWidget {
+  
+  // ignore: unused_field
   String _calculation = "0";
+  final optimalPadding = 5.0;
 
   @override
   Widget build(BuildContext context) {
     Widget calculatorButton(String text, bool isPrimary, double size, void Function() onPress) {
       return Padding(
-        padding: const EdgeInsets.all(SHUI_OPTIMAL_UI_PADDING),
+        padding: EdgeInsets.all(optimalPadding),
         child: Container(
           width: size,
           height: size,
@@ -54,23 +55,23 @@ class _Content extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
-        padding: const EdgeInsets.all(SHUI_OPTIMAL_UI_PADDING),
+        padding: EdgeInsets.all(optimalPadding),
         child: Column(
           children: [
-            const SizedBox(
+            SizedBox(
                 height: 100,
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: ShadeText(
-                    text: "Infinity",
-                    style: ShadeTextStyle.title1,
+                  child: Text(
+                    "Infinity",
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
                 )),
             Padding(
-              padding: const EdgeInsets.all(SHUI_OPTIMAL_UI_PADDING),
+              padding: EdgeInsets.all(optimalPadding),
               child: Container(
                 height: 1,
-                color: SHUI_THEME_PROPERTIES(context).borderColor,
+                color: Theme.of(context).dividerColor,
               ),
             ),
             Expanded(
@@ -82,9 +83,9 @@ class _Content extends StatelessWidget {
                   return GridView.count(
                     crossAxisCount: crossAxisCount,
                     childAspectRatio: 1,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: List.generate(6, (index) {
                       return SizedBox(
                         width: buttonSize,

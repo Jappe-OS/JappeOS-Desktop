@@ -57,20 +57,18 @@ class DialogWindow extends WMWindowType {
     List<Widget> actionsWidg = [];
 
     for (DialogWindowAction dwa in actions) {
-      actionsWidg.add(ShadeButton(
-        text: dwa.name,
-        isPrimary: actions.indexOf(dwa) == primaryAction,
-        onPress: dwa.act,
-      ));
+      actionsWidg.add(actions.indexOf(dwa) == primaryAction ? FilledButton(
+        onPressed: dwa.act,
+        child: Text(dwa.name),
+      ) : OutlinedButton(onPressed: dwa.act, child: Text(dwa.name)));
       actionsWidg.add(const SizedBox(
         width: 5,
       ));
     }
 
-    actionsWidg.add(ShadeButton(
-      text: "Close",
-      isPrimary: false,
-      onPress: () {
+    actionsWidg.add(TextButton(
+      child: const Text("Close"),
+      onPressed: () {
         dialogCloseCallback();
         theWindow.onCloseButtonClicked!();
       },
@@ -89,7 +87,7 @@ class DialogWindow extends WMWindowType {
               mainAxisAlignment: MainAxisAlignment.end,
               children: actionsWidg,
             ),
-            Expanded(child: ShadeText(text: content)),
+            Expanded(child: Text(content)),
           ],
         ),
       ),

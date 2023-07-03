@@ -17,58 +17,24 @@
 // ignore_for_file: library_private_types_in_public_api, constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shade_theming/shade_theming.dart';
+import 'package:shade_ui/shade_ui.dart';
 
 import 'base/base.dart';
 
 const MOBILE_MODE = false;
 
-Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  ShadeTheme.setThemeProperties(_Themes.dtp, _Themes.ltp);
-  runApp(
-    MultiProvider(
-      providers: [ChangeNotifierProvider<ShadeThemeProvider>(create: (_) => ShadeThemeProvider())],
-      child: const _JappeOsDesktop(),
-    ),
-  );
-}
+Future main() async => runApp(const _JappeOsDesktop());
 
-/// This is the main class of the JappeOS Desktop, you may not access it.
-///
-/// (2020 - 2022)
+/// This is the main class of the JappeOS Desktop.
 class _JappeOsDesktop extends StatelessWidget {
   const _JappeOsDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const ShadeApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
       home: Desktop(),
     );
   }
-}
-
-/// A private class that contains the dark and light theme data.
-class _Themes {
-  static DarkThemeProperties dtp = DarkThemeProperties(ThemeProperties(
-      const Color.fromARGB(255, 30, 30, 30),
-      const Color.fromARGB(255, 37, 37, 38),
-      const Color.fromARGB(80, 243, 243, 243),
-      Colors.blue,
-      const Color(0xFFFFFFFF).withOpacity(0.9),
-      const Color(0xFFFFFFFF),
-      const Color(0xFFFFFFFF).withOpacity(0.6),
-      const Color(0xFF000000).withOpacity(0.9)));
-  static LightThemeProperties ltp = LightThemeProperties(ThemeProperties(
-      const Color.fromARGB(255, 255, 255, 255),
-      const Color.fromARGB(255, 243, 243, 243),
-      const Color.fromARGB(80, 37, 37, 38),
-      Colors.blue,
-      const Color(0xFF000000).withOpacity(0.9),
-      const Color(0xFF000000),
-      const Color(0xFF000000).withOpacity(0.6),
-      const Color(0xFFFFFFFF).withOpacity(0.9)));
 }

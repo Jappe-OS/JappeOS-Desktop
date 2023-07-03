@@ -28,10 +28,7 @@ import 'package:jappeos_desktop_ui/widgets/bases/button_base_glasshover.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/context_menu.dart';
 import 'package:jappeos_desktop_ui/widgets/text.dart';
-import 'package:shade_theming/shade_theming.dart';
 
-import 'package:shade_ui/utils.dart';
-import 'package:provider/provider.dart';
 import 'package:jappeos_desktop_ui/widgets/bases/button_base.dart';
 
 //

@@ -31,7 +31,7 @@ class LauncherMenu extends DesktopMenu {
         onPressed: onPress,
         icon: Icon(
           icon,
-          color: DesktopState.publicContext!.watch<ShadeThemeProvider>().getCurrentThemeProperties().accentColor,
+          color: Theme.of(context).colorScheme.primary,
         ),
         tooltip: tooltip,
         padding: const EdgeInsets.all(3),
@@ -46,7 +46,7 @@ class LauncherMenu extends DesktopMenu {
           width: 5,
           height: 5,
           decoration: BoxDecoration(
-            color: i == active ? SHUI_THEME_PROPERTIES(context).accentColor : SHUI_THEME_PROPERTIES(context).backgroundColor2,
+            color: i == active ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onBackground,
             borderRadius: BorderRadius.circular(2.5),
           ),
         ));
@@ -75,10 +75,10 @@ class LauncherMenu extends DesktopMenu {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: SHUI_OPTIMAL_UI_PADDING * 2),
+                padding: const EdgeInsets.only(left: 5 * 2),
                 child: Text(
                   'Search Files, Apps & More',
-                  style: TextStyle(color: SHUI_THEME_PROPERTIES(context).secondaryTextColor, fontSize: 16),
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color, fontSize: 16),
                 ),
               ),
             ),

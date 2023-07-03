@@ -25,9 +25,6 @@ import 'package:jappeos_desktop/main.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/solid_container.dart';
 import 'package:jappeos_desktop_ui/widgets/text.dart';
-import 'package:shade_theming/shade_theming.dart';
-import 'package:shade_ui/utils.dart';
-import 'package:shade_ui/widgets/widgets.dart';
 
 import '../base/base.dart';
 

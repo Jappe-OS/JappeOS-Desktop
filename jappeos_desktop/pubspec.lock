@@ -162,10 +162,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: aeb0b80a8b3709709c9cc496cdc027c5b3216796bc0af0ce1007eaf24464fd4c
+      sha256: "2118df84ef0c3ca93f96123a616ae8540879991b8b57af2f81b76a7ada49b2a4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   flutter_menu:
     dependency: "direct main"
     description:
@@ -261,7 +261,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: e131da43083a56ece90d467fb3e42ed624c48d76
+      resolved-ref: c33315389c423e1f28a3bf7bcfb8e401aeec8ed0
       url: "https://github.com/Jappe-OS/JappeOS-DesktopUI.git"
     source: git
     version: "1.0.0+1"
@@ -433,24 +433,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.8"
-  shade_theming:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "3ee28a4520cf4d8ad23b43e699a9524f95d9427d"
-      url: "https://github.com/Jappe-OS/ShadeTheming.git"
-    source: git
-    version: "1.0.0+1"
   shade_ui:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
-      resolved-ref: "76b0978b5ca786ee0dca2270a750aef3ead719f5"
+      ref: "master-2.0"
+      resolved-ref: bea448f63196620e25de646e2718810e6426ecc4
       url: "https://github.com/Jappe-OS/ShadeUI.git"
     source: git
-    version: "1.0.0+1"
+    version: "2.0.0+3"
   shelf:
     dependency: transitive
     description:

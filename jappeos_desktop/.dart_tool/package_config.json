@@ -123,9 +123,9 @@
     },
     {
       "name": "flutter_lints",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.1",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.18"
     },
     {
       "name": "flutter_menu",
@@ -201,7 +201,7 @@
     },
     {
       "name": "jappeos_desktop_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/JappeOS-DesktopUI-e131da43083a56ece90d467fb3e42ed624c48d76/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/JappeOS-DesktopUI-c33315389c423e1f28a3bf7bcfb8e401aeec8ed0/",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -332,14 +332,8 @@
       "languageVersion": "2.15"
     },
     {
-      "name": "shade_theming",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeTheming-3ee28a4520cf4d8ad23b43e699a9524f95d9427d/",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "shade_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-76b0978b5ca786ee0dca2270a750aef3ead719f5/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-bea448f63196620e25de646e2718810e6426ecc4/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -560,7 +554,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-06-26T16:26:43.523780Z",
+  "generated": "2023-07-03T15:29:22.323872Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

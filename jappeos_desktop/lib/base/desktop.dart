@@ -370,7 +370,6 @@ class _LocalDesktopWidgets {
     return Icon(
       iconData,
       size: 17,
-      color: SHUI_THEME_PROPERTIES(context).normalTextColor,
     );
   }
 }

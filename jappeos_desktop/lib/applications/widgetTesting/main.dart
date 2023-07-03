@@ -16,9 +16,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jappeos_desktop/application.dart';
-import 'package:provider/provider.dart';
-import 'package:shade_theming/main.dart';
-import 'package:shade_ui/widgets/widgets.dart';
+import 'package:shade_ui/widgets/shade_menu_strip.dart';
 
 import '../../base/base.dart';
 import '../../window_manager/window_manager.dart';
@@ -33,6 +31,7 @@ class WidgetTesting extends Application {
   }
 }
 
+// ignore: must_be_immutable
 class _Content extends StatelessWidget {
   double _sliderVal = 0.05;
 
@@ -53,31 +52,51 @@ class _Content extends StatelessWidget {
                 ShadeMenuStripItem("Exit", () {}, [])
               ])
             ]),
-            ShadeButton(
-              text: 'Primary ShadeButton',
-              isPrimary: true,
-              onPress: () {},
+            TextButton(
+              child: const Text('TextButton'),
+              onPressed: () {},
             ),
-            ShadeButton(
-              text: 'Secondary ShadeButton',
-              isPrimary: false,
-              onPress: () {},
+            OutlinedButton(
+              child: const Text('OutlinedButton'),
+              onPressed: () {},
             ),
-            ShadeButtonBar([ShadeButtonBarItem(text: "Item 1"), ShadeButtonBarItem(text: "Item 2"), ShadeButtonBarItem(text: "Item 3")]),
-            const ShadeTextfield(
-              hintText: 'Type something...',
+            FilledButton(
+              child: const Text('FilledButton'),
+              onPressed: () {},
             ),
-            const ShadeText(text: 'text'),
-            const ShadeIcon(icon: Icons.logo_dev),
-            ShadeSwitch(
-              value: context.watch<ShadeThemeProvider>().getTheme() != 0,
+            ElevatedButton(
+              child: const Text('ElevatedButton'),
+              onPressed: () {},
+            ),
+            SegmentedButton<int>(
+              segments: const <ButtonSegment<int>>[
+                ButtonSegment<int>(value: 0, label: Text('Item 1')),
+                ButtonSegment<int>(value: 1, label: Text('Item 2')),
+                ButtonSegment<int>(value: 2, label: Text('Item 3')),
+              ],
+              selected: const <int>{0},
+              onSelectionChanged: (Set<int> newSelection) {},
+            ),
+            const TextField(
+              decoration: InputDecoration(
+                hintText: 'Type something...',
+              )
+            ),
+            const TextField(
+              decoration: InputDecoration(
+                labelText: 'This is a label!',
+              )
+            ),
+            const Text('text'),
+            const Icon(Icons.logo_dev),
+            Switch(
+              value: true,
               onChanged: (value) {
-                Provider.of<ShadeThemeProvider>(context, listen: false).setTheme(value == true ? 1 : 0);
               },
             ),
             SizedBox(
               width: 300,
-              child: ShadeSlider(value: _sliderVal, onChanged: (d) => _sliderVal = d),
+              child: Slider(value: _sliderVal, onChanged: (d) => _sliderVal = d),
             ),
           ],
         )

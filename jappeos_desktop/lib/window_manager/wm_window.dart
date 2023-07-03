@@ -424,13 +424,12 @@ class _WindowState extends State<Window> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              hoverColor: SHUI_THEME_PROPERTIES(context).backgroundColor2.withOpacity(SHUI_OPTIMAL_ELEMENT_OPACITY),
+              hoverColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.7),
               mouseCursor: SystemMouseCursors.alias,
               borderRadius: BorderRadius.circular(30),
               onTap: onPress,
               child: Icon(
                 icon,
-                color: SHUI_THEME_PROPERTIES(context).normalTextColor,
                 size: 20,
               ),
             ),

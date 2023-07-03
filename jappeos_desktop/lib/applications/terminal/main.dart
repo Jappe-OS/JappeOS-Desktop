@@ -21,9 +21,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:jappeos_desktop/base/base.dart';
 import 'package:jappeos_desktop/window_manager/window_manager.dart';
-import 'package:provider/provider.dart';
-import 'package:shade_theming/shade_theming.dart';
-import 'package:shade_ui/widgets/widgets.dart';
 
 class Terminal extends Application {
   Terminal() : super("Terminal", "terminal", null);
@@ -78,7 +75,7 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with SingleTickerProvid
       _tab(context, "Tab1", const Text("Content for Tab 1")),
       _tab(context, "Tab2", const Text("Content for Tab 2")),
       _tab(context, "Tab3", const Text("Content for Tab 3")),
-      [const ShadeIcon(icon: Icons.add), const Placeholder()],
+      [const Icon(Icons.add), const Placeholder()],
     ];
 
     _updateTabControllerLength();
@@ -95,14 +92,14 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with SingleTickerProvid
         child: Container(
           constraints: const BoxConstraints(minWidth: 180),
           child: Center(
-            child: ShadeText(
-              text: text,
+            child: Text(
+              text,
             ),
           ),
         ),
       ),
       Container(
-        color: Provider.of<ShadeThemeProvider>(context, listen: false).getCurrentThemeProperties().backgroundColor1,
+        color: Theme.of(context).colorScheme.background,
         child: content,
       ),
     ];
@@ -121,7 +118,7 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with SingleTickerProvid
   }
 
   void _updateTabControllerLength() {
-    _tabController?.dispose();
+    _tabController.dispose();
     _tabController = TabController(length: _tabs.length, vsync: _VsyncProvider(this));
   }
 }

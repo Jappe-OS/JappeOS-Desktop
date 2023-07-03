@@ -29,12 +29,7 @@ dependencies:
   shade_ui:
     git:
       url: https://github.com/Jappe-OS/ShadeUI.git
-      ref: master
-
-  shade_theming:
-    git:
-      url: https://github.com/Jappe-OS/ShadeTheming.git
-      ref: master
+      ref: master-2.0
 
   jappeos_desktop_ui:
     git:

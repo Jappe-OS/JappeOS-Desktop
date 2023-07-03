@@ -51,14 +51,14 @@ class _DApplicationItemState extends State<DApplicationItem> {
         color: Colors.transparent,
         child: InkWell(
           mouseCursor: SystemMouseCursors.alias,
-          hoverColor: SHUI_THEME_PROPERTIES(context).backgroundColor1.withOpacity(0.1),
-          splashColor: SHUI_THEME_PROPERTIES(context).backgroundColor1.withOpacity(0.25),
-          highlightColor: SHUI_THEME_PROPERTIES(context).backgroundColor1.withOpacity(0.1),
+          hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+          splashColor: Theme.of(context).colorScheme.background.withOpacity(0.25),
+          highlightColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
           borderRadius: BorderRadius.circular(JappeOsDesktopUI.getDefaultBorderRadiusRedc()),
           onHover: (value) => setState(() => isHovering = value),
           onTap: widget.onPress,
           child: Padding(
-            padding: const EdgeInsets.all(SHUI_OPTIMAL_UI_PADDING),
+            padding: const EdgeInsets.all(5),
             child: Column(
               children: [
                 // The image/logo of app.
@@ -66,7 +66,7 @@ class _DApplicationItemState extends State<DApplicationItem> {
                 // The name of the app.
                 Text(
                   widget.title,
-                  style: TextStyle(color: SHUI_THEME_PROPERTIES(context).normalTextColor, shadows: const [Shadow(blurRadius: 3)]),
+                  style: TextStyle(color: Theme.of(context).textTheme.labelMedium?.color, shadows: const [Shadow(blurRadius: 3)]),
                 ),
               ],
             ),
