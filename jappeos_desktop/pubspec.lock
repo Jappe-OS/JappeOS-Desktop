@@ -438,7 +438,7 @@ packages:
     description:
       path: "."
       ref: "master-2.0"
-      resolved-ref: bea448f63196620e25de646e2718810e6426ecc4
+      resolved-ref: c3fdcf4ba4a97d68aa207b1312c4e3280d81826a
       url: "https://github.com/Jappe-OS/ShadeUI.git"
     source: git
     version: "2.0.0+3"

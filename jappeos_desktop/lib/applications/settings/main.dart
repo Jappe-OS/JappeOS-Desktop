@@ -19,6 +19,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jappeos_desktop/base/base.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:jappeos_desktop/window_manager/window_manager.dart';
+import 'package:shade_ui/shade_ui.dart';
 
 import 'settings_page_widgets.dart';
 
@@ -31,8 +32,10 @@ class Settings extends Application {
         ?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content(), [
       const SizedBox(
         width: 300,
+        height: 35,
         child: TextField(
           decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search),
             hintText: 'Search',
           ),
         ),
@@ -104,7 +107,8 @@ class _ContentState extends State<_Content> {
                 SettingsPageSetting(
                   name: 'Enable dark theme',
                   controls: [
-                    Switch(onChanged: (bool value) {  }, value: false,
+                    Switch(
+                      onChanged: (bool value) {}, value: false,
                       //value: Theme.of(context).brightness != 0,
                       //onChanged: (value) {
                       //  setState(() {
@@ -240,13 +244,22 @@ class _ContentState extends State<_Content> {
                 SettingsPageSetting(
                   name: 'System Language',
                   controls: [
-                    DropdownButton<String>(
-                      value: "Item 1",
+                    DropdownButton<int>(
+                      value: 0,
                       onChanged: (p0) {},
                       items: const [
-                        DropdownMenuItem(child: Text("Item 1")),
-                        DropdownMenuItem(child: Text("Item 2")),
-                        DropdownMenuItem(child: Text("Item 3")),
+                        DropdownMenuItem(
+                          value: 0,
+                          child: Text("Item 1"),
+                        ),
+                        DropdownMenuItem(
+                          value: 1,
+                          child: Text("Item 2"),
+                        ),
+                        DropdownMenuItem(
+                          value: 2,
+                          child: Text("Item 3"),
+                        ),
                       ],
                     )
                   ],
@@ -259,13 +272,22 @@ class _ContentState extends State<_Content> {
                 SettingsPageSetting(
                   name: 'Current Layout',
                   controls: [
-                    DropdownButton<String>(
-                      value: "Item 1",
+                    DropdownButton<int>(
+                      value: 0,
                       onChanged: (p0) {},
                       items: const [
-                        DropdownMenuItem(child: Text("Item 1")),
-                        DropdownMenuItem(child: Text("Item 2")),
-                        DropdownMenuItem(child: Text("Item 3")),
+                        DropdownMenuItem(
+                          value: 0,
+                          child: Text("Item 1"),
+                        ),
+                        DropdownMenuItem(
+                          value: 1,
+                          child: Text("Item 2"),
+                        ),
+                        DropdownMenuItem(
+                          value: 2,
+                          child: Text("Item 3"),
+                        ),
                       ],
                     ),
                     gap,
@@ -309,13 +331,22 @@ class _ContentState extends State<_Content> {
                 SettingsPageSetting(
                   name: 'Device',
                   controls: [
-                    DropdownButton<String>(
-                      value: "Item 1",
+                    DropdownButton<int>(
+                      value: 0,
                       onChanged: (p0) {},
                       items: const [
-                        DropdownMenuItem(child: Text("Item 1")),
-                        DropdownMenuItem(child: Text("Item 2")),
-                        DropdownMenuItem(child: Text("Item 3")),
+                        DropdownMenuItem(
+                          value: 0,
+                          child: Text("Item 1"),
+                        ),
+                        DropdownMenuItem(
+                          value: 1,
+                          child: Text("Item 2"),
+                        ),
+                        DropdownMenuItem(
+                          value: 2,
+                          child: Text("Item 3"),
+                        ),
                       ],
                     )
                   ],
@@ -337,13 +368,22 @@ class _ContentState extends State<_Content> {
                 SettingsPageSetting(
                   name: 'Device',
                   controls: [
-                    DropdownButton<String>(
-                      value: "Item 1",
+                    DropdownButton<int>(
+                      value: 0,
                       onChanged: (p0) {},
                       items: const [
-                        DropdownMenuItem(child: Text("Item 1")),
-                        DropdownMenuItem(child: Text("Item 2")),
-                        DropdownMenuItem(child: Text("Item 3")),
+                        DropdownMenuItem(
+                          value: 0,
+                          child: Text("Item 1"),
+                        ),
+                        DropdownMenuItem(
+                          value: 1,
+                          child: Text("Item 2"),
+                        ),
+                        DropdownMenuItem(
+                          value: 2,
+                          child: Text("Item 3"),
+                        ),
                       ],
                     )
                   ],
@@ -707,6 +747,7 @@ class ShadeSidebarLayout<T extends Widget> extends StatefulWidget {
   final bool disableTitle;
   final bool hasIconizeButton;
   final bool disableContentPadding;
+  final bool dynamicPadding;
 
   const ShadeSidebarLayout({
     Key? key,
@@ -715,6 +756,7 @@ class ShadeSidebarLayout<T extends Widget> extends StatefulWidget {
     this.disableTitle = false,
     this.hasIconizeButton = true,
     this.disableContentPadding = false,
+    this.dynamicPadding = true,
   }) : super(key: key);
 
   @override
@@ -739,6 +781,7 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
   @override
   Widget build(BuildContext context) {
     const optimalPad = 5.0;
+    const textOpacity = 0.9;
 
     List<Widget> sidebarItems = [];
 
@@ -751,7 +794,7 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
         margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
           borderRadius: br,
-          color: isSelected ? Theme.of(context).colorScheme.primary : null,
+          color: isSelected ? ShadeTheme.clr_OnTranspVersion(Theme.of(context).colorScheme.primary) : null,
         ),
         child: Material(
           color: Colors.transparent,
@@ -770,8 +813,9 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
                   children: [
                     Icon(
                       widget.items[i].icon,
-                      color:
-                          Theme.of(context).textTheme.bodyMedium!.color?.withOpacity(0.8),
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.background.withOpacity(textOpacity)
+                          : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(textOpacity),
                     ),
                     const SizedBox(
                       width: 7,
@@ -779,8 +823,9 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
                     Text(
                       widget.items[i].text,
                       style: TextStyle(
-                        color:
-                            Theme.of(context).textTheme.bodyMedium!.color?.withOpacity(0.8),
+                        color: isSelected
+                            ? Theme.of(context).colorScheme.background.withOpacity(textOpacity)
+                            : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(textOpacity),
                         fontSize: 15,
                       ),
                     ),
@@ -829,17 +874,23 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
               controller: widget.controller,
               itemCount: widget.items.length,
               itemBuilder: (context, index) {
-                return ListView(
-                  padding: widget.disableContentPadding ? EdgeInsets.zero : EdgeInsets.all(optimalPad),
-                  children: [
-                    if (!widget.disableTitle)
-                      Text(
-                        widget.items[index].text,
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
-                    ...widget.items[index].content,
-                  ],
-                );
+                return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                  //final double paddingValue = constraints.maxWidth < 900 ? 10 : constraints.maxWidth * 0.15 - 120;
+                  final double paddingValue = constraints.maxWidth < 900 ? 10 : (constraints.maxWidth - 900) / 2 + optimalPad * 2;
+
+                  return ListView(
+                    padding:
+                        widget.disableContentPadding ? EdgeInsets.zero : (!widget.dynamicPadding ? const EdgeInsets.all(optimalPad) : EdgeInsets.symmetric(horizontal: paddingValue, vertical: optimalPad)),
+                    children: [
+                      if (!widget.disableTitle)
+                        Text(
+                          widget.items[index].text,
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
+                      ...widget.items[index].content,
+                    ],
+                  );
+                });
               },
             ),
           ),

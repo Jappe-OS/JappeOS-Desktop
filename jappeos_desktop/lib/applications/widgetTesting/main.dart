@@ -53,20 +53,29 @@ class _Content extends StatelessWidget {
               ])
             ]),
             TextButton(
-              child: const Text('TextButton'),
+              child: Text('TextButton'),
               onPressed: () {},
             ),
             OutlinedButton(
-              child: const Text('OutlinedButton'),
+              child: Text('OutlinedButton'),
               onPressed: () {},
             ),
             FilledButton(
-              child: const Text('FilledButton'),
+              child: Text('FilledButton'),
               onPressed: () {},
             ),
             ElevatedButton(
-              child: const Text('ElevatedButton'),
+              child: Text('ElevatedButton'),
               onPressed: () {},
+            ),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+            const DropdownMenu(
+              dropdownMenuEntries: [
+                DropdownMenuEntry(value: 1, label: "Item 1"),
+                DropdownMenuEntry(value: 2, label: "Item 2"),
+                DropdownMenuEntry(value: 3, label: "Item 3"),
+              ],
+              initialSelection: 1,
             ),
             SegmentedButton<int>(
               segments: const <ButtonSegment<int>>[

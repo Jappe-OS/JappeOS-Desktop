@@ -17,35 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-
-class SettingsPage extends StatefulWidget {
-  final String title;
-  final List<SettingsPageItem> content;
-
-  const SettingsPage({Key? key, required this.title, required this.content}) : super(key: key);
-
-  @override
-  _SettingsPageState createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            widget.title,
-            style: Theme.of(context).textTheme.displayMedium,
-          ),
-          ...widget.content,
-        ],
-      ),
-    );
-  }
-}
+import 'package:shade_ui/shade_ui.dart';
 
 class SettingsPageItem extends StatefulWidget {
   final String title;
@@ -62,11 +34,13 @@ class _SettingsPageItemState extends State<SettingsPageItem> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onBackground,
+        color: ShadeTheme.clr_SchemeBackgroundVariant2(context),
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(top: 20,),
+      margin: const EdgeInsets.only(
+        top: 20,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -95,20 +69,26 @@ class _SettingsPageSettingState extends State<SettingsPageSetting> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 35,
-      child: Stack(
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Positioned(
-            top: 4,
-            left: 0,
-            child: Text(widget.name, style: Theme.of(context).textTheme.headlineSmall,),
-          ),
-          Positioned(
-            right: 0,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: widget.controls,
+          Flexible(
+            child: Text(
+              widget.name,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 19),
+              overflow: TextOverflow.ellipsis,
             ),
+          ),
+          Row(
+            children: [
+              const SizedBox(width: 8), // Add spacing between the Text and controls
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: widget.controls,
+              ),
+            ],
           ),
         ],
       ),
