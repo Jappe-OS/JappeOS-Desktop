@@ -33,6 +33,7 @@ import 'package:jappeos_desktop_ui/widgets/bases/button_base.dart';
 
 //
 // Base
+part 'constants.dart';
 part 'desktop.dart';
 //
 // Components
@@ -42,3 +43,6 @@ part 'components/desktop_widgets.dart';
 part 'desktop_menu_manager/desktop_menu_controller.dart';
 part 'desktop_menu_manager/menus/launcher_menu.dart';
 part 'desktop_menu_manager/menus/search_menu.dart';
+part 'desktop_menu_manager/menus/notification_menu.dart';
+part 'desktop_menu_manager/menus/control_center_menu.dart';
+part 'desktop_menu_manager/menus/permissions_menu.dart';
