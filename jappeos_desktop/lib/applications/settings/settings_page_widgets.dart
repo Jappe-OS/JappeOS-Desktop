@@ -17,7 +17,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:shade_ui/shade_ui.dart';
 
 class SettingsPageItem extends StatefulWidget {
   final String title;
@@ -34,7 +33,7 @@ class _SettingsPageItemState extends State<SettingsPageItem> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ShadeTheme.clr_SchemeBackgroundVariant2(context),
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(8),
