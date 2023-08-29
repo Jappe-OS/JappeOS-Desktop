@@ -201,7 +201,7 @@
     },
     {
       "name": "jappeos_desktop_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/JappeOS-DesktopUI-6f53a362d772ce58c7221f551c0d2572ced9010c/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/JappeOS-DesktopUI-97f6220dbd339b2f727e78384efab1851eea4dbd/",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -297,9 +297,9 @@
     },
     {
       "name": "plugin_platform_interface",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.4",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.5",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.18"
     },
     {
       "name": "pluto_menu_bar",
@@ -333,9 +333,9 @@
     },
     {
       "name": "shade_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-c3fdcf4ba4a97d68aa207b1312c4e3280d81826a/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-8bc02f1bf2ae7824e4c951ca618dace2a96429f5/",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "shelf",
@@ -441,13 +441,13 @@
     },
     {
       "name": "url_launcher",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher-6.1.11",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher-6.1.12",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.0"
     },
     {
       "name": "url_launcher_android",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_android-6.0.36",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_android-6.0.38",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -465,9 +465,9 @@
     },
     {
       "name": "url_launcher_macos",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_macos-3.0.5",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_macos-3.0.6",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.18"
     },
     {
       "name": "url_launcher_platform_interface",
@@ -513,7 +513,7 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-11.7.2",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-11.10.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -554,7 +554,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-07-07T18:00:52.402111Z",
+  "generated": "2023-08-29T17:06:00.039338Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }
