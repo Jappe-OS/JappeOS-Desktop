@@ -28,11 +28,11 @@ class WmController {
 
   // Jappeos window spawner
   /// Spawns a new JappeOS window and displays it on the screen.
-  void wm$spawnGuiWindow(WMWindowType type) {
-    _createNewWindow(type);
+  Window wm$spawnGuiWindow(WMWindowType type) {
+    return _createNewWindow(type);
   }
 
-  void _createNewWindow(WMWindowType type) {
+  Window _createNewWindow(WMWindowType type) {
     Window window = Window(type);
 
     // Init onSendToTop.
@@ -84,5 +84,7 @@ class WmController {
 
     // Update Widgets after adding the new window.
     _onUpdate();
+
+    return window;
   }
 }
