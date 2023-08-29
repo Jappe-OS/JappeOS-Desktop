@@ -1,5 +1,5 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
-//  Copyright (C) 2022  Jappe02
+//  Copyright (C) 2023  Jappe02
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
@@ -18,18 +18,6 @@
 
 part of base;
 
-// Constant/Globally Usable properties for the desktop UI.
-const DSKTP_UI_LAYER_TOPBAR_HEIGHT = 30.0;
-
-/// Fields that can be used in the desktop UI.
-class _DesktopThemeProperties {
-  /// Whether to render GUI on the desktop or not, if false, only the WM windows will be rendered.
-  static bool renderGUI = true;
-
-  /// The wallpaper of the desktop background.
-  static String wallpaperAssetDir = "resources/images/desktop/backgrounds/wallpaper2.jpg";
-}
-
 /// The stateful widget for the base desktop UI.
 class Desktop extends StatefulWidget {
   const Desktop({Key? key}) : super(key: key);
@@ -44,17 +32,13 @@ class Desktop extends StatefulWidget {
 class DesktopState extends State<Desktop> {
   // Create a new instance of [WmController].
   static WmController? _wmController;
-  static WmController? getWmController() {
-    return _wmController;
-  }
+  static WmController? getWmController() => _wmController;
 
   @override
   void initState() {
     super.initState();
 
-    _wmController = WmController(() {
-      setState(() {});
-    });
+    _wmController = WmController(() => setState(() {}));
   }
 
   /// The [BuildContext] for the desktop UI, the use of
@@ -78,6 +62,9 @@ class DesktopState extends State<Desktop> {
         break;
     }
   }
+
+  /// Whether to render GUI on the desktop or not, if false, only the WM windows will be rendered.
+  static bool renderGUI = true;
 
   bool dockIsShown = true;
 
@@ -119,7 +106,7 @@ class DesktopState extends State<Desktop> {
                 if (!MOBILE_MODE) dockIsShown = false;
               }),
               child: Container(
-                height: 80,
+                height: DSKTP_UI_LAYER_DOCK_HEIGHT,
                 margin: const EdgeInsets.only(bottom: 10),
                 child: IntrinsicWidth(
                   child: DeuiBlurContainer(
@@ -212,7 +199,9 @@ class DesktopState extends State<Desktop> {
                         _LocalDesktopWidgets._topBarItemIcon(context, Icons.camera)
                       ]),
                       true,
-                      () {}),
+                      () {
+                        setState(() => DesktopMenuController.showMenu(PermissionsMenu()));
+                      }),
                   // QuickSettings button.
                   _LocalDesktopWidgets._topBarItem(
                       null,
@@ -224,7 +213,9 @@ class DesktopState extends State<Desktop> {
                         _LocalDesktopWidgets._topBarItemIcon(context, Icons.battery_full)
                       ]),
                       true,
-                      () {}),
+                      () {
+                        setState(() => DesktopMenuController.showMenu(ControlCenterMenu()));
+                      }),
                   // Notifications and Time&Date button.
                   _LocalDesktopWidgets._topBarItem(
                       null,
@@ -234,7 +225,9 @@ class DesktopState extends State<Desktop> {
                         _LocalDesktopWidgets._topBarItemIcon(context, Icons.notifications)
                       ]),
                       true,
-                      () {}),
+                      () {
+                        setState(() => DesktopMenuController.showMenu(NotificationMenu()));
+                      }),
                 ],
               ),
             ),
@@ -272,6 +265,7 @@ class DesktopState extends State<Desktop> {
 
       // The desktop-menu clicking area to close an active menu.
       if (_dm != null) {
+        _dm?.setStateF =(p0) => setState(p0);
         widgets.add(
           Positioned(
             top: 0,
@@ -297,9 +291,9 @@ class DesktopState extends State<Desktop> {
             child: _dm == null
                 ? null
                 : DeuiBlurContainer(
-                    width: _dm?.getSize()?.width,
-                    height: _dm?.getSize()?.height,
-                    gradient: true,
+                    width: _dm?.getSize()?.width == -1 ? null : _dm?.getSize()?.width,
+                    height: _dm?.getSize()?.height == -1 ? null : _dm?.getSize()?.height,
+                    bordered: true,
                     radiusSides: BorderRadiusSides(true, true, true, true),
                     child: _dm?.getContents(context) ?? const Placeholder(),
                   ),
@@ -311,16 +305,16 @@ class DesktopState extends State<Desktop> {
     }
 
     // Desktop UI.
-    return !_DesktopThemeProperties.renderGUI
+    return !renderGUI
         ? windowLayer
         : Scaffold(
             body: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   // The desktop background image.
-                  image: AssetImage(_DesktopThemeProperties.wallpaperAssetDir),
+                  image: AssetImage(DSKTP_UI_LAYER_BACKGROUND_WALLPAPER_DIR),
                   fit: BoxFit.cover,
                 ),
               ),
