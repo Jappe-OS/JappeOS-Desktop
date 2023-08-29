@@ -34,7 +34,6 @@ class _JappeOsDesktop extends StatelessWidget {
     return const ShadeApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
-      showPerformanceOverlay: true,
       home: Desktop(),
     );
   }
