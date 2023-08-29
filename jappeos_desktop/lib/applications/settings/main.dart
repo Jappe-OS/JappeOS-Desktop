@@ -19,17 +19,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jappeos_desktop/base/base.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:jappeos_desktop/window_manager/window_manager.dart';
-import 'package:shade_ui/shade_ui.dart';
 
 import 'settings_page_widgets.dart';
+
+late Window _settingsWindow;
 
 class Settings extends Application {
   Settings() : super("Settings", "settings", null);
 
   @override
   void app$launch() {
-    DesktopState.getWmController()
-        ?.wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content(), [
+    _settingsWindow = DesktopState.getWmController()!
+        .wm$spawnGuiWindow(NormalWindow("Settings", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content(), [
       const SizedBox(
         width: 300,
         height: 35,
@@ -452,6 +453,22 @@ class _ContentState extends State<_Content> {
                   name: 'Virtualization',
                   controls: [Text(style: Theme.of(context).textTheme.bodyMedium, "None")],
                 ),
+                const Divider(),
+                SettingsPageSetting(
+                  name: 'Other',
+                  controls: [
+                    OutlinedButton(onPressed: () {}, child: const Text("Licenses")),
+                    OutlinedButton(
+                        onPressed: () => DesktopState.getWmController()?.wm$spawnGuiWindow(DialogWindow(
+                              "About Settings",
+                              "Ver: 1.0.0",
+                              [],
+                              () {},
+                              _settingsWindow
+                            )),
+                        child: const Text("About 'Settings'"))
+                  ],
+                ),
               ],
             ),
           ]),
@@ -794,7 +811,7 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
         margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
           borderRadius: br,
-          color: isSelected ? ShadeTheme.clr_OnTranspVersion(Theme.of(context).colorScheme.primary) : null,
+          color: isSelected ? /* (TODO) ShadeTheme.clr_OnTranspVersion(Theme.of(context).colorScheme.primary)*/ Theme.of(context).colorScheme.primary.withOpacity(0.7) : null, // << TODO
         ),
         child: Material(
           color: Colors.transparent,
@@ -879,8 +896,11 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
                   final double paddingValue = constraints.maxWidth < 900 ? 10 : (constraints.maxWidth - 900) / 2 + optimalPad * 2;
 
                   return ListView(
-                    padding:
-                        widget.disableContentPadding ? EdgeInsets.zero : (!widget.dynamicPadding ? const EdgeInsets.all(optimalPad) : EdgeInsets.symmetric(horizontal: paddingValue, vertical: optimalPad)),
+                    padding: widget.disableContentPadding
+                        ? EdgeInsets.zero
+                        : (!widget.dynamicPadding
+                            ? const EdgeInsets.all(optimalPad)
+                            : EdgeInsets.symmetric(horizontal: paddingValue, vertical: optimalPad)),
                     children: [
                       if (!widget.disableTitle)
                         Text(
