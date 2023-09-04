@@ -32,7 +32,9 @@ class ControlCenterMenu extends DesktopMenu {
             _QuickActionItem(text: "Dark Theme", icon: Icons.dark_mode_rounded, selectedInit: true, onPressed: (p0) {}),
             _QuickActionItem(text: "EN_US", icon: Icons.keyboard_rounded, selectedInit: true, onPressed: (p0) {}),
           ]),
+          SizedBox(height: defaultPaddingNum * 2),
           const Divider(),
+          SizedBox(height: defaultPaddingNum * 2),
           Row(children: [
             IconButton(icon: const Icon(Icons.volume_up), onPressed: () {}),
             Expanded(child: Slider(value: 0.5, onChanged: (p0) {})),
