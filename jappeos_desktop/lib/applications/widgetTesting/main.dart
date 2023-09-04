@@ -49,7 +49,7 @@ class _Content extends StatelessWidget {
       );
     }
 
-    return Column(
+    return SingleChildScrollView(child: Column(
       children: [
         Wrap(
           spacing: 10,
@@ -153,6 +153,6 @@ class _Content extends StatelessWidget {
           ],
         )
       ],
-    );
+    ),);
   }
 }
