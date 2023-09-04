@@ -31,6 +31,9 @@ import 'package:jappeos_desktop_ui/widgets/text.dart';
 
 import 'package:jappeos_desktop_ui/widgets/bases/button_base.dart';
 
+import '../applications/appMaker/main.dart';
+import '../applications/calculator/main.dart';
+
 //
 // Base
 part 'constants.dart';

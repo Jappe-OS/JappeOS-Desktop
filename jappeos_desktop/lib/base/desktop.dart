@@ -110,29 +110,16 @@ class DesktopState extends State<Desktop> {
                 margin: const EdgeInsets.only(bottom: 10),
                 child: IntrinsicWidth(
                   child: DeuiBlurContainer(
-                    gradient: true,
                     bordered: true,
                     radiusSides: BorderRadiusSides(true, true, true, true),
-                    child: const Row(
-                      children: [/*
-                        _LocalDesktopWidgets._dockItem(null, () {
-                          Applications.sys$runProcess(WidgetTesting());
-                        }),
-                        _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"), () {
-                          Applications.sys$runProcess(Settings());
-                        }),
-                        _LocalDesktopWidgets._dockItem(null, () {
-                          Applications.sys$runProcess(Test());
-                        }),
+                    child: Row(
+                      children: [
                         _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/development-appmaker.svg"), () {
-                          Applications.sys$runProcess(AppMaker());
-                        }),
-                        _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), () {
-                          Applications.sys$runProcess(Terminal());
+                          AppMaker.new().app$launch();
                         }),
                         _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/accessories-calculator.svg"), () {
-                          Applications.sys$runProcess(Calculator());
-                        }),*/
+                          Calculator.new().app$launch();
+                        }),
                       ],
                     ),
                   ),
@@ -198,10 +185,9 @@ class DesktopState extends State<Desktop> {
                         const SizedBox(width: 3),
                         _LocalDesktopWidgets._topBarItemIcon(context, Icons.camera)
                       ]),
-                      true,
-                      () {
-                        setState(() => DesktopMenuController.showMenu(PermissionsMenu()));
-                      }),
+                      true, () {
+                    setState(() => DesktopMenuController.showMenu(PermissionsMenu()));
+                  }),
                   // QuickSettings button.
                   _LocalDesktopWidgets._topBarItem(
                       null,
@@ -212,10 +198,9 @@ class DesktopState extends State<Desktop> {
                         const SizedBox(width: 3),
                         _LocalDesktopWidgets._topBarItemIcon(context, Icons.battery_full)
                       ]),
-                      true,
-                      () {
-                        setState(() => DesktopMenuController.showMenu(ControlCenterMenu()));
-                      }),
+                      true, () {
+                    setState(() => DesktopMenuController.showMenu(ControlCenterMenu()));
+                  }),
                   // Notifications and Time&Date button.
                   _LocalDesktopWidgets._topBarItem(
                       null,
@@ -224,10 +209,9 @@ class DesktopState extends State<Desktop> {
                         const SizedBox(width: 3),
                         _LocalDesktopWidgets._topBarItemIcon(context, Icons.notifications)
                       ]),
-                      true,
-                      () {
-                        setState(() => DesktopMenuController.showMenu(NotificationMenu()));
-                      }),
+                      true, () {
+                    setState(() => DesktopMenuController.showMenu(NotificationMenu()));
+                  }),
                 ],
               ),
             ),
@@ -265,7 +249,7 @@ class DesktopState extends State<Desktop> {
 
       // The desktop-menu clicking area to close an active menu.
       if (_dm != null) {
-        _dm?.setStateF =(p0) => setState(p0);
+        _dm?.setStateF = (p0) => setState(p0);
         widgets.add(
           Positioned(
             top: 0,
