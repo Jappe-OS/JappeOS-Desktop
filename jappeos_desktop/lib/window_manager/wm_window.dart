@@ -424,7 +424,7 @@ class _WindowState extends State<Window> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              hoverColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.7),
+              hoverColor: Theme.of(context).colorScheme.onInverseSurface,
               mouseCursor: SystemMouseCursors.alias,
               borderRadius: BorderRadius.circular(30),
               onTap: onPress,
