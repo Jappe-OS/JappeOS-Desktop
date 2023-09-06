@@ -27,7 +27,7 @@ class Terminal extends Application {
   @override
   void app$launch() {
     DesktopState.getWmController()
-        ?.wm$spawnGuiWindow(NormalWindow("Terminal", null, WMWindowSize(const Size(400, 300), const Size(400, 300)), true, _Content()));
+        ?.wm$spawnGuiWindow(CustomWindow(blur: true, useDecorationExtent: true, body: _Content()));
   }
 }
 
@@ -49,9 +49,11 @@ class TabsConfig {
 }
 
 class ShadeTabSystemTab extends StatefulWidget {
+  final int index;
+  final VoidCallback updateFunc;
   final String text;
 
-  const ShadeTabSystemTab({Key? key, required this.text}) : super(key: key);
+  const ShadeTabSystemTab({Key? key, required this.index, required this.updateFunc, required this.text}) : super(key: key);
 
   @override
   State<ShadeTabSystemTab> createState() => _ShadeTabSystemTabState();
@@ -63,7 +65,7 @@ class _ShadeTabSystemTabState extends State<ShadeTabSystemTab> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 35,
+      height: WMWindowDragAreaProperties.getDefaultH() + 10 - 5,
       width: 180,
       child: MouseRegion(
         onEnter: (p0) => setState(() => isHovered = true),
@@ -73,12 +75,19 @@ class _ShadeTabSystemTabState extends State<ShadeTabSystemTab> {
             Expanded(
               child: Text(widget.text),
             ),
-            if (isHovered) IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.close),
-              iconSize: 18,
-              padding: EdgeInsets.zero,
-              visualDensity: VisualDensity.compact,
+            AnimatedOpacity(
+              opacity: isHovered ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 100),
+              child: IconButton(
+                onPressed: () {
+                  TabsConfig.tabs.removeAt(widget.index);
+                  widget.updateFunc();
+                },
+                icon: const Icon(Icons.close),
+                iconSize: 18,
+                padding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
+              ),
             ),
           ],
         ),
@@ -96,9 +105,10 @@ class ShadeTabSystem extends StatefulWidget {
 
 class _ShadeTabSystemState extends State<ShadeTabSystem> with TickerProviderStateMixin {
   late TabController controller;
+  int lastIndex = 0;
+
   @override
   void initState() {
-    // TODO: implement initState
     controller = TabController(
       length: TabsConfig.tabs.length,
       vsync: this,
@@ -107,14 +117,22 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with TickerProviderStat
     super.initState();
   }
 
-  void updateTabs() {
+  void updateTabs([int? select]) {
     try {
+      lastIndex = controller.index;
       controller = TabController(
         length: TabsConfig.tabs.length,
         vsync: this,
         initialIndex: TabsConfig.selectedTabIndex,
       );
+      if (lastIndex >= controller.length) {
+        controller.index = controller.length - 1;
+      } else {
+        controller.index = lastIndex;
+      }
+
       setState(() {});
+      if (select != null) controller.animateTo(select);
     } catch (on) {}
   }
 
@@ -126,30 +144,41 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with TickerProviderStat
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            TabBar(
-              isScrollable: true,
-              controller: controller,
-              labelColor: Theme.of(context).textTheme.labelMedium!.color,
-              labelStyle: const TextStyle(fontWeight: FontWeight.w600),
-              unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
-              unselectedLabelColor: Theme.of(context).hintColor,
-              indicatorSize: TabBarIndicatorSize.tab,
-              splashBorderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-              indicator: BoxDecoration(
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                color: Theme.of(context).colorScheme.surface,
-                border: Border.all(width: 1, color: Theme.of(context).colorScheme.outline)
-                // TODO : Non-uniform border sides with radius!! Check line below!
-                //border: Border(
-                //  top: BorderSide(width: 1, color: Theme.of(context).colorScheme.outline),
-                //  left: BorderSide(width: 1, color: Theme.of(context).colorScheme.outline),
-                //  right: BorderSide(width: 1, color: Theme.of(context).colorScheme.outline),
-                //),
-              ),
-              tabs: List.generate(
-                TabsConfig.tabs.length,
-                (index) => ShadeTabSystemTab(text: TabsConfig.tabs[index]),
-              ),
+            Row(
+              children: [
+                Flexible(
+                  child: TabBar(
+                    isScrollable: true,
+                    controller: controller,
+                    labelColor: Theme.of(context).textTheme.labelMedium!.color,
+                    labelStyle: const TextStyle(fontWeight: FontWeight.w600),
+                    unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
+                    unselectedLabelColor: Theme.of(context).hintColor,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    splashBorderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                    indicator: BoxDecoration(
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                    ),
+                    tabs: List.generate(
+                      TabsConfig.tabs.length,
+                      (index) => ShadeTabSystemTab(index: index, updateFunc: () => updateTabs(), text: TabsConfig.tabs[index]),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: () {
+                    TabsConfig.tabs.add('New tab ${TabsConfig.tabs.length}');
+                    updateTabs(TabsConfig.tabs.length - 1);
+                  },
+                  icon: const Icon(Icons.add),
+                  iconSize: 18,
+                  padding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                ),
+                const SizedBox(width: 10),
+              ],
             ),
             Expanded(
               child: TabBarView(
@@ -167,14 +196,6 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with TickerProviderStat
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          TabsConfig.tabs.add('New tab ${TabsConfig.tabs.length}');
-          // setState(() {});
-          updateTabs();
-        },
       ),
     );
   }
