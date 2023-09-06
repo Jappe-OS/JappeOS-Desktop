@@ -21,10 +21,11 @@ class WMWindowSize {
   final Size minimumSize;
   final Size defaultSize;
 
-  WMWindowSize(this.minimumSize, this.defaultSize);
+  const WMWindowSize(this.minimumSize, this.defaultSize);
 }
 
 /// Properties for the window dragging area (size & position).
+/// TODO : Add a way to get drag area height for decorated windows so that they can be used across different window types (or find a better way).
 class WMWindowDragAreaProperties {
   late double x, y, w, h;
 
