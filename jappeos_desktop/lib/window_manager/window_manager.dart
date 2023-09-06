@@ -33,6 +33,7 @@ import '../base/base.dart';
 part 'window_types/wm_window_general.dart';
 part 'window_types/dialog_window.dart';
 part 'window_types/normal_window.dart';
+part 'window_types/custom_window.dart';
 //
 // Window manager base
 part 'wm_controller.dart';
