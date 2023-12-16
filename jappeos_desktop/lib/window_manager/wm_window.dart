@@ -412,26 +412,46 @@ class _WindowState extends State<Window> {
 
   /// The control button widget for the window frame
   Widget _getWindowControlButton(BuildContext context, IconData icon, Function()? onPress) {
+    //return Padding(
+    //  padding: const EdgeInsets.all(0),
+    //  child: SizedBox(
+    //    width: 35,
+    //    height: 35,
+//
+    //      child: Material(
+    //        color: Colors.transparent,
+    //        child: InkWell(
+    //          hoverColor: Theme.of(context).colorScheme.onInverseSurface,
+    //          mouseCursor: SystemMouseCursors.alias,
+    //          borderRadius: BorderRadius.circular(30),
+    //          onTap: onPress,
+    //          child: Center(child: Container(width: 25, height: 25, color: Theme.of(context).colorScheme.onInverseSurface, child: ClipOval(child: Icon(
+    //            icon,
+    //            size: 20,
+    //          ),),),),
+    //        ),
+    //      ),
+//
+    //  ),
+    //);
+
     return Padding(
-      padding: const EdgeInsets.all(4),
-      child: Container(
-        width: 25,
-        height: 25,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: ClipRRect(
+      padding: const EdgeInsets.all(2.5),
+      child: SizedBox(
+        width: 30,
+        height: 30,
+        child: ClipOval(
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              hoverColor: Theme.of(context).colorScheme.onInverseSurface,
+              hoverColor: Colors.transparent,
               mouseCursor: SystemMouseCursors.alias,
               borderRadius: BorderRadius.circular(30),
               onTap: onPress,
-              child: Icon(
+              child: Center(child: Container(width: 25, height: 25, decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: Theme.of(context).colorScheme.onInverseSurface), child: Icon(
                 icon,
-                size: 20,
-              ),
+                size: 13,
+              ),),),
             ),
           ),
         ),

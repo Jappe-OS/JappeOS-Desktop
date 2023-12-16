@@ -17,6 +17,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:jappeos_desktop/base/base.dart';
 import 'package:jappeos_desktop/window_manager/window_manager.dart';
@@ -72,6 +73,8 @@ class _ShadeTabSystemTabState extends State<ShadeTabSystemTab> {
         onExit: (p0) => setState(() => isHovered = false),
         child: Row(
           children: [
+            SizedBox(width: 18, height: 18, child: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg")),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(widget.text),
             ),
@@ -177,7 +180,7 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with TickerProviderStat
                   padding: EdgeInsets.zero,
                   visualDensity: VisualDensity.compact,
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: WM_UI_WINDOW_RESERVED_CONTROL_BUTTONS_SIZE.width),
               ],
             ),
             Expanded(
@@ -187,8 +190,17 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with TickerProviderStat
                   TabsConfig.tabs.length,
                   (index) => Container(
                     color: Theme.of(context).colorScheme.background,
-                    child: Center(
-                      child: Text("${TabsConfig.tabs[index]}"),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(height: 40, color: Theme.of(context).colorScheme.onInverseSurface, child: Row(
+                          children: [
+                            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward)),
+                          ],
+                        ),),
+                        Text("${TabsConfig.tabs[index]}"),
+                      ],
                     ),
                   ),
                 ),
@@ -200,98 +212,3 @@ class _ShadeTabSystemState extends State<ShadeTabSystem> with TickerProviderStat
     );
   }
 }
-
-class ShadeTabItem {
-  final String title;
-  final Widget content;
-
-  ShadeTabItem({required this.title, required this.content});
-}
-
-//class ShadeTabSystem extends StatefulWidget {
-//  const ShadeTabSystem({Key? key}) : super(key: key);
-//
-//  @override
-//  _ShadeTabSystemState createState() => _ShadeTabSystemState();
-//}
-//
-//class _ShadeTabSystemState extends State<ShadeTabSystem> with SingleTickerProviderStateMixin {
-//  late TabController _tabController;
-//  int _tabCount = 3;
-//
-//  List<List<Widget>> _tabs = [];
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    _tabController = TabController(length: _tabCount, vsync: _VsyncProvider(this));
-//  }
-//
-//  @override
-//  void dispose() {
-//    _tabController.dispose();
-//    super.dispose();
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    _tabs = [
-//      _tab(context, "Tab1", const Text("Content for Tab 1")),
-//      _tab(context, "Tab2", const Text("Content for Tab 2")),
-//      _tab(context, "Tab3", const Text("Content for Tab 3")),
-//      [const Icon(Icons.add), const Placeholder()],
-//    ];
-//
-//    _updateTabControllerLength();
-//
-//    return Container(
-//      // Rest of the code...
-//    );
-//  }
-//
-//  List<Widget> _tab(BuildContext ctx, String text, Widget content) {
-//    return [
-//      Tab(
-//        height: 35,
-//        child: Container(
-//          constraints: const BoxConstraints(minWidth: 180),
-//          child: Center(
-//            child: Text(
-//              text,
-//            ),
-//          ),
-//        ),
-//      ),
-//      Container(
-//        color: Theme.of(context).colorScheme.background,
-//        child: content,
-//      ),
-//    ];
-//  }
-//
-//  void _addTab() {
-//    setState(() {
-//      _tabCount++;
-//      _tabs.insert(
-//        _tabs.length - 1,
-//        _tab(context, "Tab$_tabCount", Text("Content for Tab $_tabCount")),
-//      );
-//      _updateTabControllerLength();
-//      _tabController.animateTo(_tabs.length - 2);
-//    });
-//  }
-//
-//  void _updateTabControllerLength() {
-//    _tabController.dispose();
-//    _tabController = TabController(length: _tabs.length, vsync: _VsyncProvider(this));
-//  }
-//}
-//
-//class _VsyncProvider implements TickerProvider {
-//  final _ShadeTabSystemState state;
-//
-//  _VsyncProvider(this.state);
-//
-//  @override
-//  Ticker createTicker(TickerCallback onTick) => Ticker(onTick, debugLabel: 'vsync');
-//}
