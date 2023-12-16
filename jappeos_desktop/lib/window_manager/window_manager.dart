@@ -16,28 +16,19 @@
 
 library window_manager;
 
-import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:event/event.dart';
+import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:jappeos_desktop/main.dart';
 import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
 import 'package:jappeos_desktop_ui/widgets/solid_container.dart';
 import 'package:jappeos_desktop_ui/widgets/text.dart';
 
-import '../base/base.dart';
-
-//
-// Window types
-part 'window_types/wm_window_general.dart';
-part 'window_types/dialog_window.dart';
-part 'window_types/normal_window.dart';
-part 'window_types/custom_window.dart';
 //
 // Window manager base
-part 'constants.dart';
-part 'wm_controller.dart';
-part 'wm_manager.dart';
-part 'wm_window.dart';
+part 'window.dart';
+part 'window_stack.dart';
+part 'window_stack_controller.dart';
+part 'window_widgets.dart';

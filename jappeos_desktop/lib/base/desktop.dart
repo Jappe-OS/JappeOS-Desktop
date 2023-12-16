@@ -31,14 +31,14 @@ class Desktop extends StatefulWidget {
 /// See [WmController] for more information on the windowing system.
 class DesktopState extends State<Desktop> {
   // Create a new instance of [WmController].
-  static WmController? _wmController;
-  static WmController? getWmController() => _wmController;
+  static WindowStackController? _wmController;
+  static WindowStackController? getWmController() => _wmController;
 
   @override
   void initState() {
     super.initState();
 
-    _wmController = WmController(() => setState(() {}));
+    _wmController = WindowStackController(() => setState(() {}));
   }
 
   /// The [BuildContext] for the desktop UI, the use of
@@ -80,7 +80,7 @@ class DesktopState extends State<Desktop> {
       bottom: 0,
       child: Stack(
         children: [
-          WmManager(
+          WindowStack(
             wmController: _wmController,
           ),
         ],
@@ -115,10 +115,10 @@ class DesktopState extends State<Desktop> {
                     child: Row(
                       children: [
                         _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/development-appmaker.svg"), () {
-                          AppMaker.new().app$launch();
+                          //AppMaker.new().app$launch(); TODO
                         }),
                         _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/accessories-calculator.svg"), () {
-                          Calculator.new().app$launch();
+                          //Calculator.new().app$launch(); TODO
                         }),
                       ],
                     ),

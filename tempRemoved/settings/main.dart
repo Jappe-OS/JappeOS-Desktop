@@ -22,7 +22,7 @@ import 'package:jappeos_desktop/window_manager/window_manager.dart';
 
 import 'settings_page_widgets.dart';
 
-late Window _settingsWindow;
+late WindowOld _settingsWindow;
 
 class Settings extends Application {
   Settings() : super("Settings", "settings", null);
@@ -459,13 +459,8 @@ class _ContentState extends State<_Content> {
                   controls: [
                     OutlinedButton(onPressed: () {}, child: const Text("Licenses")),
                     OutlinedButton(
-                        onPressed: () => DesktopState.getWmController()?.wm$spawnGuiWindow(DialogWindow(
-                              "About Settings",
-                              "Ver: 1.0.0",
-                              [],
-                              () {},
-                              _settingsWindow
-                            )),
+                        onPressed: () => DesktopState.getWmController()
+                            ?.wm$spawnGuiWindow(DialogWindow("About Settings", "Ver: 1.0.0", [], () {}, _settingsWindow)),
                         child: const Text("About 'Settings'"))
                   ],
                 ),
@@ -811,7 +806,12 @@ class _ShadeSidebarLayoutState extends State<ShadeSidebarLayout> {
         margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
           borderRadius: br,
-          color: isSelected ? /* (TODO) ShadeTheme.clr_OnTranspVersion(Theme.of(context).colorScheme.primary)*/ Theme.of(context).colorScheme.primary.withOpacity(0.7) : null, // << TODO
+          color: isSelected
+              ? /* (TODO) ShadeTheme.clr_OnTranspVersion(Theme.of(context).colorScheme.primary)*/ Theme.of(context)
+                  .colorScheme
+                  .primary
+                  .withOpacity(0.7)
+              : null, // << TODO
         ),
         child: Material(
           color: Colors.transparent,

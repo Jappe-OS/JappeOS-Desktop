@@ -101,12 +101,12 @@ class LauncherMenu extends DesktopMenu {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () => Terminal.new().app$launch()),
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"), "Settings", () => Settings.new().app$launch()),
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "ShadeUI Test", () => WidgetTesting.new().app$launch()),
+                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal",
+                                  () /*=> Terminal.new().app$launch()*/ {}),
+                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"), "Settings",
+                                  () /*=> Settings.new().app$launch()*/ {}),
+                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "ShadeUI Test",
+                                  () => WidgetTesting.new().app$launch()),
                               DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {})
                             ],
                           ),

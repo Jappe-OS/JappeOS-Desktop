@@ -42,6 +42,8 @@ dependencies:
   flutter_code_editor: ^0.2.23
   highlight: ^0.7.0
   flutter_svg: ^2.0.6
+  vector_math: ^2.1.4
+  davinci: ^2.1.1
 
 dev_dependencies:
   flutter_test:

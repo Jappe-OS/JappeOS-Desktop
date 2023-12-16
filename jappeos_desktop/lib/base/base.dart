@@ -18,8 +18,6 @@ library base;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jappeos_desktop/applications/settings/main.dart';
-import 'package:jappeos_desktop/applications/terminal/main.dart';
 import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/main.dart';
 import 'package:jappeos_desktop/window_manager/window_manager.dart';
@@ -31,8 +29,6 @@ import 'package:jappeos_desktop_ui/widgets/text.dart';
 
 import 'package:jappeos_desktop_ui/widgets/bases/button_base.dart';
 
-import '../applications/appMaker/main.dart';
-import '../applications/calculator/main.dart';
 
 //
 // Base
