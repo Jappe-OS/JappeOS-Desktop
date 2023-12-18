@@ -60,8 +60,10 @@ class _WindowStackItemState extends State<_WindowStackItem> {
 
   @override
   Widget build(BuildContext context) {
+    WindowContent wcontent = WindowContent(texture: e.render);
+
     WindowWidget wgt = WindowWidget(
-      content: WindowContent(texture: Uint8List(0)),
+      content: wcontent,
       windowBackgroundMode: e.bgRenderMode,
       windowIsFocused: e.isFocused,
       windowIsResizable: e.isResizable,
@@ -74,7 +76,9 @@ class _WindowStackItemState extends State<_WindowStackItem> {
     );
 
     e.onEvent.subscribe((args) {
-      if (args!.id != "onNewRender") setState(() {});
+      if (args!.id != "onNewRender") {
+        setState(() {});
+      } else {}
     });
 
     return Positioned(
@@ -85,5 +89,22 @@ class _WindowStackItemState extends State<_WindowStackItem> {
       key: wgt.key,
       child: wgt,
     );
+  }
+}
+
+// TODO : Is this even needed?
+class _WindowContentRenderingWrapper extends StatefulWidget {
+  final Window window;
+
+  const _WindowContentRenderingWrapper({Key? key, required this.window}) : super(key: key);
+
+  @override
+  _WindowContentRenderingWrapperState createState() => _WindowContentRenderingWrapperState();
+}
+
+class _WindowContentRenderingWrapperState extends State<_WindowContentRenderingWrapper> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

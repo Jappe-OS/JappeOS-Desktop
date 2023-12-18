@@ -394,9 +394,9 @@ class _WindowHeaderState extends State<WindowHeader> {
 }
 
 class WindowContent extends StatefulWidget {
-  final Uint8List texture;
+  final Uint8List? texture;
 
-  const WindowContent({Key? key, required this.texture}) : super(key: key);
+  const WindowContent({Key? key, this.texture}) : super(key: key);
 
   @override
   _WindowContentState createState() => _WindowContentState();
@@ -406,6 +406,6 @@ class _WindowContentState extends State<WindowContent> {
   @override
   Widget build(BuildContext context) {
     // TODO
-    return Image.memory(widget.texture);
+    return widget.texture != null ? Image.memory(widget.texture!) : const Placeholder();
   }
 }

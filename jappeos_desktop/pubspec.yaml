@@ -44,6 +44,7 @@ dependencies:
   flutter_svg: ^2.0.6
   vector_math: ^2.1.4
   davinci: ^2.1.1
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:

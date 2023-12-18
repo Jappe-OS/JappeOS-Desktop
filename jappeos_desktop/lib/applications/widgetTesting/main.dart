@@ -14,12 +14,11 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import 'dart:typed_data';
-
-import 'package:davinci/davinci.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:shade_ui/widgets/shade_menu_strip.dart';
+import 'package:http/http.dart' as http;
 
 import '../../base/base.dart';
 import '../../window_manager/window_manager.dart';
@@ -30,11 +29,18 @@ class WidgetTesting extends Application {
   @override
   void app$launch() {
     var window = DesktopState.getWmController()!.createWindow();
-    DavinciCapture.offStage(
-      _Content(window),
-      context: DesktopState.publicContext!,
-      returnImageUint8List: true,
-    ).then((value) => window.setRender(value as Uint8List));
+    _image().then((value) => window.setRender(value));
+  }
+
+  Future<Uint8List> _image() async {
+    const imageUrl = "https://miro.medium.com/v2/resize:fit:505/1*QxLJhfnx-8Lx_FuuXVu5Uw.png";
+    final response = await http.get(Uri.parse(imageUrl));
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception('Failed to load image');
+    }
   }
 }
 
