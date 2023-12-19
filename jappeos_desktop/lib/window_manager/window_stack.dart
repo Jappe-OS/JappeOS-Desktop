@@ -31,8 +31,10 @@ class WindowStack extends StatefulWidget {
 class _WindowStackState extends State<WindowStack> {
   @override
   Widget build(BuildContext context) {
+    /*TODO: Remove*/ print("WindowStack build func.");
     return Stack(
       children: widget.wmController!.windows.map((e) {
+        /*TODO: Remove*/ print("New window stack item.");
         return _WindowStackItem(window: e);
       }).toList(),
     );
@@ -50,6 +52,7 @@ class _WindowStackItem extends StatefulWidget {
 
 // TODO: Handle new renders and update image
 class _WindowStackItemState extends State<_WindowStackItem> {
+  GlobalKey<_WindowContentState> wcontentKey = GlobalKey();
   late Window e;
 
   @override
@@ -59,8 +62,14 @@ class _WindowStackItemState extends State<_WindowStackItem> {
   }
 
   @override
+  void dispose() {
+    e.onEvent.unsubscribeAll();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    WindowContent wcontent = WindowContent(texture: e.render);
+    WindowContent wcontent = WindowContent(key: wcontentKey, texture: e.render);
 
     WindowWidget wgt = WindowWidget(
       content: wcontent,
@@ -75,12 +84,19 @@ class _WindowStackItemState extends State<_WindowStackItem> {
       closeCallback: e._close,
     );
 
+    /*TODO: Remove*/ print("_WindowStackItemState subscribing to onEvent!");
     e.onEvent.subscribe((args) {
+      /*TODO: Remove*/ print("e.onEvent begin");
       if (args!.id != "onNewRender") {
+        /*TODO: Remove*/ print("e.onEvent event! Not on render. (${args.id})");
         setState(() {});
-      } else {}
+      } else {
+        /*TODO: Remove*/ print("e.onEvent new render event!");
+        wcontentKey.currentState!.setState(() {});
+      }
     });
 
+    /*TODO: Remove*/ print("_WindowStackItemState returning positioned!");
     return Positioned(
       left: e.pos.x,
       top: e.pos.y,
@@ -89,22 +105,5 @@ class _WindowStackItemState extends State<_WindowStackItem> {
       key: wgt.key,
       child: wgt,
     );
-  }
-}
-
-// TODO : Is this even needed?
-class _WindowContentRenderingWrapper extends StatefulWidget {
-  final Window window;
-
-  const _WindowContentRenderingWrapper({Key? key, required this.window}) : super(key: key);
-
-  @override
-  _WindowContentRenderingWrapperState createState() => _WindowContentRenderingWrapperState();
-}
-
-class _WindowContentRenderingWrapperState extends State<_WindowContentRenderingWrapper> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

@@ -70,6 +70,8 @@ class DesktopState extends State<Desktop> {
 
   @override
   Widget build(BuildContext context) {
+/*TODO: Remove*/ print("DESKTOP REBUILD");
+
     publicContext = context;
 
     // The window layer of the desktop UI.
@@ -78,7 +80,7 @@ class DesktopState extends State<Desktop> {
       right: 0,
       top: 0,
       bottom: 0,
-      child: Stack(
+      child: Stack( // <-- TODO: Remove extra stack
         children: [
           WindowStack(
             wmController: _wmController,

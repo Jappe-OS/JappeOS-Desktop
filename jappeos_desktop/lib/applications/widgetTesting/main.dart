@@ -19,6 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:jappeos_desktop/application.dart';
 import 'package:shade_ui/widgets/shade_menu_strip.dart';
 import 'package:http/http.dart' as http;
+import 'package:vector_math/vector_math.dart' hide Colors;
 
 import '../../base/base.dart';
 import '../../window_manager/window_manager.dart';
@@ -28,7 +29,10 @@ class WidgetTesting extends Application {
 
   @override
   void app$launch() {
-    var window = DesktopState.getWmController()!.createWindow();
+    var window = DesktopState.getWmController()!.createWindow()
+    ..setSize(Vector2(400, 400), true)
+    ..setMinSize(Vector2(400, 400));
+    /*TODO: Remove*/ print("WidgetTesting window created. Size: ${window.size}");
     _image().then((value) => window.setRender(value));
   }
 

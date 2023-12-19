@@ -90,8 +90,8 @@ class Window {
     onPosChanged.broadcast(WindowEvent._("onPosChanged", this.pos));
   }
 
-  void setSize(Vector2 size) {
-    if (!isResizable) return;
+  void setSize(Vector2 size, [bool forceSetSize = false]) {
+    if (!isResizable && !forceSetSize) return;
     setState(WindowState.normal);
     _size = size;
     onSizeChanged.broadcast(WindowEvent._("onSizeChanged", this.size));

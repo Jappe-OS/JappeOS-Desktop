@@ -56,7 +56,12 @@ class _WindowWidgetState extends State<WindowWidget> {
   @override
   Widget build(BuildContext context) {
     WindowHeader header = WindowHeader(
-        maximizeButton: widget.windowIsResizable, windowPos: widget.windowPos, windowState: widget.windowState, posCallback: widget.posCallback, stateCallback: widget.stateCallback, closeCallback: widget.closeCallback);
+        maximizeButton: widget.windowIsResizable,
+        windowPos: widget.windowPos,
+        windowState: widget.windowState,
+        posCallback: widget.posCallback,
+        stateCallback: widget.stateCallback,
+        closeCallback: widget.closeCallback);
 
     // The window base widget, anything can be added on top later on
     Widget base(Widget child) {
@@ -80,148 +85,150 @@ class _WindowWidgetState extends State<WindowWidget> {
       }
     }
 
-    List<Widget> resizeAreas = !widget.windowIsResizable ? [] : [
-      // Right
-      Positioned(
-        right: 0,
-        top: 0,
-        bottom: 0,
-        child: GestureDetector(
-          onHorizontalDragUpdate: _onHorizontalDragRight,
-          child: MouseRegion(
-            cursor: SystemMouseCursors.resizeLeftRight,
-            opaque: true,
-            child: Container(
-              width: kResizeAreaThickness,
+    List<Widget> resizeAreas = !widget.windowIsResizable
+        ? []
+        : [
+            // Right
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: GestureDetector(
+                onHorizontalDragUpdate: _onHorizontalDragRight,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.resizeLeftRight,
+                  opaque: true,
+                  child: Container(
+                    width: kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      // Left
-      Positioned(
-        left: 0,
-        top: 0,
-        bottom: 0,
-        child: GestureDetector(
-          onHorizontalDragUpdate: _onHorizontalDragLeft,
-          child: MouseRegion(
-            cursor: SystemMouseCursors.resizeLeftRight,
-            opaque: true,
-            child: Container(
-              width: kResizeAreaThickness,
+            // Left
+            Positioned(
+              left: 0,
+              top: 0,
+              bottom: 0,
+              child: GestureDetector(
+                onHorizontalDragUpdate: _onHorizontalDragLeft,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.resizeLeftRight,
+                  opaque: true,
+                  child: Container(
+                    width: kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      // Top
-      Positioned(
-        left: 0,
-        top: 0,
-        right: 0,
-        child: GestureDetector(
-          onVerticalDragUpdate: _onVerticalDragTop,
-          child: MouseRegion(
-            cursor: SystemMouseCursors.resizeUpDown,
-            opaque: true,
-            child: Container(
-              height: kResizeAreaThickness,
+            // Top
+            Positioned(
+              left: 0,
+              top: 0,
+              right: 0,
+              child: GestureDetector(
+                onVerticalDragUpdate: _onVerticalDragTop,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpDown,
+                  opaque: true,
+                  child: Container(
+                    height: kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      // Bottom
-      Positioned(
-        left: 0,
-        bottom: 0,
-        right: 0,
-        child: GestureDetector(
-          onVerticalDragUpdate: _onVerticalDragBottom,
-          child: MouseRegion(
-            cursor: SystemMouseCursors.resizeUpDown,
-            opaque: true,
-            child: Container(
-              height: kResizeAreaThickness,
+            // Bottom
+            Positioned(
+              left: 0,
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+                onVerticalDragUpdate: _onVerticalDragBottom,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpDown,
+                  opaque: true,
+                  child: Container(
+                    height: kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      // BottomRight
-      Positioned(
-        bottom: 0,
-        right: 0,
-        child: GestureDetector(
-          onPanUpdate: (p0) {
-            _onHorizontalDragRight(p0);
-            _onVerticalDragBottom(p0);
-          },
-          child: const MouseRegion(
-            cursor: SystemMouseCursors.resizeUpLeftDownRight,
-            opaque: true,
-            child: SizedBox(
-              height: 1.5 * kResizeAreaThickness,
-              width: 1.5 * kResizeAreaThickness,
+            // BottomRight
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+                onPanUpdate: (p0) {
+                  _onHorizontalDragRight(p0);
+                  _onVerticalDragBottom(p0);
+                },
+                child: const MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                  opaque: true,
+                  child: SizedBox(
+                    height: 1.5 * kResizeAreaThickness,
+                    width: 1.5 * kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      // BottomLeft
-      Positioned(
-        bottom: 0,
-        left: 0,
-        child: GestureDetector(
-          onPanUpdate: (p0) {
-            _onHorizontalDragLeft(p0);
-            _onVerticalDragBottom(p0);
-          },
-          child: const MouseRegion(
-            cursor: SystemMouseCursors.resizeUpRightDownLeft,
-            opaque: true,
-            child: SizedBox(
-              height: 1.5 * kResizeAreaThickness,
-              width: 1.5 * kResizeAreaThickness,
+            // BottomLeft
+            Positioned(
+              bottom: 0,
+              left: 0,
+              child: GestureDetector(
+                onPanUpdate: (p0) {
+                  _onHorizontalDragLeft(p0);
+                  _onVerticalDragBottom(p0);
+                },
+                child: const MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpRightDownLeft,
+                  opaque: true,
+                  child: SizedBox(
+                    height: 1.5 * kResizeAreaThickness,
+                    width: 1.5 * kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      // TopRight
-      Positioned(
-        top: 0,
-        right: 0,
-        child: GestureDetector(
-          onPanUpdate: (p0) {
-            _onHorizontalDragRight(p0);
-            _onVerticalDragTop(p0);
-          },
-          child: const MouseRegion(
-            cursor: SystemMouseCursors.resizeUpRightDownLeft,
-            opaque: true,
-            child: SizedBox(
-              height: 1.5 * kResizeAreaThickness,
-              width: 1.5 * kResizeAreaThickness,
+            // TopRight
+            Positioned(
+              top: 0,
+              right: 0,
+              child: GestureDetector(
+                onPanUpdate: (p0) {
+                  _onHorizontalDragRight(p0);
+                  _onVerticalDragTop(p0);
+                },
+                child: const MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpRightDownLeft,
+                  opaque: true,
+                  child: SizedBox(
+                    height: 1.5 * kResizeAreaThickness,
+                    width: 1.5 * kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      // TopLeft
-      Positioned(
-        left: 0,
-        top: 0,
-        child: GestureDetector(
-          onPanUpdate: (p0) {
-            _onHorizontalDragLeft(p0);
-            _onVerticalDragTop(p0);
-          },
-          child: const MouseRegion(
-            cursor: SystemMouseCursors.resizeUpLeftDownRight,
-            opaque: true,
-            child: SizedBox(
-              height: 1.5 * kResizeAreaThickness,
-              width: 1.5 * kResizeAreaThickness,
+            // TopLeft
+            Positioned(
+              left: 0,
+              top: 0,
+              child: GestureDetector(
+                onPanUpdate: (p0) {
+                  _onHorizontalDragLeft(p0);
+                  _onVerticalDragTop(p0);
+                },
+                child: const MouseRegion(
+                  cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                  opaque: true,
+                  child: SizedBox(
+                    height: 1.5 * kResizeAreaThickness,
+                    width: 1.5 * kResizeAreaThickness,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-    ];
+          ];
 
     return Stack(
       children: [
@@ -405,7 +412,7 @@ class WindowContent extends StatefulWidget {
 class _WindowContentState extends State<WindowContent> {
   @override
   Widget build(BuildContext context) {
-    // TODO
+    print(" --- Window Contents Rebuilt!!!"); // TODO: Remove print
     return widget.texture != null ? Image.memory(widget.texture!) : const Placeholder();
   }
 }

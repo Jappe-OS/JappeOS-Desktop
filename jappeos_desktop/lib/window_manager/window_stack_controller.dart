@@ -27,11 +27,12 @@ class WindowStackController {
   final VoidCallback _onUpdate;
 
   Window createWindow() {
+    /*TODO: Remove*/ print("Begin window creation.");
     Window window = Window();
 
     // Init onFocusChanged.
-    window.onFocusChanged.subscribe((args) {
-      if (!args!.value) return;
+    void onFocusChangedEvent(WindowEvent<bool>? val) {
+      if (!val!.value) return;
 
       // Put on top of stack.
       _windows.remove(window);
@@ -41,31 +42,41 @@ class WindowStackController {
       if (index >= 0 && index < _windows.length) _windows[index].setFocus(false);
 
       _onUpdate();
-    });
+    }
 
     // Init onPosChanged.
-    window.onPosChanged.subscribe((args) {
+    void onPosChangedEvent(WindowEvent<Vector2>? val) {
       window.setFocus(true);
       _onUpdate();
-    });
+    }
 
-    // Set initial position.
-    Random rng = Random();
-    window.setPos(Vector2(rng.nextDouble() * 500, rng.nextDouble() * 500));
+    // Subscribe to events
+    window.onFocusChanged.subscribe(onFocusChangedEvent);
+    window.onPosChanged.subscribe(onPosChangedEvent);
 
     // Add Window to List.
     _windows.add(window);
     window.setFocus(true);
 
+    // Set initial position.
+    Random rng = Random();
+    window.setPos(Vector2(rng.nextDouble() * 500, rng.nextDouble() * 500));
+
     // Close callback
+    /*TODO: Remove*/ print("createWindow set window close callback");
     window._close = () {
+      // Unsubscribe from events
+      window.onFocusChanged.unsubscribe(onFocusChangedEvent);
+      window.onPosChanged.unsubscribe(onPosChangedEvent);
+
+      // Remove window and rebuild widget tree.
       _windows.remove(window);
       _onUpdate();
     };
 
     // Update Widgets after adding the new window.
     _onUpdate();
-
+    /*TODO: Remove*/ print("Window creation done. Returning window object. Window list: $windows");
     return window;
   }
 }
