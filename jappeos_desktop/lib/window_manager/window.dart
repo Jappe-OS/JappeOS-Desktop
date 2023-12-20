@@ -17,7 +17,7 @@
 part of window_manager;
 
 class Window {
-  Window() {
+  Window._() {
     onTitleChanged.subscribe((args) => onEvent.broadcast(args));
     onFocusChanged.subscribe((args) => onEvent.broadcast(args));
     onResizableChanged.subscribe((args) => onEvent.broadcast(args));
@@ -27,6 +27,20 @@ class Window {
     onMinSizeChanged.subscribe((args) => onEvent.broadcast(args));
     onStateChanged.subscribe((args) => onEvent.broadcast(args));
     onNewRender.subscribe((args) => onEvent.broadcast(args));
+  }
+
+  void _dispose() {
+    onTitleChanged.unsubscribeAll();
+    onFocusChanged.unsubscribeAll();
+    onResizableChanged.unsubscribeAll();
+    onBackgroundRenderModeChanged.unsubscribeAll();
+    onPosChanged.unsubscribeAll();
+    onSizeChanged.unsubscribeAll();
+    onMinSizeChanged.unsubscribeAll();
+    onStateChanged.unsubscribeAll();
+    onNewRender.unsubscribeAll();
+
+    onEvent.unsubscribeAll();
   }
 
   // Variable store and getters

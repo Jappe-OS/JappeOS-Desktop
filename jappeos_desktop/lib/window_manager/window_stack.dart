@@ -88,8 +88,8 @@ class _WindowStackItemState extends State<_WindowStackItem> {
     e.onEvent.subscribe((args) {
       /*TODO: Remove*/ print("e.onEvent begin");
       if (args!.id != "onNewRender") {
-        /*TODO: Remove*/ print("e.onEvent event! Not on render. (${args.id})");
-        setState(() {});
+        /*TODO: Remove*/ print("e.onEvent event! Not on render. (name: \"${args.id}\", value: \"${args.value}\")");
+        //setState(() {}); TODO: SetState here ONLY when needed. See [WindowStackController]'s createWindow function!
       } else {
         /*TODO: Remove*/ print("e.onEvent new render event!");
         wcontentKey.currentState!.setState(() {});

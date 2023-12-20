@@ -31,7 +31,8 @@ class WidgetTesting extends Application {
   void app$launch() {
     var window = DesktopState.getWmController()!.createWindow()
     ..setSize(Vector2(400, 400), true)
-    ..setMinSize(Vector2(400, 400));
+    ..setMinSize(Vector2(400, 400))
+    ..setResizable(true);
     /*TODO: Remove*/ print("WidgetTesting window created. Size: ${window.size}");
     _image().then((value) => window.setRender(value));
   }

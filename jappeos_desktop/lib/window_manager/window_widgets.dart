@@ -313,6 +313,8 @@ class _WindowHeaderState extends State<WindowHeader> {
       height: widget.customWindowDecorations != null ? 45 : 35,
       color: widget.customColor ?? Theme.of(context).colorScheme.background,
       child: Listener(
+        behavior: HitTestBehavior.translucent,
+
         // When the window is dragged
         onPointerMove: (p) {
           _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
@@ -324,11 +326,11 @@ class _WindowHeaderState extends State<WindowHeader> {
 
           _freeDrag = true;
 
-          widget.posCallback(Vector2(p.delta.dx + (_dragBool ? _dragOffset!.dx : 0), p.delta.dy + (_dragBool ? _dragOffset!.dy : 0)));
+          widget.posCallback(Vector2(p.delta.dx + (_dragBool ? _dragOffset!.dx : widget.windowPos.x), p.delta.dy + (_dragBool ? _dragOffset!.dy : widget.windowPos.y)));
           _dragBool = false;
 
           if (widget.windowPos.y < 5) {
-            widget.posCallback(Vector2(0, 5));
+            widget.posCallback(Vector2(widget.windowPos.x, 5));
           }
         },
 
@@ -336,7 +338,7 @@ class _WindowHeaderState extends State<WindowHeader> {
         onPointerDown: (p) {
           _dragOffset = Offset.zero;
           _freeDrag = false;
-          if (widget.windowState != WindowState.maximized) widget.posCallback(widget.windowPos);
+          //if (widget.windowState != WindowState.maximized) widget.posCallback(widget.windowPos);
         },
 
         onPointerUp: (p) {

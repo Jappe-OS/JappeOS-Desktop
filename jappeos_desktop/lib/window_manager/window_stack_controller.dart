@@ -28,11 +28,11 @@ class WindowStackController {
 
   Window createWindow() {
     /*TODO: Remove*/ print("Begin window creation.");
-    Window window = Window();
+    Window window = Window._();
 
     // Init onFocusChanged.
     void onFocusChangedEvent(WindowEvent<bool>? val) {
-      if (!val!.value) return;
+      if (!val!.value || window.isFocused) return;
 
       // Put on top of stack.
       _windows.remove(window);
@@ -46,8 +46,8 @@ class WindowStackController {
 
     // Init onPosChanged.
     void onPosChangedEvent(WindowEvent<Vector2>? val) {
+      // Calling this fires the onFocusChanged event which updates the UI, no _onUpdate() call needed in this method.
       window.setFocus(true);
-      _onUpdate();
     }
 
     // Subscribe to events
@@ -70,6 +70,7 @@ class WindowStackController {
       window.onPosChanged.unsubscribe(onPosChangedEvent);
 
       // Remove window and rebuild widget tree.
+      window._dispose();
       _windows.remove(window);
       _onUpdate();
     };
