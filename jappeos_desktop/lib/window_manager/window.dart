@@ -100,6 +100,7 @@ class Window {
 
   void setPos(Vector2 pos) {
     setState(WindowState.normal);
+    /* TODO: Remove */ print("Window set pos ($pos)");
     _pos = pos;
     onPosChanged.broadcast(WindowEvent._("onPosChanged", this.pos));
   }
@@ -107,6 +108,7 @@ class Window {
   void setSize(Vector2 size, [bool forceSetSize = false]) {
     if (!isResizable && !forceSetSize) return;
     setState(WindowState.normal);
+    /* TODO: Remove */ print("Window set size ($size)");
     _size = size;
     onSizeChanged.broadcast(WindowEvent._("onSizeChanged", this.size));
   }

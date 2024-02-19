@@ -25,9 +25,10 @@ class WindowWidget extends StatefulWidget {
   final bool windowIsFocused;
   final bool windowIsResizable;
   final Vector2 windowPos;
+  final Vector2 windowSize;
   final WindowState windowState;
 
-  final Function(Vector2 delta) resizeCallback;
+  final Function(Vector2 newVal) resizeCallback;
   final Function(Vector2 newVal) posCallback;
   final Function(WindowState newVal) stateCallback;
   final Function() closeCallback;
@@ -39,6 +40,7 @@ class WindowWidget extends StatefulWidget {
       required this.windowIsFocused,
       required this.windowIsResizable,
       required this.windowPos,
+      required this.windowSize,
       required this.windowState,
       required this.resizeCallback,
       required this.posCallback,
@@ -52,6 +54,10 @@ class WindowWidget extends StatefulWidget {
 
 class _WindowWidgetState extends State<WindowWidget> {
   static const kResizeAreaThickness = 5.0;
+
+  Vector2 oldWindowPos = Vector2.zero();
+  Vector2 oldWindowSize = Vector2.zero();
+  Offset? _dragOffset;
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +99,16 @@ class _WindowWidgetState extends State<WindowWidget> {
               right: 0,
               top: 0,
               bottom: 0,
-              child: GestureDetector(
-                onHorizontalDragUpdate: _onHorizontalDragRight,
-                child: MouseRegion(
+              child: _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    oldWindowSize.x + _dragOffset!.dx,
+                    widget.windowSize.y,
+                  ));
+                },
+                MouseRegion(
                   cursor: SystemMouseCursors.resizeLeftRight,
                   opaque: true,
                   child: Container(
@@ -109,9 +122,21 @@ class _WindowWidgetState extends State<WindowWidget> {
               left: 0,
               top: 0,
               bottom: 0,
-              child: GestureDetector(
-                onHorizontalDragUpdate: _onHorizontalDragLeft,
-                child: MouseRegion(
+              child: _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    oldWindowSize.x - _dragOffset!.dx,
+                    widget.windowSize.y,
+                  ));
+
+                  widget.posCallback(Vector2(
+                    oldWindowPos.x + _dragOffset!.dx,
+                    widget.windowPos.y,
+                  ));
+                },
+                MouseRegion(
                   cursor: SystemMouseCursors.resizeLeftRight,
                   opaque: true,
                   child: Container(
@@ -125,9 +150,21 @@ class _WindowWidgetState extends State<WindowWidget> {
               left: 0,
               top: 0,
               right: 0,
-              child: GestureDetector(
-                onVerticalDragUpdate: _onVerticalDragTop,
-                child: MouseRegion(
+              child: _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    widget.windowSize.x,
+                    oldWindowSize.y - _dragOffset!.dy,
+                  ));
+
+                  widget.posCallback(Vector2(
+                    widget.windowPos.x,
+                    oldWindowPos.y + _dragOffset!.dy,
+                  ));
+                },
+                MouseRegion(
                   cursor: SystemMouseCursors.resizeUpDown,
                   opaque: true,
                   child: Container(
@@ -141,9 +178,17 @@ class _WindowWidgetState extends State<WindowWidget> {
               left: 0,
               bottom: 0,
               right: 0,
-              child: GestureDetector(
-                onVerticalDragUpdate: _onVerticalDragBottom,
-                child: MouseRegion(
+              child: 
+              _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    widget.windowSize.x,
+                    oldWindowSize.y + _dragOffset!.dy,
+                  ));
+                },
+                MouseRegion(
                   cursor: SystemMouseCursors.resizeUpDown,
                   opaque: true,
                   child: Container(
@@ -156,12 +201,16 @@ class _WindowWidgetState extends State<WindowWidget> {
             Positioned(
               bottom: 0,
               right: 0,
-              child: GestureDetector(
-                onPanUpdate: (p0) {
-                  _onHorizontalDragRight(p0);
-                  _onVerticalDragBottom(p0);
+              child: _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    oldWindowSize.x + _dragOffset!.dx,
+                    oldWindowSize.y + _dragOffset!.dy,
+                  ));
                 },
-                child: const MouseRegion(
+                const MouseRegion(
                   cursor: SystemMouseCursors.resizeUpLeftDownRight,
                   opaque: true,
                   child: SizedBox(
@@ -175,12 +224,21 @@ class _WindowWidgetState extends State<WindowWidget> {
             Positioned(
               bottom: 0,
               left: 0,
-              child: GestureDetector(
-                onPanUpdate: (p0) {
-                  _onHorizontalDragLeft(p0);
-                  _onVerticalDragBottom(p0);
+              child: _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    oldWindowSize.x - _dragOffset!.dx,
+                    oldWindowSize.y + _dragOffset!.dy,
+                  ));
+
+                  widget.posCallback(Vector2(
+                    oldWindowPos.x + _dragOffset!.dx,
+                    widget.windowPos.y,
+                  ));
                 },
-                child: const MouseRegion(
+                const MouseRegion(
                   cursor: SystemMouseCursors.resizeUpRightDownLeft,
                   opaque: true,
                   child: SizedBox(
@@ -194,12 +252,22 @@ class _WindowWidgetState extends State<WindowWidget> {
             Positioned(
               top: 0,
               right: 0,
-              child: GestureDetector(
-                onPanUpdate: (p0) {
-                  _onHorizontalDragRight(p0);
-                  _onVerticalDragTop(p0);
+              child: 
+              _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    oldWindowSize.x + _dragOffset!.dx,
+                    oldWindowSize.y - _dragOffset!.dy,
+                  ));
+
+                  widget.posCallback(Vector2(
+                    widget.windowPos.x,
+                    oldWindowPos.y + _dragOffset!.dy,
+                  ));
                 },
-                child: const MouseRegion(
+                const MouseRegion(
                   cursor: SystemMouseCursors.resizeUpRightDownLeft,
                   opaque: true,
                   child: SizedBox(
@@ -213,12 +281,21 @@ class _WindowWidgetState extends State<WindowWidget> {
             Positioned(
               left: 0,
               top: 0,
-              child: GestureDetector(
-                onPanUpdate: (p0) {
-                  _onHorizontalDragLeft(p0);
-                  _onVerticalDragTop(p0);
+              child: _resizeArea(
+                (p) {
+                  _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
+
+                  widget.resizeCallback(Vector2(
+                    oldWindowSize.x - _dragOffset!.dx,
+                    oldWindowSize.y - _dragOffset!.dy,
+                  ));
+
+                  widget.posCallback(Vector2(
+                    oldWindowPos.x + _dragOffset!.dx,
+                    oldWindowPos.y + _dragOffset!.dy,
+                  ));
                 },
-                child: const MouseRegion(
+                const MouseRegion(
                   cursor: SystemMouseCursors.resizeUpLeftDownRight,
                   opaque: true,
                   child: SizedBox(
@@ -241,7 +318,7 @@ class _WindowWidgetState extends State<WindowWidget> {
             Column(
               children: [
                 header,
-                widget.content,
+                Expanded(child: widget.content),
               ],
             ),
           ),
@@ -251,22 +328,40 @@ class _WindowWidgetState extends State<WindowWidget> {
     );
   }
 
+  Widget _resizeArea(void Function(PointerMoveEvent) onPointerMove, Widget child) {
+    return Listener(
+      onPointerMove: onPointerMove,
+      onPointerDown: (p) {
+        _dragOffset = Offset.zero;
+        oldWindowSize = widget.windowSize;
+        oldWindowPos = widget.windowPos;
+      },
+      onPointerUp: (p) {
+        _dragOffset = null;
+        oldWindowSize = Vector2.zero();
+        oldWindowPos = Vector2.zero();
+      },
+      child: child,
+    );
+  }
+
   void _onHorizontalDragLeft(DragUpdateDetails p0) {
-    widget.posCallback(Vector2(widget.windowPos.x + p0.delta.dx, 0));
-    widget.resizeCallback(Vector2(-p0.delta.dx, 0));
+    widget.posCallback(Vector2(widget.windowPos.x + p0.delta.dx, widget.windowPos.y));
+    widget.resizeCallback(Vector2(widget.windowSize.x - p0.delta.dx, widget.windowSize.y));
   }
 
   void _onHorizontalDragRight(DragUpdateDetails p0) {
-    widget.resizeCallback(Vector2(p0.delta.dx, 0));
+    widget.resizeCallback(Vector2(widget.windowSize.x + p0.delta.dx, widget.windowSize.y));
   }
 
   void _onVerticalDragTop(DragUpdateDetails p0) {
-    widget.posCallback(Vector2(0, widget.windowPos.y + p0.delta.dy));
-    widget.resizeCallback(Vector2(0, -p0.delta.dy));
+    /* TODO: Remove */ print("Window widget resize vertical top (${p0.delta.dy})");
+    widget.posCallback(Vector2(widget.windowPos.x, widget.windowPos.y + p0.delta.dy));
+    widget.resizeCallback(Vector2(widget.windowSize.x, widget.windowSize.y - p0.delta.dy));
   }
 
   void _onVerticalDragBottom(DragUpdateDetails p0) {
-    widget.resizeCallback(Vector2(0, p0.delta.dy));
+    widget.resizeCallback(Vector2(widget.windowSize.x, widget.windowSize.y + p0.delta.dy));
   }
 }
 
@@ -303,8 +398,8 @@ class WindowHeader extends StatefulWidget {
 }
 
 class _WindowHeaderState extends State<WindowHeader> {
+  Vector2 oldWindowPos = Vector2.zero();
   Offset? _dragOffset;
-  bool _dragBool = false;
   bool _freeDrag = false;
 
   @override
@@ -320,14 +415,15 @@ class _WindowHeaderState extends State<WindowHeader> {
           _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
 
           if ((_dragOffset!.dx.abs() < 10 && _dragOffset!.dy.abs() < 10) && !_freeDrag) {
-            _dragBool = true;
             return;
           }
 
           _freeDrag = true;
 
-          widget.posCallback(Vector2(p.delta.dx + (_dragBool ? _dragOffset!.dx : widget.windowPos.x), p.delta.dy + (_dragBool ? _dragOffset!.dy : widget.windowPos.y)));
-          _dragBool = false;
+          widget.posCallback(Vector2(
+            oldWindowPos.x + _dragOffset!.dx,
+            oldWindowPos.y + _dragOffset!.dy,
+          ));
 
           if (widget.windowPos.y < 5) {
             widget.posCallback(Vector2(widget.windowPos.x, 5));
@@ -337,12 +433,14 @@ class _WindowHeaderState extends State<WindowHeader> {
         // When the titlebar is pressed
         onPointerDown: (p) {
           _dragOffset = Offset.zero;
+          oldWindowPos = widget.windowPos;
           _freeDrag = false;
           //if (widget.windowState != WindowState.maximized) widget.posCallback(widget.windowPos);
         },
 
         onPointerUp: (p) {
           _dragOffset = null;
+          oldWindowPos = Vector2.zero();
           _freeDrag = false;
         },
 
@@ -415,6 +513,6 @@ class _WindowContentState extends State<WindowContent> {
   @override
   Widget build(BuildContext context) {
     print(" --- Window Contents Rebuilt!!!"); // TODO: Remove print
-    return widget.texture != null ? Image.memory(widget.texture!) : const Placeholder();
+    return widget.texture != null ? Image.memory(widget.texture!, fit: BoxFit.fill) : const Placeholder();
   }
 }

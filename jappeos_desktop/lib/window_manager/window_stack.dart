@@ -59,12 +59,26 @@ class _WindowStackItemState extends State<_WindowStackItem> {
   void initState() {
     super.initState();
     e = widget.window;
+
+    /*TODO: Remove*/ print("_WindowStackItemState subscribing to onEvent!");
+    e.onEvent.subscribe(_onWindowEvent);
   }
 
   @override
   void dispose() {
-    e.onEvent.unsubscribeAll();
+    e.onEvent.unsubscribe(_onWindowEvent);
     super.dispose();
+  }
+
+  void _onWindowEvent(WindowEvent? args) {
+    ///*TODO: Remove*/ print("e.onEvent begin");
+    //if (args!.id != "onNewRender") {
+    //  /*TODO: Remove*/ print("e.onEvent event! Not on render. (name: \"${args.id}\", value: \"${args.value}\")");
+    //  //setState(() {}); TODO: SetState here ONLY when needed. See [WindowStackController]'s createWindow function!
+    //} else {
+    //  /*TODO: Remove*/ print("e.onEvent new render event!");
+    //  wcontentKey.currentState!.setState(() {});
+    //}
   }
 
   @override
@@ -77,24 +91,13 @@ class _WindowStackItemState extends State<_WindowStackItem> {
       windowIsFocused: e.isFocused,
       windowIsResizable: e.isResizable,
       windowPos: e.pos,
+      windowSize: e.size,
       windowState: e.state,
       resizeCallback: e.setSize,
       posCallback: e.setPos,
       stateCallback: e.setState,
       closeCallback: e._close,
     );
-
-    /*TODO: Remove*/ print("_WindowStackItemState subscribing to onEvent!");
-    e.onEvent.subscribe((args) {
-      /*TODO: Remove*/ print("e.onEvent begin");
-      if (args!.id != "onNewRender") {
-        /*TODO: Remove*/ print("e.onEvent event! Not on render. (name: \"${args.id}\", value: \"${args.value}\")");
-        //setState(() {}); TODO: SetState here ONLY when needed. See [WindowStackController]'s createWindow function!
-      } else {
-        /*TODO: Remove*/ print("e.onEvent new render event!");
-        wcontentKey.currentState!.setState(() {});
-      }
-    });
 
     /*TODO: Remove*/ print("_WindowStackItemState returning positioned!");
     return Positioned(

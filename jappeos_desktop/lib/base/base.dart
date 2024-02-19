@@ -29,7 +29,6 @@ import 'package:jappeos_desktop_ui/widgets/text.dart';
 
 import 'package:jappeos_desktop_ui/widgets/bases/button_base.dart';
 
-
 //
 // Base
 part 'constants.dart';

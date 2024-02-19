@@ -32,7 +32,8 @@ class WidgetTesting extends Application {
     var window = DesktopState.getWmController()!.createWindow()
     ..setSize(Vector2(400, 400), true)
     ..setMinSize(Vector2(400, 400))
-    ..setResizable(true);
+    ..setResizable(true)
+    ..setBgRenderMode(BackgroundMode.blurredTransp);
     /*TODO: Remove*/ print("WidgetTesting window created. Size: ${window.size}");
     _image().then((value) => window.setRender(value));
   }

@@ -32,7 +32,10 @@ class WindowStackController {
 
     // Init onFocusChanged.
     void onFocusChangedEvent(WindowEvent<bool>? val) {
-      if (!val!.value || window.isFocused) return;
+      if (!val!.value || window.isFocused) {
+        _onUpdate();
+        return;
+      }
 
       // Put on top of stack.
       _windows.remove(window);
@@ -47,20 +50,23 @@ class WindowStackController {
     // Init onPosChanged.
     void onPosChangedEvent(WindowEvent<Vector2>? val) {
       // Calling this fires the onFocusChanged event which updates the UI, no _onUpdate() call needed in this method.
-      window.setFocus(true);
+      _onUpdate();
+      //window.setFocus(true);
     }
 
     // Subscribe to events
     window.onFocusChanged.subscribe(onFocusChangedEvent);
     window.onPosChanged.subscribe(onPosChangedEvent);
+    window.onSizeChanged.subscribe(onPosChangedEvent);
 
     // Add Window to List.
     _windows.add(window);
     window.setFocus(true);
 
     // Set initial position.
-    Random rng = Random();
-    window.setPos(Vector2(rng.nextDouble() * 500, rng.nextDouble() * 500));
+    //Random rng = Random();
+    //window.setPos(Vector2(rng.nextDouble() * 500, rng.nextDouble() * 500));
+    window.setPos(Vector2(0, 0));
 
     // Close callback
     /*TODO: Remove*/ print("createWindow set window close callback");
@@ -68,6 +74,7 @@ class WindowStackController {
       // Unsubscribe from events
       window.onFocusChanged.unsubscribe(onFocusChangedEvent);
       window.onPosChanged.unsubscribe(onPosChangedEvent);
+      window.onSizeChanged.unsubscribe(onPosChangedEvent);
 
       // Remove window and rebuild widget tree.
       window._dispose();
