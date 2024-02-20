@@ -84,6 +84,7 @@ class DesktopState extends State<Desktop> {
         children: [
           WindowStack(
             wmController: _wmController,
+            insets: const EdgeInsets.only(top: DSKTP_UI_LAYER_TOPBAR_HEIGHT),
           ),
         ],
       ),
@@ -152,6 +153,7 @@ class DesktopState extends State<Desktop> {
       right: 0,
       height: DSKTP_UI_LAYER_TOPBAR_HEIGHT,
       child: DeuiBlurContainer(
+        hasShadow: _wmController!.windows.isEmpty || (_wmController!.windows.isNotEmpty && _wmController!.windows.last.state != WindowState.maximized),
         child: Stack(
           children: [
             Align(

@@ -285,7 +285,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "7b05ac0ba1319421eb269d0f800a63f3b1ce6420"
+      resolved-ref: "5b751257f8ca993e9e4b5a32a8b4735e1ad47db8"
       url: "https://github.com/Jappe-OS/JappeOS-DesktopUI.git"
     source: git
     version: "1.0.0+1"
@@ -381,10 +381,10 @@ packages:
     dependency: transitive
     description:
       name: open_filex
-      sha256: a6c95237767c5647e68b71a476602fcf4f1bfc530c126265e53addae22ef5fc2
+      sha256: "74e2280754cf8161e860746c3181db2c996d6c1909c7057b738ede4a469816b8"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.4"
+    version: "4.4.0"
   package_config:
     dependency: transitive
     description:
@@ -526,7 +526,7 @@ packages:
     description:
       path: "."
       ref: "master-2.0"
-      resolved-ref: "1de2feddad54e9ec921201d12a6f444b6352a79a"
+      resolved-ref: "9c127cf307846fe9cb3928cb1287e2f106edf77b"
       url: "https://github.com/Jappe-OS/ShadeUI.git"
     source: git
     version: "2.0.0+3"
@@ -675,10 +675,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "507dc655b1d9cb5ebc756032eb785f114e415f91557b73bf60b7e201dfedeb2f"
+      sha256: d4ed0711849dd8e33eb2dd69c25db0d0d3fdc37e0a62e629fe32f57a22db2745
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.2"
+    version: "6.3.0"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -731,26 +731,26 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "18f6690295af52d081f6808f2f7c69f0eed6d7e23a71539d75f4aeb8f0062172"
+      sha256: "4ac59808bbfca6da38c99f415ff2d3a5d7ca0a6b4809c71d9cf30fba5daf9752"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_graphics_codec:
     dependency: transitive
     description:
       name: vector_graphics_codec
-      sha256: "531d20465c10dfac7f5cd90b60bbe4dd9921f1ec4ca54c83ebb176dbacb7bb2d"
+      sha256: f3247e7ab0ec77dc759263e68394990edc608fb2b480b80db8aa86ed09279e33
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_graphics_compiler:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "03012b0a33775c5530576b70240308080e1d5050f0faf000118c20e6463bc0ad"
+      sha256: "18489bdd8850de3dd7ca8a34e0c446f719ec63e2bab2e7a8cc66a9028dd76c5a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_math:
     dependency: "direct main"
     description:

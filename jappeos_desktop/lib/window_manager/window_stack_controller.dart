@@ -27,13 +27,14 @@ class WindowStackController {
   final VoidCallback _onUpdate;
 
   Window createWindow() {
-    /*TODO: Remove*/ print("Begin window creation.");
     Window window = Window._();
+    Vector2 normalStatePos = Vector2.zero();
+    Vector2 normalStateSize = Vector2.zero();
+    WindowState previousState = WindowState.normal;
 
     // Init onFocusChanged.
     void onFocusChangedEvent(WindowEvent<bool>? val) {
-      if (!val!.value || window.isFocused) {
-        _onUpdate();
+      if (!val!.value) {
         return;
       }
 
@@ -41,6 +42,7 @@ class WindowStackController {
       _windows.remove(window);
       _windows.add(window);
 
+      // Unfocus previous window.
       int index = _windows.length - 2;
       if (index >= 0 && index < _windows.length) _windows[index].setFocus(false);
 
@@ -49,15 +51,52 @@ class WindowStackController {
 
     // Init onPosChanged.
     void onPosChangedEvent(WindowEvent<Vector2>? val) {
-      // Calling this fires the onFocusChanged event which updates the UI, no _onUpdate() call needed in this method.
       _onUpdate();
-      //window.setFocus(true);
+    }
+
+    // Init onStateChanged.
+    void onStateChangedEvent(WindowEvent<WindowState>? val) {
+      if (val!.value != WindowState.normal) {
+        normalStatePos = window.pos;
+        normalStateSize = window.size;
+      }
+
+      if (val.value == WindowState.normal) {
+        if (previousState != WindowState.normal) {
+          window.setPos(normalStatePos, true);
+          window.setSize(normalStateSize, false, true);
+        }
+      } else if (val.value == WindowState.maximized) {
+        window.setPos(Vector2.zero(), true);
+        window.setSize(Vector2(double.infinity, double.infinity), false, true);
+      } else if (val.value == WindowState.minimized) {
+        if (previousState == WindowState.minimized) window.setState(WindowState.normal);
+        window.setPos(Vector2(_windows.indexOf(window) * 100 + 10, 10), true);
+        window.setSize(Window.defaultMinWindowSize, true, true);
+      }
+
+      previousState = val.value;
     }
 
     // Subscribe to events
     window.onFocusChanged.subscribe(onFocusChangedEvent);
     window.onPosChanged.subscribe(onPosChangedEvent);
     window.onSizeChanged.subscribe(onPosChangedEvent);
+    window.onStateChanged.subscribe(onStateChangedEvent);
+
+    // Close callback
+    window._close = () {
+      // Unsubscribe from events
+      window.onFocusChanged.unsubscribe(onFocusChangedEvent);
+      window.onPosChanged.unsubscribe(onPosChangedEvent);
+      window.onSizeChanged.unsubscribe(onPosChangedEvent);
+      window.onStateChanged.unsubscribe(onStateChangedEvent);
+
+      // Remove window and rebuild widget tree.
+      window._dispose();
+      _windows.remove(window);
+      _onUpdate();
+    };
 
     // Add Window to List.
     _windows.add(window);
@@ -68,23 +107,8 @@ class WindowStackController {
     //window.setPos(Vector2(rng.nextDouble() * 500, rng.nextDouble() * 500));
     window.setPos(Vector2(0, 0));
 
-    // Close callback
-    /*TODO: Remove*/ print("createWindow set window close callback");
-    window._close = () {
-      // Unsubscribe from events
-      window.onFocusChanged.unsubscribe(onFocusChangedEvent);
-      window.onPosChanged.unsubscribe(onPosChangedEvent);
-      window.onSizeChanged.unsubscribe(onPosChangedEvent);
-
-      // Remove window and rebuild widget tree.
-      window._dispose();
-      _windows.remove(window);
-      _onUpdate();
-    };
-
     // Update Widgets after adding the new window.
     _onUpdate();
-    /*TODO: Remove*/ print("Window creation done. Returning window object. Window list: $windows");
     return window;
   }
 }

@@ -17,6 +17,8 @@
 part of window_manager;
 
 class Window {
+  static final defaultMinWindowSize = Vector2(107, 37);
+
   Window._() {
     onTitleChanged.subscribe((args) => onEvent.broadcast(args));
     onFocusChanged.subscribe((args) => onEvent.broadcast(args));
@@ -43,6 +45,8 @@ class Window {
     onEvent.unsubscribeAll();
   }
 
+  final Key key = UniqueKey();
+
   // Variable store and getters
 
   String _title = "";
@@ -60,10 +64,10 @@ class Window {
   Vector2 _pos = Vector2.zero();
   Vector2 get pos => _pos;
 
-  Vector2 _size = Vector2.zero();
+  Vector2 _size = defaultMinWindowSize;
   Vector2 get size => _size;
 
-  Vector2 _minSize = Vector2.zero();
+  Vector2 _minSize = defaultMinWindowSize;
   Vector2 get minSize => _minSize;
 
   WindowState _state = WindowState.normal;
@@ -98,23 +102,46 @@ class Window {
     onBackgroundRenderModeChanged.broadcast(WindowEvent._("onBackgroundRenderModeChanged", bgRenderMode));
   }
 
-  void setPos(Vector2 pos) {
-    setState(WindowState.normal);
-    /* TODO: Remove */ print("Window set pos ($pos)");
+  void setPos(Vector2 pos, [bool forceIgnoreState = false]) {
+    if (!forceIgnoreState) setState(WindowState.normal);
     _pos = pos;
     onPosChanged.broadcast(WindowEvent._("onPosChanged", this.pos));
   }
 
-  void setSize(Vector2 size, [bool forceSetSize = false]) {
+  void setSize(Vector2 size, [bool forceSetSize = false, bool forceIgnoreState = false]) {
     if (!isResizable && !forceSetSize) return;
-    setState(WindowState.normal);
-    /* TODO: Remove */ print("Window set size ($size)");
-    _size = size;
+    if (!forceIgnoreState) setState(WindowState.normal);
+
+    double x = size.x;
+    double y = size.y;
+
+    if (!forceSetSize) {
+      if (x < minSize.x) {
+        x = minSize.x;
+      }
+
+      if (y < minSize.y) {
+        y = minSize.y;
+      }
+    }
+
+    _size = Vector2(x, y);
     onSizeChanged.broadcast(WindowEvent._("onSizeChanged", this.size));
   }
 
   void setMinSize(Vector2 size) {
-    _minSize = size;
+    double x = size.x;
+    double y = size.y;
+
+    if (x < defaultMinWindowSize.x) {
+      x = defaultMinWindowSize.x;
+    }
+
+    if (y < defaultMinWindowSize.y) {
+      y = defaultMinWindowSize.y;
+    }
+
+    _minSize = Vector2(x, y);
     onMinSizeChanged.broadcast(WindowEvent._("onMinSizeChanged", minSize));
   }
 

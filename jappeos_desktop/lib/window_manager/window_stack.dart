@@ -21,8 +21,9 @@ part of window_manager;
 /// A widget to manage windows.
 class WindowStack extends StatefulWidget {
   final WindowStackController? wmController;
+  final EdgeInsetsGeometry insets;
 
-  const WindowStack({Key? key, this.wmController}) : super(key: key);
+  const WindowStack({Key? key, this.wmController, this.insets = EdgeInsets.zero}) : super(key: key);
 
   @override
   _WindowStackState createState() => _WindowStackState();
@@ -31,54 +32,76 @@ class WindowStack extends StatefulWidget {
 class _WindowStackState extends State<WindowStack> {
   @override
   Widget build(BuildContext context) {
-    /*TODO: Remove*/ print("WindowStack build func.");
-    return Stack(
-      children: widget.wmController!.windows.map((e) {
-        /*TODO: Remove*/ print("New window stack item.");
-        return _WindowStackItem(window: e);
-      }).toList(),
+    return Padding(
+      padding: widget.insets,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          double stackWidth = constraints.maxWidth;
+          double stackHeight = constraints.maxHeight;
+
+          return Stack(
+            children: widget.wmController!.windows.map((e) {
+              return _WindowStackItem(window: e, maxStackWH: Vector2(stackWidth, stackHeight), key: e.key);
+            }).toList(),
+          );
+        },
+      ),
     );
   }
 }
 
+/// A graphical UI window widget.
 class _WindowStackItem extends StatefulWidget {
   final Window window;
+  final Vector2 maxStackWH;
 
-  const _WindowStackItem({Key? key, required this.window}) : super(key: key);
+  const _WindowStackItem({Key? key, required this.window, required this.maxStackWH}) : super(key: key);
 
   @override
   _WindowStackItemState createState() => _WindowStackItemState();
 }
 
 // TODO: Handle new renders and update image
-class _WindowStackItemState extends State<_WindowStackItem> {
-  GlobalKey<_WindowContentState> wcontentKey = GlobalKey();
+class _WindowStackItemState extends State<_WindowStackItem> with TickerProviderStateMixin {
   late Window e;
+
+  late AnimationController animController;
+  Curve defaultAnimCurve = Curves.linear;
+  Duration defaultAnimDuration = Duration.zero;
+  late Curve animCurve;
+  late Duration animDuration;
+
+  GlobalKey<_WindowContentState> wcontentKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     e = widget.window;
-
-    /*TODO: Remove*/ print("_WindowStackItemState subscribing to onEvent!");
-    e.onEvent.subscribe(_onWindowEvent);
+    animController = AnimationController(vsync: this);
+    animCurve = defaultAnimCurve;
+    animDuration = defaultAnimDuration;
   }
 
   @override
   void dispose() {
-    e.onEvent.unsubscribe(_onWindowEvent);
+    animController.dispose();
     super.dispose();
   }
 
-  void _onWindowEvent(WindowEvent? args) {
-    ///*TODO: Remove*/ print("e.onEvent begin");
-    //if (args!.id != "onNewRender") {
-    //  /*TODO: Remove*/ print("e.onEvent event! Not on render. (name: \"${args.id}\", value: \"${args.value}\")");
-    //  //setState(() {}); TODO: SetState here ONLY when needed. See [WindowStackController]'s createWindow function!
-    //} else {
-    //  /*TODO: Remove*/ print("e.onEvent new render event!");
-    //  wcontentKey.currentState!.setState(() {});
-    //}
+  void _handleResizeCallback(Vector2 size) {
+    if (animCurve != defaultAnimCurve) return;
+    e.setSize(size);
+  }
+
+  void _handlePosCallback(Vector2 pos) {
+    if (animCurve != defaultAnimCurve) return;
+    e.setPos(pos);
+  }
+
+  void _handleStateCallback(WindowState state) {
+    animCurve = Curves.easeInOut;
+    animDuration = const Duration(milliseconds: 100);
+    e.setState(state);
   }
 
   @override
@@ -93,20 +116,31 @@ class _WindowStackItemState extends State<_WindowStackItem> {
       windowPos: e.pos,
       windowSize: e.size,
       windowState: e.state,
-      resizeCallback: e.setSize,
-      posCallback: e.setPos,
-      stateCallback: e.setState,
+      focusCallback: e.setFocus,
+      resizeCallback: _handleResizeCallback,
+      posCallback: _handlePosCallback,
+      stateCallback: _handleStateCallback,
       closeCallback: e._close,
     );
 
-    /*TODO: Remove*/ print("_WindowStackItemState returning positioned!");
-    return Positioned(
-      left: e.pos.x,
-      top: e.pos.y,
-      width: e.size.x,
-      height: e.size.y,
-      key: wgt.key,
-      child: wgt,
+    return AnimatedBuilder(
+      animation: animController,
+      builder: (context, widget_) {
+        return AnimatedPositioned(
+          onEnd: () {
+            animCurve = defaultAnimCurve;
+            animDuration = defaultAnimDuration;
+          },
+          duration: animDuration,
+          curve: animCurve,
+          left: e.pos.x,
+          top: e.pos.y,
+          width: e.size.x != double.infinity ? e.size.x : widget.maxStackWH.x,
+          height: e.size.y != double.infinity ? e.size.y : widget.maxStackWH.y,
+          key: wgt.key,
+          child: wgt,
+        );
+      },
     );
   }
 }

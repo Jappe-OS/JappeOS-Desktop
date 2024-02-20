@@ -16,7 +16,6 @@
 
 library window_manager;
 
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:event/event.dart';

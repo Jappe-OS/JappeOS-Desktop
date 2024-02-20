@@ -28,6 +28,7 @@ class WindowWidget extends StatefulWidget {
   final Vector2 windowSize;
   final WindowState windowState;
 
+  final Function(bool newVal) focusCallback;
   final Function(Vector2 newVal) resizeCallback;
   final Function(Vector2 newVal) posCallback;
   final Function(WindowState newVal) stateCallback;
@@ -42,6 +43,7 @@ class WindowWidget extends StatefulWidget {
       required this.windowPos,
       required this.windowSize,
       required this.windowState,
+      required this.focusCallback,
       required this.resizeCallback,
       required this.posCallback,
       required this.stateCallback,
@@ -65,6 +67,7 @@ class _WindowWidgetState extends State<WindowWidget> {
         maximizeButton: widget.windowIsResizable,
         windowPos: widget.windowPos,
         windowState: widget.windowState,
+        focusCallback: widget.focusCallback,
         posCallback: widget.posCallback,
         stateCallback: widget.stateCallback,
         closeCallback: widget.closeCallback);
@@ -91,7 +94,7 @@ class _WindowWidgetState extends State<WindowWidget> {
       }
     }
 
-    List<Widget> resizeAreas = !widget.windowIsResizable
+    List<Widget> resizeAreas = !widget.windowIsResizable || widget.windowState != WindowState.normal
         ? []
         : [
             // Right
@@ -178,8 +181,7 @@ class _WindowWidgetState extends State<WindowWidget> {
               left: 0,
               bottom: 0,
               right: 0,
-              child: 
-              _resizeArea(
+              child: _resizeArea(
                 (p) {
                   _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
 
@@ -252,8 +254,7 @@ class _WindowWidgetState extends State<WindowWidget> {
             Positioned(
               top: 0,
               right: 0,
-              child: 
-              _resizeArea(
+              child: _resizeArea(
                 (p) {
                   _dragOffset = Offset(_dragOffset!.dx + p.delta.dx, _dragOffset!.dy + p.delta.dy);
 
@@ -310,10 +311,10 @@ class _WindowWidgetState extends State<WindowWidget> {
     return Stack(
       children: [
         Positioned(
-          top: kResizeAreaThickness,
-          left: kResizeAreaThickness,
-          bottom: kResizeAreaThickness,
-          right: kResizeAreaThickness,
+          top: widget.windowState == WindowState.normal ? kResizeAreaThickness : 0,
+          left: widget.windowState == WindowState.normal ? kResizeAreaThickness : 0,
+          bottom: widget.windowState == WindowState.normal ? kResizeAreaThickness : 0,
+          right: widget.windowState == WindowState.normal ? kResizeAreaThickness : 0,
           child: base(
             Column(
               children: [
@@ -344,25 +345,6 @@ class _WindowWidgetState extends State<WindowWidget> {
       child: child,
     );
   }
-
-  void _onHorizontalDragLeft(DragUpdateDetails p0) {
-    widget.posCallback(Vector2(widget.windowPos.x + p0.delta.dx, widget.windowPos.y));
-    widget.resizeCallback(Vector2(widget.windowSize.x - p0.delta.dx, widget.windowSize.y));
-  }
-
-  void _onHorizontalDragRight(DragUpdateDetails p0) {
-    widget.resizeCallback(Vector2(widget.windowSize.x + p0.delta.dx, widget.windowSize.y));
-  }
-
-  void _onVerticalDragTop(DragUpdateDetails p0) {
-    /* TODO: Remove */ print("Window widget resize vertical top (${p0.delta.dy})");
-    widget.posCallback(Vector2(widget.windowPos.x, widget.windowPos.y + p0.delta.dy));
-    widget.resizeCallback(Vector2(widget.windowSize.x, widget.windowSize.y - p0.delta.dy));
-  }
-
-  void _onVerticalDragBottom(DragUpdateDetails p0) {
-    widget.resizeCallback(Vector2(widget.windowSize.x, widget.windowSize.y + p0.delta.dy));
-  }
 }
 
 class WindowHeader extends StatefulWidget {
@@ -375,6 +357,7 @@ class WindowHeader extends StatefulWidget {
   final Vector2 windowPos;
   final WindowState windowState;
 
+  final Function(bool newVal) focusCallback;
   final Function(Vector2 newVal) posCallback;
   final Function(WindowState newVal) stateCallback;
   final Function() closeCallback;
@@ -388,6 +371,7 @@ class WindowHeader extends StatefulWidget {
       this.customColor,
       required this.windowPos,
       required this.windowState,
+      required this.focusCallback,
       required this.posCallback,
       required this.stateCallback,
       required this.closeCallback})
@@ -424,10 +408,6 @@ class _WindowHeaderState extends State<WindowHeader> {
             oldWindowPos.x + _dragOffset!.dx,
             oldWindowPos.y + _dragOffset!.dy,
           ));
-
-          if (widget.windowPos.y < 5) {
-            widget.posCallback(Vector2(widget.windowPos.x, 5));
-          }
         },
 
         // When the titlebar is pressed
@@ -435,13 +415,17 @@ class _WindowHeaderState extends State<WindowHeader> {
           _dragOffset = Offset.zero;
           oldWindowPos = widget.windowPos;
           _freeDrag = false;
-          //if (widget.windowState != WindowState.maximized) widget.posCallback(widget.windowPos);
+          widget.focusCallback(true);
         },
 
         onPointerUp: (p) {
           _dragOffset = null;
           oldWindowPos = Vector2.zero();
           _freeDrag = false;
+
+          if (widget.windowPos.y < -5) {
+            widget.posCallback(Vector2(widget.windowPos.x, 0));
+          }
         },
 
         child: Row(

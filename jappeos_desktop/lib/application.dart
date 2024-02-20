@@ -16,6 +16,7 @@
 
 import 'package:flutter/material.dart';
 
+@Deprecated("Remove this temporary class.")
 abstract class Application {
   final String displayName;
   final String id;
