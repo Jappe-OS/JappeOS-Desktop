@@ -1,5 +1,5 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
-//  Copyright (C) 2022  Jappe02
+//  Copyright (C) 2024  Jappe02
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
@@ -14,24 +14,78 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-part of base;
-
-enum DesktopMenuPosition { left, center, right }
-
-abstract class DesktopMenu {
-  EdgeInsetsGeometry get defaultPadding => EdgeInsets.all(defaultPaddingNum);
-  double get defaultPaddingNum => 10.0;
-
-  void Function(void Function())? setStateF;
-  void setState(void Function() f) => setStateF!(f);
-
-  Widget getContents(BuildContext context);
-  Size? getSize();
-  DesktopMenuPosition getPos();
-}
+part of jappeos_desktop.base;
 
 class DesktopMenuController {
-  static void showMenu(DesktopMenu dm) {
-    DesktopState.setDesktopMenuWidget(dm);
+  DesktopMenuController(this.rebuildCallback);
+
+  final Function(void Function()?) rebuildCallback;
+  DesktopMenu? _currentMenu;
+  Offset? _currentMenuPosition;
+  Size _currentMenuChildSize = Size.zero;
+  Size _currentStackWSize = Size.zero;
+
+  void openMenu(DesktopMenu menu, [Offset? position]) {
+    _currentMenu = menu;
+    _currentMenuPosition = position;
+    rebuildCallback(null);
   }
+
+  void closeMenu() {
+    _currentMenu = null;
+    _currentMenuPosition = null;
+    rebuildCallback(null);
+  }
+
+  Positioned? getWidget() {
+    const pad = BPPresets.small;
+
+    return _currentMenu != null ? Positioned(
+      left: _currentMenuPosition!.dx,
+      top: _currentMenuPosition!.dy,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _currentStackWSize = constraints.biggest;
+
+            final renderBox = context.findRenderObject() as RenderBox;
+            _currentMenuChildSize = renderBox.size;
+
+            // Ensure the menu is correctly positioned within the stack
+            rebuildCallback(() {
+              var minX = pad;
+              var maxX = _currentStackWSize.width - _currentMenuChildSize.width - pad;
+
+              if (maxX < minX) {
+                maxX = minX;
+              }
+
+              var minY = DSKTP_UI_LAYER_TOPBAR_HEIGHT + pad;
+              var maxY = _currentStackWSize.height - _currentMenuChildSize.height - pad;
+
+              if (maxY < minY) {
+                maxY = minY;
+              }
+
+              _currentMenuPosition = Offset(
+                _currentMenuPosition!.dx.clamp(minX, maxX),
+                _currentMenuPosition!.dy.clamp(minY, maxY),
+              );
+            });
+          });
+
+          return TapRegion(
+            onTapOutside: (_) => closeMenu(),
+            child: RepaintBoundary(
+              child: _currentMenu as Widget,
+            ),
+          );
+        },
+      ),
+    ) : null;
+  }
+}
+
+abstract class DesktopMenu extends StatefulWidget {
+  const DesktopMenu({super.key});
 }

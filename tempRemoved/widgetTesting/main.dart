@@ -17,12 +17,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jappeos_desktop/application.dart';
-import 'package:shade_ui/widgets/shade_menu_strip.dart';
 import 'package:http/http.dart' as http;
 import 'package:vector_math/vector_math.dart' hide Colors;
 
-import '../../base/base.dart';
-import '../../window_manager/window_manager.dart';
+import '../../jappeos_desktop/lib/base/base.dart';
+import '../../jappeos_desktop/lib/window_manager/window_manager.dart';
 
 class WidgetTesting extends Application {
   WidgetTesting() : super("WidgetTesting", "widget-testing", null);

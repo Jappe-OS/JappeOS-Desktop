@@ -14,16 +14,14 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-library window_manager;
+library jappeos_desktop.window_manager;
 
 import 'dart:typed_data';
 
 import 'package:event/event.dart';
+import 'package:shade_ui/shade_ui.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter/material.dart';
-import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
-import 'package:jappeos_desktop_ui/widgets/solid_container.dart';
-import 'package:jappeos_desktop_ui/widgets/text.dart';
 
 //
 // Window manager base

@@ -14,18 +14,24 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-part of base;
+// ignore_for_file: library_private_types_in_public_api
+
+part of jappeos_desktop.base;
 
 class LauncherMenu extends DesktopMenu {
+  const LauncherMenu({Key? key}) : super(key: key);
+
+  @override
+  _LauncherMenuState createState() => _LauncherMenuState();
+}
+
+class _LauncherMenuState extends State<LauncherMenu> {
+  static const kDefaultPadding = BPPresets.medium;
   final PageController _pageController = PageController();
   int _pageCount = 1;
 
   @override
-  Widget getContents(BuildContext context) {
-    //Color overlayColor = DesktopState.publicContext!.watch<ShadeThemeProvider>().getTheme() == 0
-    //    ? const Color.fromRGBO(255, 255, 255, 0.3)
-    //    : const Color.fromRGBO(0, 0, 0, 0.3);
-
+  Widget build(BuildContext context) {
     Widget controlButton(IconData icon, String tooltip, Function() onPress) {
       return IconButton(
         onPressed: onPress,
@@ -64,112 +70,95 @@ class LauncherMenu extends DesktopMenu {
       );
     }
 
-    return Column(
-      children: [
-        Container(
-          margin: defaultPadding,
-          child: DeuiButtonBase(
-            backgroundColor: JappeOsDesktopUI.theme_customGlassFieldBgColor(context),
-            borderRadius: 100,
-            width: 500 - defaultPaddingNum * 2,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5 * 2),
-                child: Text(
-                  'Search Files, Apps & More',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color, fontSize: 16),
-                ),
+    return DMenuContainer(
+      width: 500,
+      height: 500,
+      child: Column(
+        children: [
+          SizedBox(width: double.infinity, child: Container(margin: const EdgeInsets.all(kDefaultPadding), child: OutlinedButton(onPressed: () {}, child: const Text("Search Files, Apps & More")))),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.all(kDefaultPadding),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: PageView(
+                      controller: _pageController,
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () /*=> Terminal.new().app$launch()*/ {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"), title: "Settings",
+                                    onPress: () /*=> Settings.new().app$launch()*/ {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                    onPress: () {}),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: kDefaultPadding,
+                  ),
+                  verticalIndicatorCircleBar(_pageCount, 0),
+                ],
               ),
             ),
-            onPress: () => DesktopState.setDesktopMenuWidget(SearchMenu()),
           ),
-        ),
-        Expanded(
-          child: Container(
-            margin: defaultPadding,
+          AdvancedContainer(
+            height: 50,
+            borderRadius: BPPresets.medium,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  child: PageView(
-                    controller: _pageController,
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal",
-                                  () /*=> Terminal.new().app$launch()*/ {}),
-                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"), "Settings",
-                                  () /*=> Settings.new().app$launch()*/ {}),
-                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "ShadeUI Test",
-                                  () => WidgetTesting.new().app$launch()),
-                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {})
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {}),
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {}),
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {}),
-                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {})
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {}),
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {}),
-                              DApplicationItem(
-                                  SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {}),
-                              DApplicationItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), "Terminal", () {})
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: defaultPaddingNum,
-                ),
-                verticalIndicatorCircleBar(_pageCount, 0),
+                controlButton(Icons.power_settings_new, "Shut Down", () {}),
+                controlButton(Icons.nightlight, "Sleep", () {}),
+                controlButton(Icons.account_circle, "Account", () {}),
+                controlButton(Icons.settings, "Settings", () {
+                  //Applications.sys$runProcess(Settings());
+                }),
               ],
             ),
           ),
-        ),
-        Container(
-          height: 50,
-          color: JappeOsDesktopUI.theme_customGlassFieldBgColor(context),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              controlButton(Icons.power_settings_new, "Shut Down", () {}),
-              controlButton(Icons.nightlight, "Sleep", () {}),
-              controlButton(Icons.account_circle, "Account", () {}),
-              controlButton(Icons.settings, "Settings", () {
-                //Applications.sys$runProcess(Settings());
-              }),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
-
-  @override
-  DesktopMenuPosition getPos() => DesktopMenuPosition.left;
-
-  @override
-  Size? getSize() => const Size(500, 500);
 }

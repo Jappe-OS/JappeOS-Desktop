@@ -15,9 +15,9 @@
     },
     {
       "name": "args",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.4.2",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.5.0",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "async",
@@ -218,12 +218,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "jappeos_desktop_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/JappeOS-DesktopUI-5b751257f8ca993e9e4b5a32a8b4735e1ad47db8/",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
       "name": "js",
       "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
@@ -258,6 +252,12 @@
       "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/material_color_utilities-0.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.13"
+    },
+    {
+      "name": "menu_bar",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/menu_bar-0.5.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "meta",
@@ -368,12 +368,6 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "pluto_menu_bar",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/pluto_menu_bar-3.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "pool",
       "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/pool-1.5.1",
       "packageUri": "lib/",
@@ -381,7 +375,7 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.1",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -399,7 +393,7 @@
     },
     {
       "name": "shade_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-9c127cf307846fe9cb3928cb1287e2f106edf77b/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-f89e513b4070e65bce2bcc3d7c23c189ea7badd5/",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -632,7 +626,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-02-20T15:05:44.584905Z",
+  "generated": "2024-07-12T21:08:21.632152Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

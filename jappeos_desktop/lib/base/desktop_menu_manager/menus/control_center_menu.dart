@@ -14,13 +14,24 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-part of base;
+// ignore_for_file: library_private_types_in_public_api
+
+part of jappeos_desktop.base;
 
 class ControlCenterMenu extends DesktopMenu {
+  const ControlCenterMenu({Key? key}) : super(key: key);
+
   @override
-  Widget getContents(BuildContext context) {
+  _ControlCenterMenuState createState() => _ControlCenterMenuState();
+}
+
+class _ControlCenterMenuState extends State<ControlCenterMenu> {
+  static const kDefaultPadding = BPPresets.medium;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: defaultPadding,
+      padding: const EdgeInsets.all(kDefaultPadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -32,9 +43,9 @@ class ControlCenterMenu extends DesktopMenu {
             _QuickActionItem(text: "Dark Theme", icon: Icons.dark_mode_rounded, selectedInit: true, onPressed: (p0) {}),
             _QuickActionItem(text: "EN_US", icon: Icons.keyboard_rounded, selectedInit: true, onPressed: (p0) {}),
           ]),
-          SizedBox(height: defaultPaddingNum * 2),
+          const SizedBox(height: kDefaultPadding * 2),
           const Divider(),
-          SizedBox(height: defaultPaddingNum * 2),
+          const SizedBox(height: kDefaultPadding * 2),
           Row(children: [
             IconButton(icon: const Icon(Icons.volume_up), onPressed: () {}),
             Expanded(child: Slider(value: 0.5, onChanged: (p0) {})),
@@ -49,12 +60,6 @@ class ControlCenterMenu extends DesktopMenu {
       ),
     );
   }
-
-  @override
-  DesktopMenuPosition getPos() => DesktopMenuPosition.right;
-
-  @override
-  Size? getSize() => const Size(400, -1);
 }
 
 class _QuickActionItem extends StatefulWidget {

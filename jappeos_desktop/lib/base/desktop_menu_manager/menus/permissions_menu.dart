@@ -14,18 +14,29 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-part of base;
+// ignore_for_file: library_private_types_in_public_api
+
+part of jappeos_desktop.base;
 
 class PermissionsMenu extends DesktopMenu {
+  const PermissionsMenu({Key? key}) : super(key: key);
+
+  @override
+  _PermissionsMenuState createState() => _PermissionsMenuState();
+}
+
+class _PermissionsMenuState extends State<PermissionsMenu> {
+  static const kDefaultPadding = BPPresets.medium;
+
   final List<_ExpansionPanelListItem> _data = [
     _ExpansionPanelListItem(expandedValues: ["Google Chrome", "Discord"], headerValue: "Microphone", headerIcon: Icons.mic),
     _ExpansionPanelListItem(expandedValues: ["Google Chrome", "Discord"], headerValue: "Camera", headerIcon: Icons.camera),
   ];
 
   @override
-  Widget getContents(BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
-      padding: defaultPadding,
+      padding: const EdgeInsets.all(kDefaultPadding),
       child: SingleChildScrollView(
         child: ExpansionPanelList(
           expansionCallback: (int index, bool isExpanded) {
@@ -49,12 +60,6 @@ class PermissionsMenu extends DesktopMenu {
       ),
     );
   }
-
-  @override
-  DesktopMenuPosition getPos() => DesktopMenuPosition.right;
-
-  @override
-  Size? getSize() => const Size(400, 400);
 }
 
 class _ExpansionPanelListItem {

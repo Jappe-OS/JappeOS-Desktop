@@ -14,40 +14,37 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-part of base;
+// ignore_for_file: library_private_types_in_public_api
+
+part of jappeos_desktop.base;
 
 class NotificationMenu extends DesktopMenu {
+  const NotificationMenu({Key? key}) : super(key: key);
+
   @override
-  Widget getContents(BuildContext context) {
+  _NotificationMenuState createState() => _NotificationMenuState();
+}
+
+class _NotificationMenuState extends State<NotificationMenu> {
+  static const kDefaultPadding = BPPresets.medium;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: defaultPadding,
+      padding: const EdgeInsets.all(kDefaultPadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CalendarDatePicker(initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(9000), onDateChanged: (p0) {}),
           const Divider(),
-          DeuiButtonBaseGlasshover(
-            borderRadius: 55,
-            backgroundColorTransp: true,
-            //backgroundColor: SHUI_THEME_PROPERTIES(context).backgroundColor1.withOpacity(0.1),
-            onPress: () {},
-            child: const Center(
-              child: DeuiText(isTitle: false, text: "Clear All"),
-            ),
-          ),
+          OutlinedButton(onPressed: () {}, child: const Text("Clear All")),
           const SizedBox(height: 5),
           const _NotificationCard(title: "Title", contentText: "Content Text"),
         ],
       ),
     );
   }
-
-  @override
-  DesktopMenuPosition getPos() => DesktopMenuPosition.right;
-
-  @override
-  Size? getSize() => const Size(400, -1);
 }
 
 class _NotificationCard extends StatefulWidget {
@@ -76,13 +73,12 @@ class _NotificationCardState extends State<_NotificationCard> {
           hovered = false;
         });
       },
-      child: Container(
+      child: AdvancedContainer(
         width: double.infinity,
-        decoration: BoxDecoration(
-          color: JappeOsDesktopUI.theme_customGlassFieldBgColor(context),
-          borderRadius: BorderRadius.circular(JappeOsDesktopUI.getDefaultBorderRadius()),
-          border: hovered ? Border.all(color: JappeOsDesktopUI.theme_customBorderColor(context), width: 1, strokeAlign: BorderSide.strokeAlignOutside) : null,
-        ),
+        background: AdvancedContainerBackground.transparentBackground,
+        borderStyle: hovered ? AdvancedContainerBorder.single : AdvancedContainerBorder.none,
+        borderRadius: BPPresets.medium,
+        blur: true,
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Column(
@@ -90,12 +86,13 @@ class _NotificationCardState extends State<_NotificationCard> {
             children: [
               Row(children: [
                 Expanded(child: Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold))),
-                if (hovered) GestureDetector(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.close,
-                      size: 20,
-                    )),
+                if (hovered)
+                  GestureDetector(
+                      onTap: () {},
+                      child: const Icon(
+                        Icons.close,
+                        size: 20,
+                      )),
               ]),
               Text(widget.contentText),
             ],

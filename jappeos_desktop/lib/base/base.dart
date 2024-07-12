@@ -14,20 +14,14 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-library base;
+library jappeos_desktop.base;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jappeos_desktop/applications/widgetTesting/main.dart';
 import 'package:jappeos_desktop/main.dart';
 import 'package:jappeos_desktop/window_manager/window_manager.dart';
-import 'package:jappeos_desktop_ui/jappeos_desktop_ui.dart';
-import 'package:jappeos_desktop_ui/widgets/bases/button_base_glasshover.dart';
-import 'package:jappeos_desktop_ui/widgets/blur_container.dart';
-import 'package:jappeos_desktop_ui/widgets/context_menu.dart';
-import 'package:jappeos_desktop_ui/widgets/text.dart';
 
-import 'package:jappeos_desktop_ui/widgets/bases/button_base.dart';
+import 'package:shade_ui/shade_ui.dart';
 
 //
 // Base

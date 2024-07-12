@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-part of window_manager;
+part of jappeos_desktop.window_manager;
 
 /// This class can be used to spawn a new window.
 class WindowStackController {

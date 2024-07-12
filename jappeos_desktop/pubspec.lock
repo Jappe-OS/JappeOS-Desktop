@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: eef6c46b622e0494a36c5a12d10d77fb4e855501a91c1b9ef9339326e58f0596
+      sha256: "7cf60b9f0cc88203c5a190b4cd62a99feea42759a7fa695010eb5de1c0b2252a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.5.0"
   async:
     dependency: transitive
     description:
@@ -280,15 +280,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  jappeos_desktop_ui:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "5b751257f8ca993e9e4b5a32a8b4735e1ad47db8"
-      url: "https://github.com/Jappe-OS/JappeOS-DesktopUI.git"
-    source: git
-    version: "1.0.0+1"
   js:
     dependency: transitive
     description:
@@ -337,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  menu_bar:
+    dependency: transitive
+    description:
+      name: menu_bar
+      sha256: ab436747560ce19666fb37c617482085c12d9d9679f1d7e321df8f104fd025a8
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
   meta:
     dependency: transitive
     description:
@@ -481,14 +480,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pluto_menu_bar:
-    dependency: transitive
-    description:
-      name: pluto_menu_bar
-      sha256: "154a9907b0758b804fb0f5bcfb0a28f504af4349124bf7d7b5aa815a2dde820a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   pool:
     dependency: transitive
     description:
@@ -501,10 +492,10 @@ packages:
     dependency: "direct main"
     description:
       name: provider
-      sha256: "9a96a0a19b594dbc5bf0f1f27d2bc67d5f95957359b461cd9feb44ed6ae75096"
+      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.1"
+    version: "6.1.2"
   pub_semver:
     dependency: transitive
     description:
@@ -526,7 +517,7 @@ packages:
     description:
       path: "."
       ref: "master-2.0"
-      resolved-ref: "9c127cf307846fe9cb3928cb1287e2f106edf77b"
+      resolved-ref: f89e513b4070e65bce2bcc3d7c23c189ea7badd5
       url: "https://github.com/Jappe-OS/ShadeUI.git"
     source: git
     version: "2.0.0+3"

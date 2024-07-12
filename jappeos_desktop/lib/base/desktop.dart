@@ -16,7 +16,7 @@
 
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
-part of base;
+part of jappeos_desktop.base;
 
 /// The stateful widget for the base desktop UI.
 class Desktop extends StatefulWidget {
@@ -34,43 +34,28 @@ class DesktopState extends State<Desktop> {
   static WindowStackController? _wmController;
   static WindowStackController? getWmController() => _wmController;
 
+  /// The [BuildContext] for the desktop UI, the use of
+  /// this field is meant ONLY for the desktop menu system.
+  static BuildContext? publicContext;
+
+  /// Whether to render GUI on the desktop or not, if false, only the WM windows will be rendered.
+  static bool renderGUI = true;
+
+  late final DesktopMenuController _menuController;
+
+  bool dockIsShown = true;
+
   @override
   void initState() {
     super.initState();
 
     _wmController = WindowStackController(() => setState(() {}));
+    _menuController = DesktopMenuController((x) => setState(x ?? () {}));
   }
-
-  /// The [BuildContext] for the desktop UI, the use of
-  /// this field is meant ONLY for the desktop menu system.
-  static BuildContext? publicContext;
-
-  static DesktopMenu? _dm;
-  static Alignment _dmPosToAlign = Alignment.topLeft;
-  static void setDesktopMenuWidget(DesktopMenu? dm) {
-    _dm = dm;
-    if (dm == null) return;
-    switch (dm.getPos()) {
-      case DesktopMenuPosition.left:
-        _dmPosToAlign = Alignment.topLeft;
-        break;
-      case DesktopMenuPosition.center:
-        _dmPosToAlign = Alignment.topCenter;
-        break;
-      case DesktopMenuPosition.right:
-        _dmPosToAlign = Alignment.topRight;
-        break;
-    }
-  }
-
-  /// Whether to render GUI on the desktop or not, if false, only the WM windows will be rendered.
-  static bool renderGUI = true;
-
-  bool dockIsShown = true;
 
   @override
   Widget build(BuildContext context) {
-/*TODO: Remove*/ print("DESKTOP REBUILD");
+    /*TODO: Remove*/ print("DESKTOP REBUILD");
 
     publicContext = context;
 
@@ -80,7 +65,8 @@ class DesktopState extends State<Desktop> {
       right: 0,
       top: 0,
       bottom: 0,
-      child: Stack( // <-- TODO: Remove extra stack
+      child: Stack(
+        // <-- TODO: Remove extra stack
         children: [
           WindowStack(
             wmController: _wmController,
@@ -112,17 +98,11 @@ class DesktopState extends State<Desktop> {
                 height: DSKTP_UI_LAYER_DOCK_HEIGHT,
                 margin: const EdgeInsets.only(bottom: 10),
                 child: IntrinsicWidth(
-                  child: DeuiBlurContainer(
-                    bordered: true,
-                    radiusSides: BorderRadiusSides(true, true, true, true),
+                  child: DMenuContainer(
                     child: Row(
                       children: [
-                        _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/development-appmaker.svg"), () {
-                          //AppMaker.new().app$launch(); TODO
-                        }),
-                        _LocalDesktopWidgets._dockItem(SvgPicture.asset("resources/images/_icontheme/Default/apps/accessories-calculator.svg"), () {
-                          //Calculator.new().app$launch(); TODO
-                        }),
+                        DApplicationItem.icon(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/development-appmaker.svg"), onPress: () {}),
+                        DApplicationItem.icon(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/accessories-calculator.svg"), onPress: () {}),
                       ],
                     ),
                   ),
@@ -152,8 +132,7 @@ class DesktopState extends State<Desktop> {
       left: 0,
       right: 0,
       height: DSKTP_UI_LAYER_TOPBAR_HEIGHT,
-      child: DeuiBlurContainer(
-        hasShadow: _wmController!.windows.isEmpty || (_wmController!.windows.isNotEmpty && _wmController!.windows.last.state != WindowState.maximized),
+      child: DMenuContainer(
         child: Stack(
           children: [
             Align(
@@ -162,16 +141,17 @@ class DesktopState extends State<Desktop> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 // The items on the TopBar on the left side.
                 children: [
-                  // Launcher button.
-                  _LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.apps), true, () {
-                    setState(() => DesktopMenuController.showMenu(LauncherMenu()));
-                  }),
-                  // Search button.
-                  _LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.search), true, () {
-                    setState(() => DesktopMenuController.showMenu(SearchMenu()));
-                  }),
-                  // TaskView button.
-                  _LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.menu_open), true, () {}),
+                  DTopbarButton.icon(icon: Icons.apps, menuControllerRef: _menuController, menu: const LauncherMenu())
+                  //// Launcher button.
+                  //_LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.apps), true, () {
+                  //  setState(() => DesktopMenuController.showMenu(LauncherMenu()));
+                  //}),
+                  //// Search button.
+                  //_LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.search), true, () {
+                  //  setState(() => DesktopMenuController.showMenu(SearchMenu()));
+                  //}),
+                  //// TaskView button.
+                  //_LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.menu_open), true, () {}),
                 ],
               ),
             ),
@@ -181,41 +161,41 @@ class DesktopState extends State<Desktop> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 // The items on the TopBar on the right side.
                 children: [
-                  // System tray buttons.
-                  _LocalDesktopWidgets._topBarItem(
-                      null,
-                      Row(children: [
-                        _LocalDesktopWidgets._topBarItemIcon(context, Icons.mic),
-                        const SizedBox(width: 3),
-                        _LocalDesktopWidgets._topBarItemIcon(context, Icons.camera)
-                      ]),
-                      true, () {
-                    setState(() => DesktopMenuController.showMenu(PermissionsMenu()));
-                  }),
-                  // QuickSettings button.
-                  _LocalDesktopWidgets._topBarItem(
-                      null,
-                      Row(children: [
-                        _LocalDesktopWidgets._topBarItemIcon(context, Icons.wifi),
-                        const SizedBox(width: 3),
-                        _LocalDesktopWidgets._topBarItemIcon(context, Icons.volume_mute),
-                        const SizedBox(width: 3),
-                        _LocalDesktopWidgets._topBarItemIcon(context, Icons.battery_full)
-                      ]),
-                      true, () {
-                    setState(() => DesktopMenuController.showMenu(ControlCenterMenu()));
-                  }),
-                  // Notifications and Time&Date button.
-                  _LocalDesktopWidgets._topBarItem(
-                      null,
-                      Row(children: [
-                        const DeuiText(isTitle: false, text: "19:00"),
-                        const SizedBox(width: 3),
-                        _LocalDesktopWidgets._topBarItemIcon(context, Icons.notifications)
-                      ]),
-                      true, () {
-                    setState(() => DesktopMenuController.showMenu(NotificationMenu()));
-                  }),
+                  //// System tray buttons.
+                  //_LocalDesktopWidgets._topBarItem(
+                  //    null,
+                  //    Row(children: [
+                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.mic),
+                  //      const SizedBox(width: 3),
+                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.camera)
+                  //    ]),
+                  //    true, () {
+                  //  setState(() => DesktopMenuController.showMenu(PermissionsMenu()));
+                  //}),
+                  //// QuickSettings button.
+                  //_LocalDesktopWidgets._topBarItem(
+                  //    null,
+                  //    Row(children: [
+                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.wifi),
+                  //      const SizedBox(width: 3),
+                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.volume_mute),
+                  //      const SizedBox(width: 3),
+                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.battery_full)
+                  //    ]),
+                  //    true, () {
+                  //  setState(() => DesktopMenuController.showMenu(ControlCenterMenu()));
+                  //}),
+                  //// Notifications and Time&Date button.
+                  //_LocalDesktopWidgets._topBarItem(
+                  //    null,
+                  //    Row(children: [
+                  //      const DeuiText(isTitle: false, text: "19:00"),
+                  //      const SizedBox(width: 3),
+                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.notifications)
+                  //    ]),
+                  //    true, () {
+                  //  setState(() => DesktopMenuController.showMenu(NotificationMenu()));
+                  //}),
                 ],
               ),
             ),
@@ -226,18 +206,6 @@ class DesktopState extends State<Desktop> {
 
     List<Widget> getDesktopLayersUI() {
       List<Widget> widgets = [
-        // Context menu area.
-        DeuiContextMenuArea(
-          contextMenu: DeuiContextMenu(
-            items: [
-              DeuiContextMenuItem(
-                text: "Item",
-                onPress: () {},
-              ),
-            ],
-          ),
-        ),
-
         // The layer for the desktop windows. Desktop mode only.
         if (!MOBILE_MODE) windowLayer,
 
@@ -252,42 +220,25 @@ class DesktopState extends State<Desktop> {
       ];
 
       // The desktop-menu clicking area to close an active menu.
-      if (_dm != null) {
-        _dm?.setStateF = (p0) => setState(p0);
-        widgets.add(
-          Positioned(
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            child: GestureDetector(
-              onTap: () => setState(() => _dm = null),
-            ),
-          ),
-        );
-      }
+      //if (_dm != null) {
+      //  _dm?.setStateF = (p0) => setState(p0);
+      //  widgets.add(
+      //    Positioned(
+      //      top: 0,
+      //      left: 0,
+      //      bottom: 0,
+      //      right: 0,
+      //      child: GestureDetector(
+      //        onTap: () => setState(() => _dm = null),
+      //      ),
+      //    ),
+      //  );
+      //}
 
       // The desktop-menu layer of the desktop.
-      widgets.add(
-        Positioned(
-          left: 5,
-          right: 5,
-          top: 35,
-          bottom: 5,
-          child: Align(
-            alignment: _dmPosToAlign,
-            child: _dm == null
-                ? null
-                : DeuiBlurContainer(
-                    width: _dm?.getSize()?.width == -1 ? null : _dm?.getSize()?.width,
-                    height: _dm?.getSize()?.height == -1 ? null : _dm?.getSize()?.height,
-                    bordered: true,
-                    radiusSides: BorderRadiusSides(true, true, true, true),
-                    child: _dm?.getContents(context) ?? const Placeholder(),
-                  ),
-          ),
-        ),
-      );
+      if (_menuController.getWidget() != null) {
+        widgets.add(_menuController.getWidget() as Widget);
+      }
 
       return widgets;
     }
@@ -311,47 +262,5 @@ class DesktopState extends State<Desktop> {
               ),
             ),
           );
-  }
-}
-
-/// A class that contains all the desktop widgets like the TopBar buttons, Dock items, etc.
-class _LocalDesktopWidgets {
-  /// The item element(s) that will be shown in the dock.
-  static Widget _dockItem(SvgPicture? img, Function() onPressed) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: DeuiButtonBaseGlasshover(
-        height: 70,
-        width: 70,
-        padding: const EdgeInsets.all(10),
-        borderRadius: JappeOsDesktopUI.getDefaultBorderRadius() - 5,
-        backgroundColor: Colors.transparent,
-        backgroundColorTransp: false,
-        onPress: onPressed,
-        child: img ?? const Placeholder(),
-      ),
-    );
-  }
-
-  /// The item element(s) used in the topBar widget.
-  static Widget _topBarItem(String? text, Widget? customWidget, bool custom, Function()? onPressed) {
-    return DeuiButtonBaseGlasshover(
-      height: 26,
-      onPress: onPressed,
-      padding: const EdgeInsets.only(left: 5, right: 5),
-      margin: const EdgeInsets.only(left: 5, right: 5, top: 2),
-      backgroundColorTransp: false,
-      backgroundColor: Colors.transparent,
-      borderRadius: 15,
-      child: custom ? customWidget : DeuiText(isTitle: false, text: text ?? "null"),
-    );
-  }
-
-  /// The icons used in the [_topBarItem] element.
-  static Widget _topBarItemIcon(BuildContext context, IconData iconData) {
-    return Icon(
-      iconData,
-      size: 17,
-    );
   }
 }

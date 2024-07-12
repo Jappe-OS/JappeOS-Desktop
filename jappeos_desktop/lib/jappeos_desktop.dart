@@ -1,5 +1,5 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
-//  Copyright (C) 2023  Jappe02
+//  Copyright (C) 2024  Jappe02
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
@@ -14,11 +14,4 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-// ignore_for_file: constant_identifier_names
-
-part of jappeos_desktop.base;
-
-const DSKTP_UI_LAYER_TOPBAR_HEIGHT = 30.0;
-const DSKTP_UI_LAYER_DOCK_HEIGHT = 80.0;
-@Deprecated("This constant is temporary and will be removed later on. This is meant to be a modifiable OS setting that changes the wallpaper/desktop background image.")
-const DSKTP_UI_LAYER_BACKGROUND_WALLPAPER_DIR = "resources/images/desktop/backgrounds/wallpaper1.jpg";
+library jappeos_desktop;

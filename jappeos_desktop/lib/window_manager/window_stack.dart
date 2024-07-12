@@ -16,7 +16,7 @@
 
 // ignore_for_file: library_private_types_in_public_api
 
-part of window_manager;
+part of jappeos_desktop.window_manager;
 
 /// A widget to manage windows.
 class WindowStack extends StatefulWidget {
@@ -114,6 +114,7 @@ class _WindowStackItemState extends State<_WindowStackItem> with TickerProviderS
       windowIsFocused: e.isFocused,
       windowIsResizable: e.isResizable,
       windowPos: e.pos,
+      windowMinSize: e.minSize,
       windowSize: e.size,
       windowState: e.state,
       focusCallback: e.setFocus,

@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU Affero General Public License
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-part of window_manager;
+part of jappeos_desktop.window_manager;
 
 class Window {
   static final defaultMinWindowSize = Vector2(107, 37);
@@ -157,17 +157,17 @@ class Window {
 
   // Events
 
-  var onTitleChanged = Event<WindowEvent<String>>();
-  var onFocusChanged = Event<WindowEvent<bool>>();
-  var onResizableChanged = Event<WindowEvent<bool>>();
-  var onBackgroundRenderModeChanged = Event<WindowEvent<BackgroundMode>>();
-  var onPosChanged = Event<WindowEvent<Vector2>>();
-  var onSizeChanged = Event<WindowEvent<Vector2>>();
-  var onMinSizeChanged = Event<WindowEvent<Vector2>>();
-  var onStateChanged = Event<WindowEvent<WindowState>>();
-  var onNewRender = Event<WindowEvent<Uint8List>>();
+  final onTitleChanged = Event<WindowEvent<String>>();
+  final onFocusChanged = Event<WindowEvent<bool>>();
+  final onResizableChanged = Event<WindowEvent<bool>>();
+  final onBackgroundRenderModeChanged = Event<WindowEvent<BackgroundMode>>();
+  final onPosChanged = Event<WindowEvent<Vector2>>();
+  final onSizeChanged = Event<WindowEvent<Vector2>>();
+  final onMinSizeChanged = Event<WindowEvent<Vector2>>();
+  final onStateChanged = Event<WindowEvent<WindowState>>();
+  final onNewRender = Event<WindowEvent<Uint8List>>();
 
-  var onEvent = Event<WindowEvent>();
+  final onEvent = Event<WindowEvent>();
 }
 
 enum WindowState { normal, maximized, minimized }
