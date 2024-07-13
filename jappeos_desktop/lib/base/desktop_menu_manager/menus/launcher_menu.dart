@@ -70,12 +70,16 @@ class _LauncherMenuState extends State<LauncherMenu> {
       );
     }
 
-    return DMenuContainer(
+    return DOverlayContainer(
       width: 500,
       height: 500,
       child: Column(
         children: [
-          SizedBox(width: double.infinity, child: Container(margin: const EdgeInsets.all(kDefaultPadding), child: OutlinedButton(onPressed: () {}, child: const Text("Search Files, Apps & More")))),
+          SizedBox(
+              width: double.infinity,
+              child: Container(
+                  margin: const EdgeInsets.all(kDefaultPadding),
+                  child: OutlinedButton(onPressed: () {}, child: const Text("Search Files, Apps & More")))),
           Expanded(
             child: Container(
               margin: const EdgeInsets.all(kDefaultPadding),
@@ -92,39 +96,63 @@ class _LauncherMenuState extends State<LauncherMenu> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
                                     onPress: () /*=> Terminal.new().app$launch()*/ {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"), title: "Settings",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"),
+                                    title: "Settings",
                                     onPress: () /*=> Settings.new().app$launch()*/ {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
                                     onPress: () {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
-                                    onPress: () {}),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
-                                    onPress: () {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
-                                    onPress: () {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
-                                    onPress: () {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
                                     onPress: () {}),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
                                     onPress: () {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
                                     onPress: () {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
                                     onPress: () {}),
-                                DApplicationItem.iconWithTitle(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"), title: "Terminal",
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
+                                    onPress: () {}),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
+                                    onPress: () {}),
+                                DApplicationItem.iconWithTitle(
+                                    image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
+                                    title: "Terminal",
                                     onPress: () {}),
                               ],
                             ),

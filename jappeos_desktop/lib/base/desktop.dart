@@ -98,11 +98,13 @@ class DesktopState extends State<Desktop> {
                 height: DSKTP_UI_LAYER_DOCK_HEIGHT,
                 margin: const EdgeInsets.only(bottom: 10),
                 child: IntrinsicWidth(
-                  child: DMenuContainer(
+                  child: DOverlayContainer(
                     child: Row(
                       children: [
-                        DApplicationItem.icon(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/development-appmaker.svg"), onPress: () {}),
-                        DApplicationItem.icon(image: SvgPicture.asset("resources/images/_icontheme/Default/apps/accessories-calculator.svg"), onPress: () {}),
+                        DApplicationItem.icon(
+                            image: SvgPicture.asset("resources/images/_icontheme/Default/apps/development-appmaker.svg"), onPress: () {}),
+                        DApplicationItem.icon(
+                            image: SvgPicture.asset("resources/images/_icontheme/Default/apps/accessories-calculator.svg"), onPress: () {}),
                       ],
                     ),
                   ),
@@ -132,7 +134,11 @@ class DesktopState extends State<Desktop> {
       left: 0,
       right: 0,
       height: DSKTP_UI_LAYER_TOPBAR_HEIGHT,
-      child: DMenuContainer(
+      child: AdvancedContainer(
+        background: AdvancedContainerBackground.transparentBackground,
+        borderStyle: AdvancedContainerBorder.none,
+        borderRadius: 0,
+        blur: true,
         child: Stack(
           children: [
             Align(
@@ -141,15 +147,8 @@ class DesktopState extends State<Desktop> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 // The items on the TopBar on the left side.
                 children: [
-                  DTopbarButton.icon(icon: Icons.apps, menuControllerRef: _menuController, menu: const LauncherMenu())
-                  //// Launcher button.
-                  //_LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.apps), true, () {
-                  //  setState(() => DesktopMenuController.showMenu(LauncherMenu()));
-                  //}),
-                  //// Search button.
-                  //_LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.search), true, () {
-                  //  setState(() => DesktopMenuController.showMenu(SearchMenu()));
-                  //}),
+                  DTopbarButton.icon(icon: Icons.apps, menuControllerRef: _menuController, menu: const LauncherMenu()),
+                  DTopbarButton.icon(icon: Icons.search, menuControllerRef: _menuController, menu: const SearchMenu()),
                   //// TaskView button.
                   //_LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.menu_open), true, () {}),
                 ],
@@ -161,47 +160,15 @@ class DesktopState extends State<Desktop> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 // The items on the TopBar on the right side.
                 children: [
-                  //// System tray buttons.
-                  //_LocalDesktopWidgets._topBarItem(
-                  //    null,
-                  //    Row(children: [
-                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.mic),
-                  //      const SizedBox(width: 3),
-                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.camera)
-                  //    ]),
-                  //    true, () {
-                  //  setState(() => DesktopMenuController.showMenu(PermissionsMenu()));
-                  //}),
-                  //// QuickSettings button.
-                  //_LocalDesktopWidgets._topBarItem(
-                  //    null,
-                  //    Row(children: [
-                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.wifi),
-                  //      const SizedBox(width: 3),
-                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.volume_mute),
-                  //      const SizedBox(width: 3),
-                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.battery_full)
-                  //    ]),
-                  //    true, () {
-                  //  setState(() => DesktopMenuController.showMenu(ControlCenterMenu()));
-                  //}),
-                  //// Notifications and Time&Date button.
-                  //_LocalDesktopWidgets._topBarItem(
-                  //    null,
-                  //    Row(children: [
-                  //      const DeuiText(isTitle: false, text: "19:00"),
-                  //      const SizedBox(width: 3),
-                  //      _LocalDesktopWidgets._topBarItemIcon(context, Icons.notifications)
-                  //    ]),
-                  //    true, () {
-                  //  setState(() => DesktopMenuController.showMenu(NotificationMenu()));
-                  //}),
+                  DTopbarButton.icons(icons: const [Icons.mic, Icons.camera], menuControllerRef: _menuController, menu: const PermissionsMenu()),
+                  DTopbarButton.icons(icons: const [Icons.wifi, Icons.volume_mute, Icons.battery_full], menuControllerRef: _menuController, menu: const ControlCenterMenu()),
+                  DTopbarButton.textAndIcon(icon: Icons.notifications, text: "19:00", menuControllerRef: _menuController, menu: const NotificationMenu()),
                 ],
               ),
             ),
           ],
         ),
-      ),
+      ).copyWith(),
     );
 
     List<Widget> getDesktopLayersUI() {

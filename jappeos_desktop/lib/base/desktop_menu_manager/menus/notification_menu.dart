@@ -30,22 +30,59 @@ class _NotificationMenuState extends State<NotificationMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CalendarDatePicker(initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(9000), onDateChanged: (p0) {}),
-          const Divider(),
-          OutlinedButton(onPressed: () {}, child: const Text("Clear All")),
-          const SizedBox(height: 5),
-          const _NotificationCard(title: "Title", contentText: "Content Text"),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        DOverlayContainer(
+          width: 400,
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: CalendarDatePicker(initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(9000), onDateChanged: (p0) {}),
+        ),
+        const SizedBox(height: kDefaultPadding),
+        AdvancedContainer(
+          width: 400,
+          background: AdvancedContainerBackground.transparentBackground,
+          borderRadius: BPPresets.medium,
+          blur: true,
+          child: TextButton(onPressed: () {}, child: const Text("Clear All")),
+        ),
+        const SizedBox(height: kDefaultPadding),
+        const _NotificationCard(title: "Title", contentText: "Content Text"),
+      ],
     );
   }
 }
+
+//class NotificationMenu extends DesktopMenu {
+//  const NotificationMenu({Key? key}) : super(key: key);
+//
+//  @override
+//  _NotificationMenuState createState() => _NotificationMenuState();
+//}
+//
+//class _NotificationMenuState extends State<NotificationMenu> {
+//  static const kDefaultPadding = BPPresets.medium;
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return DOverlayContainer(
+//      child: Padding(
+//        padding: const EdgeInsets.all(kDefaultPadding),
+//        child: Column(
+//          mainAxisSize: MainAxisSize.min,
+//          crossAxisAlignment: CrossAxisAlignment.center,
+//          children: [
+//            CalendarDatePicker(initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(9000), onDateChanged: (p0) {}),
+//            const Divider(),
+//            OutlinedButton(onPressed: () {}, child: const Text("Clear All")),
+//            const SizedBox(height: 5),
+//            const _NotificationCard(title: "Title", contentText: "Content Text"),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+//}
 
 class _NotificationCard extends StatefulWidget {
   final String title;
@@ -74,29 +111,28 @@ class _NotificationCardState extends State<_NotificationCard> {
         });
       },
       child: AdvancedContainer(
-        width: double.infinity,
+        width: 400,
         background: AdvancedContainerBackground.transparentBackground,
         borderStyle: hovered ? AdvancedContainerBorder.single : AdvancedContainerBorder.none,
         borderRadius: BPPresets.medium,
         blur: true,
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [
-                Expanded(child: Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold))),
-                if (hovered)
-                  GestureDetector(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.close,
-                        size: 20,
-                      )),
-              ]),
-              Text(widget.contentText),
-            ],
-          ),
+        padding: const EdgeInsets.all(BPPresets.medium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              Expanded(child: Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold))),
+              if (hovered)
+                GestureDetector(
+                    onTap: () {},
+                    child: const Icon(
+                      Icons.close,
+                      size: 20,
+                    )),
+            ]),
+            Text(widget.contentText),
+          ],
         ),
       ),
     );

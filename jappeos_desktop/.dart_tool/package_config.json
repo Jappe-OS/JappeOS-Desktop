@@ -393,7 +393,7 @@
     },
     {
       "name": "shade_ui",
-      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-f89e513b4070e65bce2bcc3d7c23c189ea7badd5/",
+      "rootUri": "file:///C:/Users/jaspe/AppData/Local/Pub/Cache/git/ShadeUI-40c11debb728273d78cce21a829e7b033f01c489/",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -626,7 +626,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-07-12T21:08:21.632152Z",
+  "generated": "2024-07-13T20:11:18.661211Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

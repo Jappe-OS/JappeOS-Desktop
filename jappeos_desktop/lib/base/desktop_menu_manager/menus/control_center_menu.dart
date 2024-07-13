@@ -30,33 +30,35 @@ class _ControlCenterMenuState extends State<ControlCenterMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Wrap(spacing: 20, runSpacing: 30, children: [
-            _QuickActionItem(text: "Wi-Fi", icon: Icons.wifi_rounded, selectedInit: false, onPressed: (p0) {}),
-            _QuickActionItem(text: "Bluetooth", icon: Icons.bluetooth_rounded, selectedInit: false, onPressed: (p0) {}),
-            _QuickActionItem(text: "Battery (full)", icon: Icons.battery_full_rounded, selectedInit: false, onPressed: (p0) {}),
-            _QuickActionItem(text: "Do Not Disturb", icon: Icons.do_not_disturb_rounded, selectedInit: false, onPressed: (p0) {}),
-            _QuickActionItem(text: "Dark Theme", icon: Icons.dark_mode_rounded, selectedInit: true, onPressed: (p0) {}),
-            _QuickActionItem(text: "EN_US", icon: Icons.keyboard_rounded, selectedInit: true, onPressed: (p0) {}),
-          ]),
-          const SizedBox(height: kDefaultPadding * 2),
-          const Divider(),
-          const SizedBox(height: kDefaultPadding * 2),
-          Row(children: [
-            IconButton(icon: const Icon(Icons.volume_up), onPressed: () {}),
-            Expanded(child: Slider(value: 0.5, onChanged: (p0) {})),
-            IconButton(icon: const Icon(Icons.arrow_drop_down), onPressed: () {}),
-          ]),
-          Row(children: [
-            IconButton(icon: const Icon(Icons.brightness_auto), onPressed: () {}),
-            Expanded(child: Slider(value: 0.5, onChanged: (p0) {})),
-            IconButton(icon: const Icon(Icons.arrow_drop_down), onPressed: () {}),
-          ]),
-        ],
+    return DOverlayContainer(
+      child: Padding(
+        padding: const EdgeInsets.all(kDefaultPadding),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Wrap(spacing: 20, runSpacing: 30, children: [
+              _QuickActionItem(text: "Wi-Fi", icon: Icons.wifi_rounded, selectedInit: false, onPressed: (p0) {}),
+              _QuickActionItem(text: "Bluetooth", icon: Icons.bluetooth_rounded, selectedInit: false, onPressed: (p0) {}),
+              _QuickActionItem(text: "Battery (full)", icon: Icons.battery_full_rounded, selectedInit: false, onPressed: (p0) {}),
+              _QuickActionItem(text: "Do Not Disturb", icon: Icons.do_not_disturb_rounded, selectedInit: false, onPressed: (p0) {}),
+              _QuickActionItem(text: "Dark Theme", icon: Icons.dark_mode_rounded, selectedInit: true, onPressed: (p0) {}),
+              _QuickActionItem(text: "EN_US", icon: Icons.keyboard_rounded, selectedInit: true, onPressed: (p0) {}),
+            ]),
+            const SizedBox(height: kDefaultPadding * 2),
+            const Divider(),
+            const SizedBox(height: kDefaultPadding * 2),
+            IntrinsicWidth(child: Row(mainAxisSize: MainAxisSize.min, children: [
+              IconButton(icon: const Icon(Icons.volume_up), onPressed: () {}),
+              Expanded(child: Slider(value: 0.5, onChanged: (p0) {})),
+              IconButton(icon: const Icon(Icons.arrow_drop_down), onPressed: () {}),
+            ])),
+            IntrinsicWidth(child: Row(mainAxisSize: MainAxisSize.min, children: [
+              IconButton(icon: const Icon(Icons.brightness_auto), onPressed: () {}),
+              Expanded(child: Slider(value: 0.5, onChanged: (p0) {})),
+              IconButton(icon: const Icon(Icons.arrow_drop_down), onPressed: () {}),
+            ])),
+          ],
+        ),
       ),
     );
   }

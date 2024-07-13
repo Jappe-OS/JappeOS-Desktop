@@ -35,27 +35,31 @@ class _PermissionsMenuState extends State<PermissionsMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding),
-      child: SingleChildScrollView(
-        child: ExpansionPanelList(
-          expansionCallback: (int index, bool isExpanded) {
-            setState(() {
-              _data[index].isExpanded = !isExpanded;
-            });
-          },
-          children: _data.map<ExpansionPanel>((_ExpansionPanelListItem item) {
-            return ExpansionPanel(
-              headerBuilder: (BuildContext context, bool isExpanded) {
-                return ListTile(
-                  leading: Icon(item.headerIcon),
-                  title: Text(item.headerValue),
-                );
-              },
-              body: Text(item.expandedValues.join("\n")),
-              isExpanded: item.isExpanded,
-            );
-          }).toList(),
+    return DOverlayContainer(
+      width: 300,
+      height: 300,
+      child: Padding(
+        padding: const EdgeInsets.all(kDefaultPadding),
+        child: SingleChildScrollView(
+          child: ExpansionPanelList(
+            expansionCallback: (int index, bool isExpanded) {
+              setState(() {
+                _data[index].isExpanded = !isExpanded;
+              });
+            },
+            children: _data.map<ExpansionPanel>((_ExpansionPanelListItem item) {
+              return ExpansionPanel(
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return ListTile(
+                    leading: Icon(item.headerIcon),
+                    title: Text(item.headerValue),
+                  );
+                },
+                body: Text(item.expandedValues.join("\n")),
+                isExpanded: item.isExpanded,
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

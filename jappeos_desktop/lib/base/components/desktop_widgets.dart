@@ -132,30 +132,25 @@ class _DApplicationItemState extends State<DApplicationItem> {
   }
 }
 
-/// A wrapper around [AdvancedContainer] that is used for the overlay menus of the desktop.
-class DMenuContainer extends StatefulWidget {
+/// A wrapper around [AdvancedContainer] that is used for the overlays and menus of the desktop.
+class DOverlayContainer extends StatelessWidget {
   final double? width, height;
   final EdgeInsetsGeometry? padding;
   final Widget child;
 
-  const DMenuContainer({super.key, required this.child, this.width, this.height, this.padding});
+  const DOverlayContainer({super.key, required this.child, this.width, this.height, this.padding});
 
-  @override
-  _DMenuContainerState createState() => _DMenuContainerState();
-}
-
-class _DMenuContainerState extends State<DMenuContainer> {
   @override
   Widget build(BuildContext context) {
     return AdvancedContainer(
-      width: widget.width,
-      height: widget.height,
-      padding: widget.padding,
+      width: width,
+      height: height,
+      padding: padding,
       background: AdvancedContainerBackground.transparentBackground,
       borderStyle: AdvancedContainerBorder.double,
       borderRadius: BPPresets.medium,
       blur: true,
-      child: widget.child,
+      child: child,
     );
   }
 }
@@ -267,7 +262,8 @@ class _DTopbarButtonState extends State<DTopbarButton> {
               final renderBox = context.findRenderObject() as RenderBox;
 
               // Get the global position of the widget
-              globalPosition = renderBox.localToGlobal(Offset.zero);
+              final global = renderBox.localToGlobal(Offset.zero);
+              globalPosition = Offset(global.dx + renderBox.size.width / 2, global.dy);
             });
 
             return Material(

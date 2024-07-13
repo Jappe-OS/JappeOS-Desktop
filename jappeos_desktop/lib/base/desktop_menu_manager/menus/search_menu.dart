@@ -30,23 +30,23 @@ class _SearchMenuState extends State<SearchMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(kDefaultPadding),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 400,
-            child: TextField(
+    return const DOverlayContainer(
+      width: 400,
+      child: Padding(
+        padding: EdgeInsets.all(kDefaultPadding),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
               decoration: InputDecoration(
                 hintText: "Search Files, Apps & More",
                 prefixIcon: Icon(Icons.search),
               ),
             ),
-          ),
-          Divider(),
-          Text("Results will be shown here."),
-        ],
+            Divider(),
+            Text("Results will be shown here."),
+          ],
+        ),
       ),
     );
   }
