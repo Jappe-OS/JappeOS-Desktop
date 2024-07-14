@@ -16,7 +16,10 @@
 
 part of jappeos_desktop.base;
 
+// TODO: animate the Positioned correctly
 class DesktopMenuController {
+  static const menuAnimationDuration = Duration(milliseconds: 100);
+
   DesktopMenuController(this.rebuildCallback);
 
   final Function(void Function()?) rebuildCallback;
@@ -91,9 +94,13 @@ class DesktopMenuController {
 
                 return TapRegion(
                   onTapOutside: (_) => closeMenu(),
-                  child: Opacity(opacity: wasInitialBuild ? 0 : 1, child: RepaintBoundary(
-                    child: _currentMenu as Widget,
-                  ),),
+                  child: AnimatedOpacity(
+                    opacity: wasInitialBuild ? 0.3 : 1,
+                    duration: menuAnimationDuration,
+                    child: RepaintBoundary(
+                      child: AnimatedScale(curve: Curves.easeIn, duration: menuAnimationDuration, scale: wasInitialBuild ? 0 : 1, child: _currentMenu as Widget),
+                    ),
+                  ),
                 );
               },
             ),

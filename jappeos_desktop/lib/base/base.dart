@@ -33,8 +33,9 @@ part 'components/desktop_widgets.dart';
 //
 // Menu Manager
 part 'desktop_menu_manager/desktop_menu_controller.dart';
-part 'desktop_menu_manager/menus/launcher_menu.dart';
-part 'desktop_menu_manager/menus/search_menu.dart';
-part 'desktop_menu_manager/menus/notification_menu.dart';
-part 'desktop_menu_manager/menus/control_center_menu.dart';
-part 'desktop_menu_manager/menus/permissions_menu.dart';
+  part 'desktop_menu_manager/menus/launcher_menu.dart';
+  part 'desktop_menu_manager/menus/search_menu.dart';
+  part 'desktop_menu_manager/menus/notification_menu.dart';
+  part 'desktop_menu_manager/menus/control_center_menu/control_center_menu.dart';
+    part 'desktop_menu_manager/menus/control_center_menu/control_center_wifi_page.dart';
+  part 'desktop_menu_manager/menus/permissions_menu.dart';

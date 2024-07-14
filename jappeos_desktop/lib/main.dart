@@ -31,10 +31,11 @@ class _JappeOsDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ShadeApp(
+    return ShadeApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
-      home: Desktop(),
+      customThemeProperties: ShadeCustomThemeProperties(ThemeMode.dark, const Color.fromARGB(255, 109, 192, 114), true),
+      home: const Desktop(),
     );
   }
 }
