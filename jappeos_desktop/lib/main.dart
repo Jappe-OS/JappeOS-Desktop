@@ -16,6 +16,7 @@
 
 // ignore_for_file: library_private_types_in_public_api, constant_identifier_names
 
+import 'package:args/args.dart';
 import 'package:flutter/material.dart';
 import 'package:shade_ui/shade_ui.dart';
 
@@ -23,7 +24,14 @@ import 'base/base.dart';
 
 const MOBILE_MODE = false;
 
-Future main() async => runApp(const _JappeOsDesktop());
+Future main(List<String> arguments) async {
+  final parser = ArgParser()..addOption("monitor-id", abbr: 'm', defaultsTo: 0.toString());
+  ArgResults argResults = parser.parse(arguments);
+
+  final monitorID = int.tryParse(argResults.option("monitor-id") ?? 0.toString());
+
+  runApp(const _JappeOsDesktop());
+}
 
 /// This is the main class of the JappeOS Desktop.
 class _JappeOsDesktop extends StatelessWidget {
@@ -34,7 +42,7 @@ class _JappeOsDesktop extends StatelessWidget {
     return ShadeApp(
       title: 'jappeos_desktop',
       debugShowCheckedModeBanner: false,
-      customThemeProperties: ShadeCustomThemeProperties(ThemeMode.dark, const Color.fromARGB(255, 109, 192, 114), true),
+      customThemeProperties: ShadeCustomThemeProperties(ThemeMode.dark, Color.fromARGB(255, 196, 134, 20), true),
       home: const Desktop(),
     );
   }

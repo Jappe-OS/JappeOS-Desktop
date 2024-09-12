@@ -21,4 +21,4 @@ part of jappeos_desktop.base;
 const DSKTP_UI_LAYER_TOPBAR_HEIGHT = 30.0;
 const DSKTP_UI_LAYER_DOCK_HEIGHT = 80.0;
 @Deprecated("This constant is temporary and will be removed later on. This is meant to be a modifiable OS setting that changes the wallpaper/desktop background image.")
-const DSKTP_UI_LAYER_BACKGROUND_WALLPAPER_DIR = "resources/images/desktop/backgrounds/wallpaper2.jpg";
+const DSKTP_UI_LAYER_BACKGROUND_WALLPAPER_DIR = "resources/images/desktop/backgrounds/wallpaper4.jpg";
