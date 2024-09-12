@@ -1,5 +1,5 @@
 //  JappeOS-Desktop, The desktop environment for JappeOS.
-//  Copyright (C) 2022  Jappe02
+//  Copyright (C) 2024  Jappe02
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Affero General Public License as
@@ -44,12 +44,12 @@ class DApplicationItem extends StatefulWidget {
 }
 
 class _DApplicationItemState extends State<DApplicationItem> {
-  bool isHovering = false;
-  final borderRad = BorderRadius.circular(BPPresets.small);
-  final borderWidth = 1.0;
-
-  late final width = widget.title != null ? 90.0 : 80.0;
-  late final height = widget.title != null ? 100.0 : 80.0;
+  bool isHovered = false, isPressed = false;
+  //final borderRad = BorderRadius.circular(BPPresets.small);
+  //final borderWidth = 1.0;
+//
+  //late final width = widget.title != null ? 90.0 : 80.0;
+  //late final height = widget.title != null ? 100.0 : 80.0;
 
   @override
   Widget build(BuildContext context) {
@@ -94,32 +94,82 @@ class _DApplicationItemState extends State<DApplicationItem> {
     //    ),
     //  ),
     //);
+    /*
     final accentColor = Theme.of(context).colorScheme.primary;
-    final borderColor = Theme.of(context).colorScheme.outline;
+    //final borderColor = Theme.of(context).colorScheme.outline;
 
     return Container(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-        borderRadius: borderRad,
+      decoration: const BoxDecoration(
+        //borderRadius: borderRad,
         color: Colors.transparent,
-        border: isHovering ? Border.all(width: borderWidth, color: borderColor) : Border.all(width: borderWidth, color: Colors.transparent),
+        //border: isHovered ? Border.all(width: borderWidth, color: borderColor) : Border.all(width: borderWidth, color: Colors.transparent),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           mouseCursor: SystemMouseCursors.alias,
-          hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-          splashColor: accentColor.withOpacity(0.25),
+          hoverColor: Theme.of(context).textButtonTheme.style!.overlayColor!.resolve({MaterialState.hovered}),
+          splashColor: Theme.of(context).textButtonTheme.style!.overlayColor!.resolve({MaterialState.pressed}),
           highlightColor: accentColor.withOpacity(0.1),
-          borderRadius: borderRad,
+          //borderRadius: borderRad,
           onTap: widget.onPress,
           onHover: (value) => setState(() {
-            isHovering = value;
+            isHovered = value;
           }),
           child: Column(
             children: [
               Expanded(child: widget.image),
+              if (widget.title != null) ...[
+                const SizedBox(height: BPPresets.small),
+                Tooltip(message: widget.title, child: Text(widget.title!, overflow: TextOverflow.ellipsis, maxLines: 1)),
+              ]
+            ],
+          ),
+        ),
+      ),
+    );*/
+
+    return SizedBox(
+      width: 80,
+      child: MouseRegion(
+        onEnter: (p0) => setState(() => isHovered = true),
+        onExit: (p0) => setState(() => isHovered = false),
+        child: GestureDetector(
+          onTapDown: (p0) => setState(() => isPressed = true),
+          onTapUp: (p0) => setState(() => isPressed = false),
+          onTapCancel: () => setState(() => isPressed = false),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 75,
+                height: 75,
+                child: Stack(children: [
+                  Positioned.fill(
+                    child: AnimatedScale(
+                      scale: isHovered ? 1 : 0.75,
+                      curve: Curves.easeOut,
+                      duration: const Duration(milliseconds: 75),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isHovered ? Theme.of(context).colorScheme.onSurface.withOpacity(0.1) : null,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: AnimatedScale(
+                      scale: isPressed ? 0.7 : 0.8,
+                      curve: Curves.easeOut,
+                      duration: const Duration(milliseconds: 75),
+                      child: widget.image,
+                    ),
+                  ),
+                ],),
+              ),
               if (widget.title != null) ...[
                 const SizedBox(height: BPPresets.small),
                 Tooltip(message: widget.title, child: Text(widget.title!, overflow: TextOverflow.ellipsis, maxLines: 1)),
@@ -239,10 +289,13 @@ class _DTopbarButtonState extends State<DTopbarButton> {
   final borderRad = BorderRadius.circular(100);
   final borderWidth = 1.0;
 
+  bool isMenuOpen = false;
+
   @override
   Widget build(BuildContext context) {
     final accentColor = Theme.of(context).colorScheme.primary;
     final borderColor = Theme.of(context).colorScheme.outline;
+    final splashColor = accentColor.withOpacity(0.25);
 
     return Container(
       margin: const EdgeInsets.only(left: 5, right: 5, top: 2),
@@ -251,7 +304,8 @@ class _DTopbarButtonState extends State<DTopbarButton> {
       decoration: BoxDecoration(
         borderRadius: borderRad,
         color: Colors.transparent,
-        border: hovering ? Border.all(width: borderWidth, color: borderColor) : Border.all(width: borderWidth, color: Colors.transparent),
+        border:
+            hovering || isMenuOpen ? Border.all(width: borderWidth, color: borderColor) : Border.all(width: borderWidth, color: Colors.transparent),
       ),
       child: RepaintBoundary(
         child: Builder(
@@ -267,17 +321,23 @@ class _DTopbarButtonState extends State<DTopbarButton> {
             });
 
             return Material(
-              color: Colors.transparent,
+              color: isMenuOpen ? splashColor : Colors.transparent,
+              borderRadius: borderRad,
               child: InkWell(
                 mouseCursor: SystemMouseCursors.alias,
                 hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-                splashColor: accentColor.withOpacity(0.25),
+                splashColor: splashColor,
                 highlightColor: accentColor.withOpacity(0.1),
+                overlayColor: MaterialStatePropertyAll(splashColor.withOpacity(0.175)),
                 borderRadius: borderRad,
                 onTap: () {
+                  setState(() => isMenuOpen = true);
                   widget.menuControllerRef.openMenu(
                     widget.menu,
-                    globalPosition,
+                    position: globalPosition,
+                    closeCallback: () {
+                      setState(() => isMenuOpen = false);
+                    },
                   );
                 },
                 onHover: (value) => setState(() {
@@ -319,6 +379,83 @@ class DMenuBackground extends StatelessWidget {
       blur: true,
       borderRadius: BPPresets.medium,
       child: child,
+    );
+  }
+}
+
+/// A pressable widget that shows a window's contents along with it's title.
+class DWindowView extends StatefulWidget {
+  final String title;
+  final bool isHighlighted;
+  final Image? image;
+  final double aspectRatio;
+  final double height;
+  final void Function()? onPress;
+  final bool isTitleEditable;
+  final void Function(String)? onTitleEdited;
+  final Widget Function(bool isHovered)? child;
+
+  const DWindowView({
+    Key? key,
+    required this.title,
+    this.isHighlighted = false,
+    this.image,
+    this.aspectRatio = 250 / 170,
+    this.height = 170,
+    this.onPress,
+    this.isTitleEditable = false,
+    this.onTitleEdited,
+    this.child,
+  }) : super(key: key);
+
+  @override
+  _DWindowViewState createState() => _DWindowViewState();
+}
+
+class _DWindowViewState extends State<DWindowView> {
+  static const kBorderRadius = BPPresets.medium;
+
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final width = widget.height * widget.aspectRatio;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: width,
+          height: widget.height,
+          child: ShadeSelectionBorder(
+            borderRadius: BorderRadius.circular(kBorderRadius),
+            onHover: (p0) => setState(() => isHovered = p0),
+            isHighlighted: widget.isHighlighted,
+            child: Material(
+              color: Theme.of(context).colorScheme.surface,
+              child: InkWell(
+                mouseCursor: SystemMouseCursors.alias,
+                splashColor: Theme.of(context).splashColor,
+                onTap: widget.onPress,
+                child: widget.child?.call(isHovered),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: BPPresets.small),
+        if (widget.isTitleEditable)
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: width,
+            ),
+            child: IntrinsicWidth(child: ShadeEditableTextWidget(initialText: widget.title, onEditingComplete: widget.onTitleEdited)),
+          )
+        else ...[
+          const SizedBox(height: 11 / 2),
+          Text(widget.title, style: Theme.of(context).textTheme.bodyLarge),
+          const SizedBox(height: 11 / 2),
+        ]
+      ],
     );
   }
 }
