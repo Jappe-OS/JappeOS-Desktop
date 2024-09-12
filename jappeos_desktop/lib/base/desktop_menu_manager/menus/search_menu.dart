@@ -19,7 +19,7 @@
 part of jappeos_desktop.base;
 
 class SearchMenu extends DesktopMenu {
-  const SearchMenu({Key? key}) : super(key: key);
+  SearchMenu({Key? key}) : super(key: key);
 
   @override
   _SearchMenuState createState() => _SearchMenuState();

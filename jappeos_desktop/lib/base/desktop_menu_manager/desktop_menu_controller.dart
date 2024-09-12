@@ -16,7 +16,6 @@
 
 part of jappeos_desktop.base;
 
-// TODO: animate the Positioned correctly
 class DesktopMenuController {
   static const menuAnimationDuration = Duration(milliseconds: 100);
 
@@ -29,86 +28,127 @@ class DesktopMenuController {
   Size _currentStackWSize = Size.zero;
   bool _currentMenuIsInitialBuild = true;
 
-  void openMenu(DesktopMenu menu, [Offset? position]) {
+  void openMenu(DesktopMenu menu, {Offset? position, void Function()? closeCallback}) {
     _currentMenu = menu;
     _currentMenuPosition = position;
     _currentMenuIsInitialBuild = true;
     rebuildCallback(null);
+    menu.onOpen.broadcast();
+
+    if (closeCallback != null) {
+      menu.onClose + (_) => closeCallback();
+    }
   }
 
   void closeMenu() {
+    _currentMenu!.onClose.broadcast();
+    _currentMenu!.onOpen.unsubscribeAll();
+    _currentMenu!.onClose.unsubscribeAll();
     _currentMenu = null;
     _currentMenuPosition = null;
     rebuildCallback(null);
   }
 
-  Positioned? getWidget() {
-    const pad = BPPresets.small;
+  AnimatedPositioned? getWidget() {
+    final double pad = _currentMenu is FullscreenDesktopMenu ? 0 : BPPresets.small;
 
-    return _currentMenu != null
-        ? Positioned(
-            left: _currentMenuPosition!.dx,
-            top: _currentMenuPosition!.dy,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                bool wasInitialBuild = false;
+    LayoutBuilder base() {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          bool wasInitialBuild = false;
 
-                if (_currentMenuIsInitialBuild) {
-                  wasInitialBuild = true;
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _currentStackWSize = MediaQuery.of(context).size;
+          if (_currentMenuIsInitialBuild) {
+            wasInitialBuild = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _currentStackWSize = MediaQuery.of(context).size;
 
-                    final renderBox = context.findRenderObject() as RenderBox;
-                    _currentMenuChildSize = renderBox.size;
+              final renderBox = context.findRenderObject() as RenderBox;
+              _currentMenuChildSize = renderBox.size;
 
-                    // Ensure the menu is correctly positioned within the stack
-                    rebuildCallback(() {
-                      var minX = pad;
-                      var maxX = _currentStackWSize.width - _currentMenuChildSize.width - pad;
+              // Ensure the menu is correctly positioned within the stack
+              rebuildCallback(() {
+                var minX = pad;
+                var maxX = _currentStackWSize.width - _currentMenuChildSize.width - pad;
 
-                      if (maxX < minX) {
-                        maxX = minX;
-                      }
-
-                      var minY = DSKTP_UI_LAYER_TOPBAR_HEIGHT + pad;
-                      var maxY = _currentStackWSize.height - _currentMenuChildSize.height - pad;
-
-                      if (maxY < minY) {
-                        maxY = minY;
-                      }
-
-                      _currentMenuPosition = Offset(
-                        _currentMenuPosition!.dx - _currentMenuChildSize.width / 2,
-                        _currentMenuPosition!.dy - _currentMenuChildSize.height / 2,
-                      );
-
-                      _currentMenuPosition = Offset(
-                        _currentMenuPosition!.dx.clamp(minX, maxX),
-                        _currentMenuPosition!.dy.clamp(minY, maxY),
-                      );
-                    });
-                  });
+                if (maxX < minX) {
+                  maxX = minX;
                 }
 
-                _currentMenuIsInitialBuild = false;
+                var minY = DSKTP_UI_LAYER_TOPBAR_HEIGHT + pad;
+                var maxY = _currentStackWSize.height - _currentMenuChildSize.height - pad;
 
-                return TapRegion(
-                  onTapOutside: (_) => closeMenu(),
-                  child: AnimatedOpacity(
-                    opacity: wasInitialBuild ? 0.3 : 1,
-                    duration: menuAnimationDuration,
-                    child: RepaintBoundary(
-                      child: AnimatedScale(curve: Curves.easeIn, duration: menuAnimationDuration, scale: wasInitialBuild ? 0 : 1, child: _currentMenu as Widget),
-                    ),
-                  ),
+                if (maxY < minY) {
+                  maxY = minY;
+                }
+
+                _currentMenuPosition = Offset(
+                  _currentMenuPosition!.dx - _currentMenuChildSize.width / 2,
+                  _currentMenuPosition!.dy - _currentMenuChildSize.height / 2,
                 );
-              },
+
+                _currentMenuPosition = Offset(
+                  _currentMenuPosition!.dx.clamp(minX, maxX),
+                  _currentMenuPosition!.dy.clamp(minY, maxY),
+                );
+              });
+            });
+          }
+
+          _currentMenuIsInitialBuild = false;
+
+          return TapRegion(
+            onTapOutside: (_) => closeMenu(),
+            child: AnimatedOpacity(
+              opacity: wasInitialBuild ? 0.3 : 1,
+              duration: menuAnimationDuration,
+              child: RepaintBoundary(
+                child: AnimatedScale(
+                  curve: Curves.easeIn,
+                  duration: menuAnimationDuration,
+                  scale: wasInitialBuild ? 0 : 1,
+                  alignment: Alignment.topLeft,
+                  child: () {
+                    if (_currentMenu is FullscreenDesktopMenu) {
+                      return AdvancedContainer(
+                        width: _currentStackWSize.width,
+                        height: (_currentStackWSize.height - DSKTP_UI_LAYER_TOPBAR_HEIGHT).clamp(0, double.infinity),
+                        background: AdvancedContainerBackground.transparentBackground,
+                        blur: true,
+                        borderRadius: 0,
+                        padding: const EdgeInsets.all(BPPresets.small),
+                        child: _currentMenu as Widget,
+                      );
+                    }
+
+                    return _currentMenu as Widget;
+                  }(),
+                ),
+              ),
             ),
+          );
+        },
+      );
+    }
+
+    return _currentMenu != null
+        ? AnimatedPositioned(
+            left: _currentMenuPosition!.dx,
+            top: _currentMenuPosition!.dy,
+            curve: Curves.easeIn,
+            duration: _currentMenuIsInitialBuild ? Duration.zero : menuAnimationDuration,
+            child: base(),
           )
         : null;
   }
 }
 
 abstract class DesktopMenu extends StatefulWidget {
-  const DesktopMenu({super.key});
+  final onOpen = Event();
+  final onClose = Event();
+
+  DesktopMenu({super.key});
+}
+
+abstract class FullscreenDesktopMenu extends DesktopMenu {
+  FullscreenDesktopMenu({super.key});
 }

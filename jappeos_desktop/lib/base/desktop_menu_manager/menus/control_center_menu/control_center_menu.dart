@@ -19,7 +19,7 @@
 part of jappeos_desktop.base;
 
 class ControlCenterMenu extends DesktopMenu {
-  const ControlCenterMenu({Key? key}) : super(key: key);
+  ControlCenterMenu({Key? key}) : super(key: key);
 
   @override
   _ControlCenterMenuState createState() => _ControlCenterMenuState();
@@ -32,7 +32,7 @@ class _ControlCenterMenuState extends State<ControlCenterMenu> {
   Widget build(BuildContext context) {
     return DOverlayContainer(
       width: 450,
-      height: 2 * BPPresets.medium + 3 * BPPresets.small + 2 * BPPresets.big + 6 * 45 + 2,
+      height: 2 * BPPresets.medium + 3 * BPPresets.small + 2 * BPPresets.big + 6 * 46 + 5,
       child: Navigator(
         key: _containerNavigatorKey,
         onGenerateRoute: (RouteSettings settings) {
@@ -72,14 +72,14 @@ class _QuickActionItemState extends State<_QuickActionItem> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
+      height: 46,
       child: FilledButton(
         onPressed: () => widget.onSelectionChange?.call(widget.isSelected),
         style: ButtonStyle(
           backgroundColor: widget.isSelected ? MaterialStatePropertyAll(Theme.of(context).colorScheme.primary) : null,
           shape: const MaterialStatePropertyAll(StadiumBorder()),
           padding: MaterialStatePropertyAll(
-              EdgeInsets.only(left: BPPresets.medium, right: widget.onAdditionalDetailsButtonPressed != null ? 0 : BPPresets.medium)),
+              EdgeInsets.only(left: BPPresets.medium / 4 * 3, right: widget.onAdditionalDetailsButtonPressed != null ? 0 : BPPresets.medium / 4 * 3)),
         ),
         child: Row(children: [
           Icon(widget.icon),
@@ -137,8 +137,8 @@ class _ControlCenterMainPage extends StatefulWidget {
 class _ControlCenterMainPageState extends State<_ControlCenterMainPage> {
   Widget cont(Widget child) {
     return AdvancedContainer(
-      height: 45,
-      padding: const EdgeInsets.symmetric(horizontal: BPPresets.small),
+      height: 46,
+      padding: const EdgeInsets.symmetric(horizontal: BPPresets.small / 2),
       borderRadius: 100,
       child: child,
     );
@@ -153,6 +153,21 @@ class _ControlCenterMainPageState extends State<_ControlCenterMainPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            cont(Row(mainAxisSize: MainAxisSize.min, children: [
+              IconButton.filledTonal(
+                icon: const Row(children: [
+                  Icon(Icons.battery_full),
+                  SizedBox(width: BPPresets.small),
+                  Text("100%"),
+                ],),
+                onPressed: () {},
+              ),
+              const Spacer(),
+              IconButton.filledTonal(icon: const Icon(Icons.settings), onPressed: () {}),
+              const SizedBox(width: BPPresets.small),
+              IconButton.filledTonal(icon: const Icon(Icons.power_settings_new), onPressed: () {}),
+            ])),
+            const SizedBox(height: BPPresets.big),
             Row(mainAxisSize: MainAxisSize.min, children: [
               Expanded(
                   child: _QuickActionItem(
@@ -187,12 +202,6 @@ class _ControlCenterMainPageState extends State<_ControlCenterMainPage> {
               IconButton(icon: const Icon(Icons.brightness_auto), onPressed: () {}),
               Expanded(child: Slider(value: 0.5, onChanged: (p0) {})),
               IconButton(icon: const Icon(Icons.arrow_drop_down), onPressed: () {}),
-            ])),
-            const SizedBox(height: BPPresets.big),
-            cont(Row(mainAxisSize: MainAxisSize.min, children: [
-              IconButton(icon: const Icon(Icons.battery_full), onPressed: () {}),
-              const Spacer(),
-              IconButton(icon: const Icon(Icons.settings), onPressed: () {}),
             ])),
           ],
         ),

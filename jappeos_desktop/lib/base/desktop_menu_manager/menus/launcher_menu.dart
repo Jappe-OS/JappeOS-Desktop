@@ -19,7 +19,7 @@
 part of jappeos_desktop.base;
 
 class LauncherMenu extends DesktopMenu {
-  const LauncherMenu({Key? key}) : super(key: key);
+  LauncherMenu({Key? key}) : super(key: key);
 
   @override
   _LauncherMenuState createState() => _LauncherMenuState();
@@ -99,7 +99,12 @@ class _LauncherMenuState extends State<LauncherMenu> {
                                 DApplicationItem.iconWithTitle(
                                     image: SvgPicture.asset("resources/images/_icontheme/Default/apps/utilities-terminal.svg"),
                                     title: "Terminal",
-                                    onPress: () /*=> Terminal.new().app$launch()*/ {}),
+                                    onPress: () {
+                                      DesktopState.getWmController()!.createWindow()
+                                        ..setResizable(true)
+                                        ..setSize(Vector2(300, 300))
+                                        ..setBgRenderMode(BackgroundMode.blurredTransp);
+                                    }),
                                 DApplicationItem.iconWithTitle(
                                     image: SvgPicture.asset("resources/images/_icontheme/Default/apps/system-settings.svg"),
                                     title: "Settings",
@@ -167,22 +172,6 @@ class _LauncherMenuState extends State<LauncherMenu> {
                   verticalIndicatorCircleBar(_pageCount, 0),
                 ],
               ),
-            ),
-          ),
-          AdvancedContainer(
-            height: 50,
-            borderRadius: BPPresets.medium,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                controlButton(Icons.power_settings_new, "Shut Down", () {}),
-                controlButton(Icons.nightlight, "Sleep", () {}),
-                controlButton(Icons.account_circle, "Account", () {}),
-                controlButton(Icons.settings, "Settings", () {
-                  //Applications.sys$runProcess(Settings());
-                }),
-              ],
             ),
           ),
         ],

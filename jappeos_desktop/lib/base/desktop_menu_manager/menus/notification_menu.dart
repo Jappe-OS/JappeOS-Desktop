@@ -19,7 +19,7 @@
 part of jappeos_desktop.base;
 
 class NotificationMenu extends DesktopMenu {
-  const NotificationMenu({Key? key}) : super(key: key);
+  NotificationMenu({Key? key}) : super(key: key);
 
   @override
   _NotificationMenuState createState() => _NotificationMenuState();

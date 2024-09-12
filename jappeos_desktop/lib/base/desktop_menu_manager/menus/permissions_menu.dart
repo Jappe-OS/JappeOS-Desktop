@@ -19,7 +19,7 @@
 part of jappeos_desktop.base;
 
 class PermissionsMenu extends DesktopMenu {
-  const PermissionsMenu({Key? key}) : super(key: key);
+  PermissionsMenu({Key? key}) : super(key: key);
 
   @override
   _PermissionsMenuState createState() => _PermissionsMenuState();

@@ -147,8 +147,9 @@ class DesktopState extends State<Desktop> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 // The items on the TopBar on the left side.
                 children: [
-                  DTopbarButton.icon(icon: Icons.apps, menuControllerRef: _menuController, menu: const LauncherMenu()),
-                  DTopbarButton.icon(icon: Icons.search, menuControllerRef: _menuController, menu: const SearchMenu()),
+                  DTopbarButton.icon(icon: Icons.apps, menuControllerRef: _menuController, menu: LauncherMenu()),
+                  DTopbarButton.icon(icon: Icons.search, menuControllerRef: _menuController, menu: SearchMenu()),
+                  DTopbarButton.icon(icon: Icons.menu_open, menuControllerRef: _menuController, menu: OpenWindowsMenu()),
                   //// TaskView button.
                   //_LocalDesktopWidgets._topBarItem(null, _LocalDesktopWidgets._topBarItemIcon(context, Icons.menu_open), true, () {}),
                 ],
@@ -160,9 +161,9 @@ class DesktopState extends State<Desktop> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 // The items on the TopBar on the right side.
                 children: [
-                  DTopbarButton.icons(icons: const [Icons.mic, Icons.camera], menuControllerRef: _menuController, menu: const PermissionsMenu()),
-                  DTopbarButton.icons(icons: const [Icons.wifi, Icons.volume_mute, Icons.battery_full], menuControllerRef: _menuController, menu: const ControlCenterMenu()),
-                  DTopbarButton.textAndIcon(icon: Icons.notifications, text: "19:00", menuControllerRef: _menuController, menu: const NotificationMenu()),
+                  DTopbarButton.icons(icons: const [Icons.mic, Icons.camera], menuControllerRef: _menuController, menu: PermissionsMenu()),
+                  DTopbarButton.icons(icons: const [Icons.wifi, Icons.volume_mute, Icons.battery_full], menuControllerRef: _menuController, menu: ControlCenterMenu()),
+                  DTopbarButton.textAndIcon(icon: Icons.notifications, text: "19:00", menuControllerRef: _menuController, menu: NotificationMenu()),
                 ],
               ),
             ),
@@ -224,8 +225,18 @@ class DesktopState extends State<Desktop> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Stack(
-                children: getDesktopLayersUI(),
+              child: Shortcuts(
+                shortcuts: <LogicalKeySet, Intent>{
+                  LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.tab): const SwitchWindowIntent(),
+                },
+                child: Actions(
+                  actions: <Type, Action<Intent>>{},
+                  child: Builder(
+                    builder: (context) => Stack(
+                      children: getDesktopLayersUI(),
+                    ),
+                  ),
+                ),
               ),
             ),
           );
