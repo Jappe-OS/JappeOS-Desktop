@@ -16,26 +16,31 @@
 
 library jappeos_desktop.base;
 
+import 'package:event/event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jappeos_desktop/main.dart';
 import 'package:jappeos_desktop/window_manager/window_manager.dart';
 
 import 'package:shade_ui/shade_ui.dart';
+import 'package:vector_math/vector_math.dart' hide Colors;
 
 //
 // Base
 part 'constants.dart';
 part 'desktop.dart';
+part 'desktop_actions.dart';
 //
 // Components
 part 'components/desktop_widgets.dart';
 //
 // Menu Manager
 part 'desktop_menu_manager/desktop_menu_controller.dart';
-  part 'desktop_menu_manager/menus/launcher_menu.dart';
-  part 'desktop_menu_manager/menus/search_menu.dart';
-  part 'desktop_menu_manager/menus/notification_menu.dart';
-  part 'desktop_menu_manager/menus/control_center_menu/control_center_menu.dart';
-    part 'desktop_menu_manager/menus/control_center_menu/control_center_wifi_page.dart';
-  part 'desktop_menu_manager/menus/permissions_menu.dart';
+part 'desktop_menu_manager/menus/launcher_menu.dart';
+part 'desktop_menu_manager/menus/search_menu.dart';
+part 'desktop_menu_manager/menus/open_windows_menu.dart';
+part 'desktop_menu_manager/menus/notification_menu.dart';
+part 'desktop_menu_manager/menus/control_center_menu/control_center_menu.dart';
+part 'desktop_menu_manager/menus/control_center_menu/control_center_wifi_page.dart';
+part 'desktop_menu_manager/menus/permissions_menu.dart';
